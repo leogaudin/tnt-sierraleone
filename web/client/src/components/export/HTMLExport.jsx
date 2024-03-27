@@ -8,7 +8,7 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
   const { t } = useTranslation();
   const htmlContent = (objects) => {
     const pages = objects.map((object) => {
-      const { school, project, division, district, zone, institutionType, htName, htPhone, createdAt, id } = object;
+      const { project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude, createdAt, id } = object;
 
       const qrCode = new QRCode({
         content: 'tnt://' + id,
@@ -32,36 +32,44 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
               <div class="info-container">
                 <div class="info-heading">${t('informations')}</div>
                 <div class="info-row">
-                  <span class="info-label">${t('recipient')}:</span>
-                  <span class="info-value">${school}</span>
-                </div>
-                <div class="info-row">
                   <span class="info-label">${t('project')}:</span>
                   <span class="info-value">${project}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('division')}:</span>
-                  <span class="info-value">${division}</span>
+                  <span class="info-label">${t('academicInspection')}:</span>
+                  <span class="info-value">${academicInspection}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('district')}:</span>
-                  <span class="info-value">${district}</span>
+                  <span class="info-label">${t('educationAndTrainingInspection')}:</span>
+                  <span class="info-value">${educationAndTrainingInspection}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('zone')}:</span>
-                  <span class="info-value">${zone}</span>
+                  <span class="info-label">${t('commune')}:</span>
+                  <span class="info-value">${commune}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('institutionType')}:</span>
-                  <span class="info-value">${institutionType}</span>
+                  <span class="info-label">${t('school')}:</span>
+                  <span class="info-value">${school}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('personInCharge')}:</span>
-                  <span class="info-value">${htName}</span>
+                  <span class="info-label">${t('administrativeCode')}:</span>
+                  <span class="info-value">${administrativeCode}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('phone')}:</span>
-                  <span class="info-value">${htPhone}</span>
+                  <span class="info-label">${t('directorName')}:</span>
+                  <span class="info-value">${directorName}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">${t('directorPhone')}:</span>
+                  <span class="info-value">${directorPhone}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">${t('schoolLatitude')}:</span>
+                  <span class="info-value">${schoolLatitude}</span>
+                </div>
+                <div class="info-row">
+                  <span class="info-label">${t('schoolLongitude')}:</span>
+                  <span class="info-value">${schoolLongitude}</span>
                 </div>
                 <div class="info-row">
                   <span class="info-label">${t('created')}:</span>

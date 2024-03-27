@@ -12,20 +12,21 @@ function parseCSV(text, setUploadProgress, setResults, setIsLoading, setComplete
 	const user = JSON.parse(localStorage.getItem('user'));
 	Papa.parse(text, {
 		worker: true,
+		skipEmptyLines: true,
 		step: (element) => {
-			const [project, division, district, zone, school, htName, htPhone, institutionType, schoolLongitude, schoolLatitude ] = element.data;
+			const [project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude] = element.data;
 			const newBox = {
 				id: '',
 				project,
-				division,
-				district,
-				zone,
+				academicInspection,
+				educationAndTrainingInspection,
+				commune,
 				school,
-				htName,
-				htPhone,
-				institutionType,
-				schoolLongitude: parseFloat(schoolLongitude),
+				administrativeCode,
+				directorName,
+				directorPhone,
 				schoolLatitude: parseFloat(schoolLatitude),
+				schoolLongitude: parseFloat(schoolLongitude),
 				adminId: user.id,
 				createdAt: new Date().getTime()
 			};

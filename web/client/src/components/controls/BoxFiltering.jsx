@@ -15,9 +15,11 @@ export default function BoxFiltering({boxes, setFilteredBoxes}) {
 		'_id',
 		'id',
 		'school',
-		'htName',
-		'htPhone',
-		'institutionType',
+		'directorName',
+		'directorPhone',
+		'educationAndTrainingInspection',
+		'academicInspection',
+		'administrativeCode',
 		'adminId',
 		'createdAt',
 		'__v',
@@ -61,7 +63,15 @@ export default function BoxFiltering({boxes, setFilteredBoxes}) {
 			<Stack direction={'column'}>
 				<Typography textAlign={'center'} variant="overline">{t('filterOptions')}</Typography>
 				<Stack direction={'row'} spacing={1} alignItems={'flex-start'}>
-					<RadioGroup name="export-options" value={selectedOption} onChange={handleOptionChange} row>
+					<RadioGroup
+						name="export-options"
+						value={selectedOption}
+						onChange={handleOptionChange}
+						row
+						style={{
+							justifyContent: 'center',
+						}}
+					>
 						<FormControlLabel value="all" control={<Radio />} label={t('all')} />
 						{availableOptions?.map((field) => (
 						<FormControlLabel key={field} value={field} control={<Radio />} label={`${t('by', {item: field})}`} />

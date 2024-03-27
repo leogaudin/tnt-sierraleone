@@ -28,22 +28,22 @@ const BoxInfo = ({ box, width = null, height = null }) => {
               {t('recipient')}: <b>{box?.school}</b>
             </Typography>
             <Typography>
-              {t('division')}: <b>{box?.division}</b>
+              {t('academicInspection')}: <b>{box?.academicInspection}</b>
             </Typography>
             <Typography>
-              {t('district')}: <b>{box?.district}</b>
+              {t('commune')}: <b>{box?.commune}</b>
             </Typography>
             <Typography>
-              {t('zone')}: <b>{box?.zone}</b>
+              {t('educationAndTrainingInspection')}: <b>{box?.educationAndTrainingInspection}</b>
             </Typography>
             <Typography>
-              {t('institutionType')}: <b>{box?.institutionType}</b>
+              {t('administrativeCode')}: <b>{box?.administrativeCode}</b>
             </Typography>
             <Typography>
-              {t('personInCharge')}: <b>{box?.htName}</b>
+              {t('personInCharge')}: <b>{box?.directorName}</b>
             </Typography>
             <Typography>
-              {t('phone')}: <b>{box?.htPhone}</b>
+              {t('phone')}: <b>{box?.directorPhone}</b>
             </Typography>
             <Typography>
               {t('created')}:{' '}

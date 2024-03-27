@@ -117,7 +117,7 @@ export default function Upload({ open, setOpen }) {
                     <Typography variant='body1'>
                       <b>{t('columnOrder')}</b>
                       <br />
-                      <code>project, division, district, zone, school, htName, htPhone, institutionType, schoolLongitude, schoolLatitude</code>
+                      <code>project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude</code>
                     </Typography>
                   </Alert>
                 <Alert severity='info' style={{textAlign: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
