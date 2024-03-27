@@ -96,7 +96,7 @@ export const SideNav = () => {
                 title={
                   <Select
                     label={'Language'}
-                    defaultValue='en'
+                    defaultValue='fr'
                     value={language}
                     onChange={(event) => {
                       setLanguage(event.target.value);
