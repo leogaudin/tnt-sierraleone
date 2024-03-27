@@ -33,6 +33,14 @@ export const blue = withAlphas({
   contrastText: '#FFFFFF'
 });
 
+export const green = withAlphas({
+  lightest: '#F0FDF4',
+  light: '#D1FAE5',
+  main: '#00853f',
+  dark: '#006338',
+  darkest: '#00462C',
+});
+
 export const success = withAlphas({
   lightest: '#F0FDF9',
   light: '#3FC79A',

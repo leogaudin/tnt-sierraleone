@@ -4,6 +4,7 @@ import { commonProperties } from './index';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { Alert, Slider, Stack } from '@mui/material';
+import { success, error } from '../../theme/colors';
 
 export default function NotScannedSince({sample}) {
 	const {t} = useTranslation();
@@ -73,7 +74,7 @@ export default function NotScannedSince({sample}) {
 				<ResponsivePie
 					{...commonProperties}
 					data={getNivoPieData(since)}
-					colors={['#0949FF', '#F04438', '#D3D3D3']}
+					colors={[success.main, error.main, '#D3D3D3']}
 					innerRadius={0.5}
 					padAngle={0.7}
 					cornerRadius={3}

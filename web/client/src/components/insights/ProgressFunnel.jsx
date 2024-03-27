@@ -2,25 +2,28 @@ import { ResponsiveFunnel } from '@nivo/funnel'
 import InsightWrapper from '../reusable/InsightWrapper';
 import { commonProperties } from './index';
 import { useTranslation } from 'react-i18next';
+import { createPalette } from '../../theme/create-palette';
 
 export default function ProgressFunnel({sample}) {
 	const {t} = useTranslation();
+	const palette = createPalette();
+
 	function getNivoFunnelData(sample) {
 		const data = [
 			{
 				id: t('total'),
 				value: 0,
-				color: '#00268E'
+				color: palette.primary.darkest
 			},
 			{
 				id: t('scannedAtLeastOnce'),
 				value: 0,
-				color: '#0033C0'
+				color: palette.primary.dark
 			},
 			{
 				id: t('delivered'),
 				value: 0,
-				color: '#0949FF'
+				color: palette.primary.main
 			}
 		];
 
