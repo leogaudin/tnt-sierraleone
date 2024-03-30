@@ -19,8 +19,7 @@ function BoxesOverview({ pageSize = 10 }) {
 	const rows = useMemo(() => {
 		return filteredBoxes
 		  ? filteredBoxes.map((box) => {
-			  const boxScans = scans ? scans.filter((scan) => scan.boxId === box.id) : null;
-			  const progress = getProgress(boxScans);
+			  const progress = getProgress(box);
 			  return isMobile
 				? [
 					box.id,

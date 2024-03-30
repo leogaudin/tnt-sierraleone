@@ -1,11 +1,12 @@
 import React from 'react';
 import { Typography, LinearProgress } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { calculateDeliveryPercentage } from '../../service/statistics';
+import { getStatusPercentage } from '../../service/statistics';
 
 export default function DeliveryPercent({ sample, sampleName}) {
 	const { t } = useTranslation();
-	const deliveryPercentage = parseFloat(calculateDeliveryPercentage(sample));
+	const deliveryPercentage = parseFloat(getStatusPercentage(sample, "delivered"));
+
 	return (
 		<>
 			<Typography variant="subtitle1">{sampleName}</Typography>
