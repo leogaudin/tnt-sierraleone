@@ -1,4 +1,4 @@
-package com.leogaudin.tnt;
+package com.leogaudin.tntsenegal;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
