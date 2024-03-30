@@ -158,6 +158,9 @@ i18n
 					educationAndTrainingInspection: 'Education and Training Inspection',
 					commune: 'Commune',
 					administrativeCode: 'Administrative Code',
+					received: 'Received',
+					validated: 'Validated',
+					deliveredOrReceived: 'Delivered or Received',
 				}
 			},
 			fr: {
@@ -302,6 +305,9 @@ i18n
 					educationAndTrainingInspection: 'Inspection de l\'Éducation et de la Formation',
 					commune: 'Commune',
 					administrativeCode: 'Code Administratif',
+					received: 'Reçu',
+					validated: 'Validé',
+					deliveredOrReceived: 'Livré ou Reçu',
 				},
 			},
 			wo: {
@@ -446,6 +452,9 @@ i18n
 					educationAndTrainingInspection: 'Jàngandoo ak edukasyon ak jàngandoo',
 					commune: 'Kommun',
 					administrativeCode: 'Koodu ñëw',
+					received: 'Dëgg',
+					validated: 'Ko xamal',
+					deliveredOrReceived: 'Dokkal ak dëgg',
 				},
 			},
 		},

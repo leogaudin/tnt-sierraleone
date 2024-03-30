@@ -36,13 +36,15 @@ export function getTextsMap() {
 		noscans: i18n.t('noscans'),
 		inprogress: i18n.t('inprogress'),
 		delivered: i18n.t('delivered'),
-		confusing: i18n.t('confusing'),
+		received: i18n.t('received'),
+		validated: i18n.t('validated'),
 	};
 }
 
 export const colorsMap = {
+	noscans: 'neutral',
 	inprogress: 'info',
-	delivered: 'success',
-	confusing: 'error',
-	noscans: 'neutral'
+	validated: 'success',
+	delivered: 'warning',
+	received: 'warning',
 };

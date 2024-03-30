@@ -29,10 +29,9 @@ export default function NotScannedSince({sample}) {
 		sample.forEach(box => {
 			if (box.scans && box.scans.length > 0) {
 				const lastScan = box.scans[box.scans.length - 1];
-				const isDelivered = box.scans.some(scan => scan.finalDestination);
-				if (lastScan.time > sinceTimestamp && !isDelivered)
+				if (lastScan.time > sinceTimestamp)
 					data[0].value++;
-				else if (!isDelivered)
+				else
 					data[1].value++;
 			}
 		});
@@ -48,15 +47,6 @@ export default function NotScannedSince({sample}) {
 		});
 		return neverScanned;
 	}
-
-	// function getDelivered() {
-	// 	let delivered = 0;
-	// 	sample.forEach(box => {
-	// 		if (box.scans.some(scan => scan.finalDestination))
-	// 			delivered++;
-	// 	});
-	// 	return delivered;
-	// }
 
 	return (
 		<InsightWrapper title={t('notScannedInThePast', {count: since})} height={50}>

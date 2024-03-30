@@ -64,14 +64,6 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
                   <span class="info-value">${directorPhone}</span>
                 </div>
                 <div class="info-row">
-                  <span class="info-label">${t('schoolLatitude')}:</span>
-                  <span class="info-value">${schoolLatitude}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('schoolLongitude')}:</span>
-                  <span class="info-value">${schoolLongitude}</span>
-                </div>
-                <div class="info-row">
                   <span class="info-label">${t('created')}:</span>
                   <span class="info-value">${new Date(createdAt).toLocaleString()}</span>
                 </div>
@@ -131,6 +123,7 @@ const htmlStyles = `
     margin: 0;
     padding: 0;
     font-weight: 100;
+    font-size: 14px;
     color: #000000;
   }
   .page {

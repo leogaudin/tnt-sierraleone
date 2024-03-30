@@ -27,7 +27,19 @@ function ScansOverview({ overrideScans = null, disableDialogs = false, searchEna
 			row.push(scan.time);
 			if (!isMobile) {
 				row.push(scan.comment);
-				row.push(scan.finalDestination ? '✅' : '');
+				row.push(
+					scan.finalDestination
+					? (
+						scan.markedAsReceived
+						? '✅'
+						: '📍'
+					)
+					: (
+						scan.markedAsReceived
+						? '📨'
+						: ''
+					)
+				);
 			}
 			return row;
 		});

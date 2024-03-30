@@ -3,6 +3,7 @@ import InsightWrapper from '../reusable/InsightWrapper';
 import { commonProperties } from './index';
 import { useTranslation } from 'react-i18next';
 import { createPalette } from '../../theme/create-palette';
+import { getLastFinalScan, getLastMarkedAsReceivedScan } from '../../service';
 
 export default function ProgressFunnel({sample}) {
 	const {t} = useTranslation();
@@ -21,20 +22,30 @@ export default function ProgressFunnel({sample}) {
 				color: palette.primary.dark
 			},
 			{
-				id: t('delivered'),
+				id: t('deliveredOrReceived'),
 				value: 0,
 				color: palette.primary.main
+			},
+			{
+				id: t('validated'),
+				value: 0,
+				color: palette.primary.light
 			}
 		];
 
 		sample.forEach(box => {
 			data[0].value++;
-			if (box.scans && box.scans.length > 0) {
-				const hasFinalDestination = box.scans.some(scan => scan.finalDestination === true);
-				if (hasFinalDestination) {
+			if (box?.scans && box?.scans?.length > 0) {
+				if (box?.scans?.length)
+					data[1].value++;
+				const lastFinalScan = getLastFinalScan(box);
+				const lastReceivedScan = getLastMarkedAsReceivedScan(box);
+				if (lastFinalScan || lastReceivedScan) {
 					data[2].value++;
 				}
-				data[1].value++;
+				if (lastFinalScan && lastReceivedScan) {
+					data[3].value++;
+				}
 			}
 		});
 
