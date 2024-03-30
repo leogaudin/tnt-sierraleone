@@ -567,7 +567,7 @@
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = R32B9PWM4R;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = application/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Track-and-Trace Companion";
+				INFOPLIST_KEY_CFBundleDisplayName = "TnT Scanner Senegal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
