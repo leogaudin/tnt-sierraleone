@@ -35,14 +35,14 @@ export const blue = withAlphas({
 
 export const green = withAlphas({
   lightest: '#F0FDF4',
-  light: '#D1FAE5',
+  light: '#00B958',
   main: '#00853f',
   dark: '#006338',
   darkest: '#00462C',
 });
 
 export const success = withAlphas({
-  lightest: '#F0FDF9',
+  lightest: '#ADFFD4',
   light: '#3FC79A',
   main: '#10B981',
   dark: '#0B815A',

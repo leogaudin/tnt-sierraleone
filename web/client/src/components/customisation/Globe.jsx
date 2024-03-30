@@ -1,6 +1,8 @@
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
-import { blue } from "../../theme/colors";
+import { createPalette } from "../../theme/create-palette";
+
+const palette = createPalette();
 
 function hexToRGBArray(colorCode) {
 	// Remove the '#' symbol if present
@@ -38,9 +40,9 @@ export default function Globe() {
       diffuse: 1.5,
       mapSamples: 14000,
       mapBrightness: 5,
-      baseColor: hexToRGBArray(blue.main),
-      markerColor: hexToRGBArray(blue.light),
-      glowColor: hexToRGBArray(blue.main),
+      baseColor: hexToRGBArray(palette.primary.main),
+      markerColor: hexToRGBArray(palette.primary.light),
+      glowColor: hexToRGBArray(palette.primary.main),
       markers: [
 		{ location: [40.516314385683806, -3.664187832967221], size: 0.02 },
 		{ location: [43.380121722925956, -2.960302583012931], size: 0.02 },
