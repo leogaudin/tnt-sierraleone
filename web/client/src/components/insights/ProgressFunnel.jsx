@@ -14,22 +14,22 @@ export default function ProgressFunnel({sample}) {
 			{
 				id: t('total'),
 				value: 0,
-				color: palette.primary.darkest
+				color: palette.error.main
 			},
 			{
 				id: t('scannedAtLeastOnce'),
 				value: 0,
-				color: palette.primary.dark
+				color: palette.info.main
 			},
 			{
 				id: t('deliveredOrReceived'),
 				value: 0,
-				color: palette.primary.main
+				color: palette.warning.main
 			},
 			{
 				id: t('validated'),
 				value: 0,
-				color: palette.primary.light
+				color: palette.success.main
 			}
 		];
 
