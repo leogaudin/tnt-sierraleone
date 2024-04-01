@@ -161,6 +161,7 @@ i18n
 					received: 'Received',
 					validated: 'Validated',
 					deliveredOrReceived: 'Delivered or Received',
+					validatedExplanation: 'A box is considered validated when it has been marked as \'received\' and detected in the radius of the delivery point.',
 				}
 			},
 			fr: {
@@ -308,6 +309,7 @@ i18n
 					received: 'Reçu',
 					validated: 'Validé',
 					deliveredOrReceived: 'Livré ou Reçu',
+					validatedExplanation: 'Une boîte est considérée comme validée lorsqu\'elle a été marquée comme \'reçue\' et détectée dans le rayon du point de livraison.',
 				},
 			},
 			wo: {
@@ -455,6 +457,7 @@ i18n
 					received: 'Dëgg',
 					validated: 'Ko xamal',
 					deliveredOrReceived: 'Dokkal ak dëgg',
+					validatedExplanation: 'Bopp bi ko xamal ci saññal ak dëgg ak dëgg ci rayu dokkal.',
 				},
 			},
 		},
