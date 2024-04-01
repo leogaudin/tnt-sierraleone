@@ -26,7 +26,7 @@ export default function DeliveryPercent({ sample }) {
 								{percentage.toFixed(2)}% <span style={{fontWeight: 200, fontSize: 'smaller'}}>{t(status).toLowerCase()}</span>
 							</Typography>
 							<Tooltip placement='top' title={t('validatedExplanation')}>
-								<SvgIcon sx={{opacity: .7}} fontSize={'.5rem'}>
+								<SvgIcon sx={{opacity: .7, cursor: 'pointer'}} fontSize={'.5rem'}>
 									<InfoIcon />
 								</SvgIcon>
 							</Tooltip>
