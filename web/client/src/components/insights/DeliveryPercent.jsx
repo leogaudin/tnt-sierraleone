@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, LinearProgress, Stack, Icon, SvgIcon, Tooltip } from '@mui/material';
+import { Typography, LinearProgress, Stack, SvgIcon, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import InfoIcon from '@mui/icons-material/Info';
 import { getStatusPercentage } from '../../service/statistics';

@@ -8,7 +8,7 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
   const { t } = useTranslation();
   const htmlContent = (objects) => {
     const pages = objects.map((object) => {
-      const { project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude, createdAt, id } = object;
+      const { project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, createdAt, id } = object;
 
       const qrCode = new QRCode({
         content: 'tnt://' + id,
@@ -97,7 +97,7 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
 
   const minify = (s) => {
     return s
-      .replace(/\>[\r\n ]+\</g, "><")
+      .replace(/>[\r\n ]+</g, "><")
       .replace(/(<.*?>)|\s+/g, (m, $1) => $1 ? $1 : ' ')
       .trim()
   }

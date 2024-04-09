@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 
 function haversineDistance(coord1, coord2) {
 	const earthRadiusInMeters = 6378137;
-	const { latitude: lat1, longitude: lon1, accuracy: acc1 } = coord1;
-	const { latitude: lat2, longitude: lon2, accuracy: acc2 } = coord2;
+	const { latitude: lat1, longitude: lon1 } = coord1;
+	const { latitude: lat2, longitude: lon2 } = coord2;
 
 	const dLat = (lat2 - lat1) * (Math.PI / 180);
 	const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -18,11 +18,9 @@ function haversineDistance(coord1, coord2) {
 
 	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-	const distanceWithoutAccuracy = earthRadiusInMeters * c;
+	const distance = earthRadiusInMeters * c;
 
-	// const adjustedDistance = Math.sqrt(distanceWithoutAccuracy ** 2 + (acc1 + acc2) ** 2);
-
-	return distanceWithoutAccuracy;
+	return distance;
 }
 
 export default function EndOfDelivery({boxes}) {

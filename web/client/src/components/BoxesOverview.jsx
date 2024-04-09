@@ -11,7 +11,7 @@ import BoxFiltering from './controls/BoxFiltering';
 function BoxesOverview({ pageSize = 10 }) {
 	const [boxDialogOpen, setBoxDialogOpen] = useState(false);
 	const [boxID, setBoxID] = useState('');
-	const {boxes, scans, isMobile} = useContext(AppContext);
+	const {boxes, isMobile} = useContext(AppContext);
 	const textsMap = getTextsMap();
 	const [filteredBoxes, setFilteredBoxes] = useState([]);
 	const { t } = useTranslation();
@@ -35,7 +35,7 @@ function BoxesOverview({ pageSize = 10 }) {
 				  ];
 			})
 		  : null;
-	  }, [filteredBoxes, isMobile, scans, textsMap]);
+	  }, [filteredBoxes, isMobile, textsMap]);
 
 	return (
 		<TableCard
