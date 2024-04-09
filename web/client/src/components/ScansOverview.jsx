@@ -61,6 +61,7 @@ function ScansOverview({ overrideScans = null, disableDialogs = false, searchEna
 			setSelectedItem={setBoxID}
 			searchEnabled={searchEnabled}
 			translateTimeIndex={disableDialogs ? 1 : 2}
+			skipFirstColumn={true}
 		>
 			{disableDialogs
 			? null

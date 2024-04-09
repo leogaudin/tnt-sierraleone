@@ -12,10 +12,10 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 
 export default function BoxSummary({ id, open, setOpen }) {
-	const {boxes, scans, isMobile} = useContext(AppContext);
+	const {boxes, isMobile} = useContext(AppContext);
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 	const boxData = boxes ? boxes.filter(box => { return box.id === id })[0] : null;
-	const scanData = scans ? scans.filter(scan => { return scan.boxId === id }) : null;
+	const scanData = boxData?.scans || null;
 	const textsMap = getTextsMap();
 	const { t } = useTranslation();
 

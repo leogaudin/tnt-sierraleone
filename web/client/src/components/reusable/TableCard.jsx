@@ -48,6 +48,7 @@ function TableCard({
   setSelectedItem,
   searchEnabled = true,
   translateTimeIndex = -1,
+  skipFirstColumn = false,
   children
 }) {
   const [page, setPage] = useState(1);
@@ -104,11 +105,12 @@ function TableCard({
         {Object.values(row).map((value, index) => {
           if (translateTimeIndex !== -1 && index === translateTimeIndex)
             value = timeAgo(value);
-          return (
-            <TableCell key={row[0] + index}>
-              {index === 0 ? <b>{value}</b> : value}
-            </TableCell>
-          );
+          if (!(index === 0 && skipFirstColumn))
+            return (
+              <TableCell key={row[0] + index}>
+                {index === 0 ? <b>{value}</b> : value}
+              </TableCell>
+            );
         })}
       </TableRow>
     ));
@@ -127,9 +129,12 @@ function TableCard({
             <Table>
               <TableHead>
                 <TableRow>
-                  {columns.map((column, index) => (
-                    <TableCell key={column + index}>{column}</TableCell>
-                  ))}
+                  {columns.map((column, index) => {
+                    if (!(index === 0 && skipFirstColumn))
+                      return (
+                        <TableCell key={column + index}>{column}</TableCell>
+                      );
+                  })}
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -137,7 +142,7 @@ function TableCard({
               </TableBody>
             </Table>
             ) : (
-                <Alert severity="info">{t('youHaveNo', {item: t('boxes').toLowerCase()})}</Alert>
+                <Alert severity="info">{t('youHaveNo', {item: contentName})}</Alert>
             )}
             {pageSize <= rows?.length ? (
               <Pagination

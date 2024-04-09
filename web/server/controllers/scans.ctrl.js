@@ -1,4 +1,4 @@
-const Scan = require('../models/scans.model');
+// const Scan = require('../models/scans.model');
 const Admin = require('../models/admins.model');
 const Box = require('../models/boxes.model');
 const { createOne, createMany, getById, getAll, deleteOne } = require('./base');
@@ -55,7 +55,6 @@ const createScan = async (req, res) => {
         };
 
         const newScan = {
-            boxId,
             comment,
             id,
             operatorId,
@@ -78,10 +77,10 @@ const createScan = async (req, res) => {
         return res.status(500).json({ error: "An error occurred while adding the scan" });
     }
 };
-const createScans = createMany(Scan, false);
-const getScanById = getById(Scan);
-const getScans = getAll(Scan);
-const deleteScan = deleteOne(Scan);
+// const createScans = createMany(Scan, false);
+// const getScanById = getById(Scan);
+// const getScans = getAll(Scan);
+// const deleteScan = deleteOne(Scan);
 // const getScansByBoxes = async (req, res) => {
 //     try {
 //         if (!req.headers['x-authorization']) {
@@ -105,9 +104,9 @@ const deleteScan = deleteOne(Scan);
 
 module.exports = {
     createScan,
-    createScans,
-    deleteScan,
-    getScans,
-    getScanById,
+    // createScans,
+    // deleteScan,
+    // getScans,
+    // getScanById,
     // getScansByBoxes,
 }
