@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3000/api' : 'https://tnt-senegal-api.vercel.app/api';
+const BASE_URL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:3000/api' : 'https://tnt-nigeria-api.vercel.app/api';
 
 function sendRequest(method, endpoint, data = null, headers = {}) {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -74,10 +74,6 @@ export async function deleteBoxes(boxes) {
 
 export async function getScans() {
   return await sendRequest('get', 'scans');
-}
-
-export async function getScansByBoxes(boxIds) {
-  return await sendRequest('post', 'scans', boxIds);
 }
 
 export async function getAdmins() {
