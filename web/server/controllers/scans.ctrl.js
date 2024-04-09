@@ -6,8 +6,8 @@ const { feature } = require('@rapideditor/country-coder');
 
 function haversineDistance(coord1, coord2) {
 	const earthRadiusInMeters = 6378137;
-	const { latitude: lat1, longitude: lon1, accuracy: acc1 } = coord1;
-	const { latitude: lat2, longitude: lon2, accuracy: acc2 } = coord2;
+	const { latitude: lat1, longitude: lon1 } = coord1;
+	const { latitude: lat2, longitude: lon2 } = coord2;
 
 	const dLat = (lat2 - lat1) * (Math.PI / 180);
 	const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -19,18 +19,17 @@ function haversineDistance(coord1, coord2) {
 
 	const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-	const distanceWithoutAccuracy = earthRadiusInMeters * c;
+	const distance = earthRadiusInMeters * c;
 
-	// const adjustedDistance = Math.sqrt(distanceWithoutAccuracy ** 2 + (acc1 + acc2) ** 2);
-
-	return distanceWithoutAccuracy;
+	return distance;
 }
 
 function isFinalDestination(schoolCoords, boxCoords) {
 	const distance = haversineDistance(schoolCoords, boxCoords);
-	const radiusInMeters = 1000;
+    const toleranceInMeters = 1000;
+	const threshold = toleranceInMeters + boxCoords.accuracy;
 
-	return distance <= radiusInMeters;
+	return distance <= threshold;
 }
 
 const createScan = async (req, res) => {
@@ -47,7 +46,6 @@ const createScan = async (req, res) => {
         const schoolCoords = {
             latitude: box.schoolLatitude,
             longitude: box.schoolLongitude,
-            accuracy: 1
         };
 
         const scanCoords = {
@@ -84,26 +82,26 @@ const createScans = createMany(Scan, false);
 const getScanById = getById(Scan);
 const getScans = getAll(Scan);
 const deleteScan = deleteOne(Scan);
-const getScansByBoxes = async (req, res) => {
-    try {
-        if (!req.headers['x-authorization']) {
-            return res.status(401).json({ success: false, error: 'API key required' });
-        }
-        const apiKey = req.headers['x-authorization'];
-        const admin = await Admin.findOne({ apiKey });
+// const getScansByBoxes = async (req, res) => {
+//     try {
+//         if (!req.headers['x-authorization']) {
+//             return res.status(401).json({ success: false, error: 'API key required' });
+//         }
+//         const apiKey = req.headers['x-authorization'];
+//         const admin = await Admin.findOne({ apiKey });
 
-        if (!admin) {
-            return res.status(401).json({ success: false, error: 'Invalid API key' });
-        }
-        const boxes = req.body;
-        const scans = await Scan.find({ boxId: { $in: boxes } });
-        if (!scans.length)
-            return res.status(404).json({ success: false, error: `No scans available` });
-        return res.status(200).json({ success: true, data: scans });
-    } catch (error) {
-        return res.status(400).json({ success: false, error: error });
-    }
-}
+//         if (!admin) {
+//             return res.status(401).json({ success: false, error: 'Invalid API key' });
+//         }
+//         const boxes = req.body;
+//         const scans = await Scan.find({ boxId: { $in: boxes } });
+//         if (!scans.length)
+//             return res.status(404).json({ success: false, error: `No scans available` });
+//         return res.status(200).json({ success: true, data: scans });
+//     } catch (error) {
+//         return res.status(400).json({ success: false, error: error });
+//     }
+// }
 
 module.exports = {
     createScan,
@@ -111,5 +109,5 @@ module.exports = {
     deleteScan,
     getScans,
     getScanById,
-    getScansByBoxes,
+    // getScansByBoxes,
 }
