@@ -11,6 +11,8 @@ const deleteBoxes = deleteMany(Box);
 const getBoxesByAdminId = async (req, res) => {
     try {
         const admin = await Admin.findOne({id: req.params.adminId});
+        if (!admin)
+            return res.status(404).json({ success: false, error: `Admin not found` });
         if (!admin.publicInsights) {
             const apiKey = req.headers['x-authorization'];
             if (!apiKey)
