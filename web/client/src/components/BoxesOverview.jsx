@@ -30,7 +30,6 @@ function BoxesOverview({ pageSize = 10 }) {
 					box.id,
 					box.project,
 					box.school,
-					// box.createdAt,
 					<SeverityPill color={colorsMap[progress]}>{textsMap[progress]}</SeverityPill>,
 				  ];
 			})
@@ -51,7 +50,6 @@ function BoxesOverview({ pageSize = 10 }) {
 					t('id'),
 					t('project'),
 					t('recipient'),
-					// t('created'),
 					t('status')
 				]
 			}
@@ -59,7 +57,6 @@ function BoxesOverview({ pageSize = 10 }) {
 			pageSize={pageSize}
 			setDialogOpen={setBoxDialogOpen}
 			setSelectedItem={setBoxID}
-			//translateTimeIndex={isMobile ? -1 : 3}
 			translateTimeIndex={-1}
 		>
 			<BoxFiltering boxes={boxes} setFilteredBoxes={setFilteredBoxes} />
