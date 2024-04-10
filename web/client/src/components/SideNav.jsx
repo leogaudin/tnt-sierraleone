@@ -45,7 +45,7 @@ export const SideNav = () => {
   if (user)
     return (
       location.pathname !== '/login' && location.pathname !== '/register'
-      ? <Drawer
+        ? <Drawer
           anchor="left"
           open={navOpen}
           onClose={() => setNavOpen(false)}
@@ -62,7 +62,17 @@ export const SideNav = () => {
           }}
           variant={isMobile ? "temporary" : "permanent"}
         >
-      <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', p: 0, m: 0 }}>
+          <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', p: 0, m: 0 }}>
+            <Typography
+              variant='overline'
+              fontWeight={900}
+              fontSize={'.9rem'}
+              paddingX={2}
+              paddingTop={2}
+              textAlign={'center'}
+            >
+              TnT Nigeria 🇳🇬
+            </Typography>
             <Stack
               direction={'column'}
               component="li"
@@ -72,21 +82,21 @@ export const SideNav = () => {
                 listStyle: 'none',
                 p: '16px'
               }}
-              >
-              <SvgIcon style={{marginRight: 7}}><AccountCircleIcon /></SvgIcon>
+            >
+              <SvgIcon style={{ marginRight: 7 }}><AccountCircleIcon /></SvgIcon>
               <Stack maxWidth={'100%'}>
                 <Typography
                   variant='overline'
                   fontSize={'.7rem'}
                   textAlign={'center'}
-                  style={{ wordWrap: "break-all"}}
-                  >
-                    {t('loggedInAs')} <b>{user.displayName}</b>
+                  style={{ wordWrap: "break-all" }}
+                >
+                  {t('loggedInAs')} <b>{user.displayName}</b>
                 </Typography>
               </Stack>
             </Stack>
-        </Stack>
-        {content}
+          </Stack>
+          {content}
           <Box component="nav" sx={{ flexGrow: 1, px: 2, py: 3 }}>
             <Stack component="ul" spacing={0.5} sx={{ listStyle: 'none', p: 0, m: 0 }}>
               <SideNavItem
@@ -96,7 +106,6 @@ export const SideNav = () => {
                 title={
                   <Select
                     label={'Language'}
-                    defaultValue='fr'
                     value={language}
                     onChange={(event) => {
                       setLanguage(event.target.value);
@@ -116,16 +125,16 @@ export const SideNav = () => {
                 }
               />
               <SideNavItem
-                  icon={<SvgIcon><LogoutIcon /></SvgIcon>}
-                  key={'logout'}
-                  path={'/logout'}
-                  disabled
-                  title={
-                    <Typography variant='overline' fontSize={'.9rem'}>{t('logout')}</Typography>
-                  }
-                />
+                icon={<SvgIcon><LogoutIcon /></SvgIcon>}
+                key={'logout'}
+                path={'/logout'}
+                disabled
+                title={
+                  <Typography variant='overline' fontSize={'.9rem'}>{t('logout')}</Typography>
+                }
+              />
             </Stack>
           </Box>
-      </Drawer>
-    : null);
+        </Drawer>
+        : null);
 };
