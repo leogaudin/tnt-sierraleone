@@ -65,6 +65,7 @@ export default function EndOfDelivery({boxes}) {
 				received: !!lastMarkedAsReceivedScan,
 				receivedDistanceInMeters,
 				receivedDate: lastMarkedAsReceivedScan ? new Date(lastMarkedAsReceivedScan?.location.timestamp).toLocaleDateString() : '',
+				validated: !!lastMarkedAsReceivedScan && !!lastDeliveredScan,
 			}
 		});
 		setToExport(toExport);
