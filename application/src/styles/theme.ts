@@ -7,7 +7,7 @@ const theme = {
   "dark": false,
   "roundness": 4,
   "colors": {
-    "primary": "#00B958",
+    "primary": "#008000",
     "onPrimary": "#F0FDF4",
     "primaryContainer": "#DDFDE7",
     "onPrimaryContainer": "#006338",
