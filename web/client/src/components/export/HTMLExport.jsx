@@ -9,7 +9,7 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
   const { t } = useTranslation();
   const htmlContent = (objects) => {
     const pages = objects.map((object) => {
-      const { project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, createdAt, id } = object;
+      const { createdAt, id } = object;
 
       const qrCode = new QRCode({
         content: 'tnt://' + id,
