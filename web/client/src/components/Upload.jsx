@@ -4,6 +4,7 @@ import CircularProgressWithLabel from './customisation/CircularProgressWithLabel
 import UploadSummary from './customisation/UploadSummary';
 import { Alert, Dialog, DialogContent, Typography } from "@mui/material";
 import { useTranslation } from 'react-i18next';
+import { boxFields } from '../constants';
 
 export default function Upload({ open, setOpen }) {
   const [hover, setHover] = useState(false);
@@ -117,7 +118,7 @@ export default function Upload({ open, setOpen }) {
                     <Typography variant='body1'>
                       <b>{t('columnOrder')}</b>
                       <br />
-                      <code>project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude</code>
+                      <code>{boxFields.join(', ') + `, ${t('latitude')}, ${t('longitude')}` }</code>
                     </Typography>
                   </Alert>
                 <Alert severity='info' style={{textAlign: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>

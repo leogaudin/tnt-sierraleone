@@ -3,6 +3,7 @@ import QRCode from 'qrcode-svg';
 import { saveAs } from 'file-saver';
 import { Button, Tooltip } from '@mui/material';
 import { useTranslation } from 'react-i18next';
+import { boxFields } from '../../constants';
 
 const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) => {
   const { t } = useTranslation();
@@ -25,44 +26,25 @@ const HTMLExport = ({ objects, folderName = 'Documents', itemName = 'Item' }) =>
       let qrCodeSvg = qrCode.svg();
       qrCodeSvg = qrCodeSvg.replace(/ style="fill:#000000;shape-rendering:crispEdges;"/g, '');
 
+      let infoRows = '';
+
+      boxFields.forEach((field) => {
+        if (object[field])
+          infoRows += `
+            <div class="info-row">
+              <span class="info-label">${t(field)}:</span>
+              <span class="info-value">${object[field]}</span>
+            </div>
+          `;
+      });
+
       return `
         <div class="page">
           <div class="document-container">
             <div class="content-wrapper">
               <div class="info-container">
                 <div class="info-heading">${t('informations')}</div>
-                <div class="info-row">
-                  <span class="info-label">${t('project')}:</span>
-                  <span class="info-value">${project}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('academicInspection')}:</span>
-                  <span class="info-value">${academicInspection}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('educationAndTrainingInspection')}:</span>
-                  <span class="info-value">${educationAndTrainingInspection}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('commune')}:</span>
-                  <span class="info-value">${commune}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('school')}:</span>
-                  <span class="info-value">${school}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('administrativeCode')}:</span>
-                  <span class="info-value">${administrativeCode}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('directorName')}:</span>
-                  <span class="info-value">${directorName}</span>
-                </div>
-                <div class="info-row">
-                  <span class="info-label">${t('directorPhone')}:</span>
-                  <span class="info-value">${directorPhone}</span>
-                </div>
+                ${infoRows}
                 <div class="info-row">
                   <span class="info-label">${t('created')}:</span>
                   <span class="info-value">${new Date(createdAt).toLocaleString()}</span>

@@ -14,19 +14,32 @@ function parseCSV(text, setUploadProgress, setResults, setIsLoading, setComplete
 		worker: true,
 		skipEmptyLines: true,
 		step: (element) => {
-			const [project, academicInspection, educationAndTrainingInspection, commune, school, administrativeCode, directorName, directorPhone, schoolLatitude, schoolLongitude] = element.data;
+			const [
+				project,
+				state,
+				lgea,
+				school,
+				schoolCode,
+				htName,
+				htPhone,
+				ssoName,
+				ssoPhone,
+				latitude,
+				longitude,
+			] = element.data;
 			const newBox = {
 				id: '',
 				project,
-				academicInspection,
-				educationAndTrainingInspection,
-				commune,
+				state,
+				lgea,
 				school,
-				administrativeCode,
-				directorName,
-				directorPhone,
-				schoolLatitude: parseFloat(schoolLatitude),
-				schoolLongitude: parseFloat(schoolLongitude),
+				schoolCode,
+				htName,
+				htPhone,
+				ssoName,
+				ssoPhone,
+				schoolLatitude: parseFloat(latitude),
+				schoolLongitude: parseFloat(longitude),
 				adminId: user.id,
 				createdAt: new Date().getTime()
 			};
