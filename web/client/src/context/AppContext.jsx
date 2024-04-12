@@ -13,7 +13,7 @@ const AppContext = createContext({
   fetchScans: () => {},
   isMobile: false,
   user: null,
-  language: 'fr',
+  language: 'en',
   setLanguage: () => {},
   loading: true,
 });
@@ -24,7 +24,7 @@ export const AppProvider = ({ children }) => {
   const isMobile = !useMediaQuery(theme.breakpoints.up('lg'));
   const [navOpen, setNavOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem('user'));
-  const [language, setLanguage] = useState('fr');
+  const [language, setLanguage] = useState('en');
   const [loading, setLoading] = useState(true);
 
   const fetchBoxes = async () => {
