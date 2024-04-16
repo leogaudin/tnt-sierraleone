@@ -7,7 +7,7 @@ const Box = new Schema(
 		id: { type: String, required: true },
 		project: { type: String, required: true },
 		state: { type: String, required: true },
-		lgea: { type: String, required: true },
+		lgea: { type: String, required: false },
 		school: { type: String, required: false },
 		schoolCode: { type: String, required: false },
 		htName: { type: String, required: false },
