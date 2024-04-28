@@ -1,6 +1,7 @@
 import Papa from 'papaparse';
 import { addBoxes } from './index';
 import SparkMD5 from 'spark-md5';
+import { toast } from 'react-toastify';
 const lzstring = require('lz-string');
 
 function isCSVValid(file) {
@@ -83,7 +84,9 @@ function uploadBoxes(boxes, setUploadProgress, setResults, setIsLoading, setComp
 				}
 			})
 			.catch((err) => {
-				console.log(err);
+				setIsLoading(false);
+				setComplete(true);
+				toast.error(err.response?.data?.error?.message || err.message);
 			});
 	};
 
