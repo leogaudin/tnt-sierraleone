@@ -17,14 +17,12 @@ function parseCSV(text, setUploadProgress, setResults, setIsLoading, setComplete
 		step: (element) => {
 			const [
 				project,
-				state,
-				lgea,
+				wilaya,
+				moughata,
+				commune,
 				school,
-				schoolCode,
 				htName,
 				htPhone,
-				ssoName,
-				ssoPhone,
 				latitude,
 				longitude,
 			] = element.data;
