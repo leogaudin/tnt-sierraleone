@@ -42,7 +42,7 @@ function ScansOverview({
 			// if (!disableDialogs)
 			// 	row.push(scan.boxId);
 			if (!overrideScans)
-				row.push(box.school || box.lgea || box.state);
+				row.push(box.school || box.moughata || box.wilaya);
 			row.push(scan.time);
 			if (!isMobile) {
 				row.push(scan.comment);
