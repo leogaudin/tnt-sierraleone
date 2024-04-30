@@ -2,14 +2,14 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 
 export const languages = [
-	{ label: 'English', code: 'en' },
 	{ label: 'Français', code: 'fr' },
+	{ label: 'English', code: 'en' },
 ];
 
 i18n
 	.use(initReactI18next)
 	.init({
-		lng: "en",
+		lng: "fr",
 		fallbackLng: "en",
 		interpolation: {
 			escapeValue: false,
@@ -169,6 +169,8 @@ i18n
 					htPhone: 'HT Phone',
 					ssoName: 'SSO Name',
 					ssoPhone: 'SSO Phone',
+					wilaya: 'Wilaya',
+					moughata: 'Moughata',
 				}
 			},
 			fr: {
@@ -325,6 +327,8 @@ i18n
 					htPhone: 'Téléphone du HT',
 					ssoName: 'Nom du SSO',
 					ssoPhone: 'Téléphone du SSO',
+					wilaya: 'Wilaya',
+					moughata: 'Moughata',
 				},
 			},
 		},
