@@ -9,7 +9,7 @@ const Box = new Schema(
 		wilaya: { type: String, required: true },
 		moughata: { type: String, required: false },
 		commune: { type: String, required: false },
-		school: { type: String, required: false },
+		school: { type: String, required: true },
 		htName: { type: String, required: false },
 		htPhone: { type: String, required: false },
 		schoolLatitude: { type: Number, required: true},
