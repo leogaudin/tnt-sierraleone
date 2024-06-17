@@ -76,6 +76,8 @@ export default function Upload({ open, setOpen }) {
     display: 'none',
   };
 
+  const translatedBoxFields = boxFields.map((field) => t(field));
+
   return (
     <Dialog
       open={Boolean(open)}
@@ -118,7 +120,7 @@ export default function Upload({ open, setOpen }) {
                     <Typography variant='body1'>
                       <b>{t('columnOrder')}</b>
                       <br />
-                      <code>{boxFields.join(', ') + `, ${t('latitude')}, ${t('longitude')}` }</code>
+                      <code>{translatedBoxFields.join(', ') + `, ${t('latitude')}, ${t('longitude')}` }</code>
                     </Typography>
                   </Alert>
                 <Alert severity='info' style={{textAlign: 'center', alignItems: 'center', justifyContent: 'center', backgroundColor: 'transparent'}}>
