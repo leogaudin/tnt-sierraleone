@@ -4,7 +4,7 @@ import {showToast} from './showToast';
 export function sendScan(data: {}) {
   return new Promise((resolve, reject) => {
     axios
-      .post('https://tnt-mauritanie-api.vercel.app/api/scan', data, {
+      .post('https://tnt-sierraleone-api.vercel.app/api/scan', data, {
         headers: {'Content-Type': 'application/json'},
       })
       .then(response => {

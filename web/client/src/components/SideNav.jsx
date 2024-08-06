@@ -71,7 +71,7 @@ export const SideNav = () => {
               paddingTop={2}
               textAlign={'center'}
             >
-              TnT Mauritanie 🇲🇷
+              TnT Sierra Leone 🇸🇱
             </Typography>
             <Stack
               direction={'column'}
