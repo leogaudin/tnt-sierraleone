@@ -3,9 +3,10 @@ import i18n from './language';
 
 export const boxFields = [
 	'project',
-	'wilaya',
-	'moughata',
-	'commune',
+	'province',
+	'district',
+	'council',
+	'chiefdom',
 	'school',
 	'htName',
 	'htPhone',

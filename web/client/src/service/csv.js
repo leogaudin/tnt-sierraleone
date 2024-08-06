@@ -17,9 +17,10 @@ function parseCSV(text, setUploadProgress, setResults, setIsLoading, setComplete
 		step: (element) => {
 			const [
 				project,
-				wilaya,
-				moughata,
-				commune,
+				province,
+				district,
+				council,
+				chiefdom,
 				school,
 				htName,
 				htPhone,
@@ -29,9 +30,10 @@ function parseCSV(text, setUploadProgress, setResults, setIsLoading, setComplete
 			const newBox = {
 				id: '',
 				project,
-				wilaya,
-				moughata,
-				commune,
+				province,
+				district,
+				council,
+				chiefdom,
 				school,
 				htName,
 				htPhone,

@@ -29,7 +29,7 @@ function BoxesOverview({ pageSize = 10 }) {
 				: [
 					box.id,
 					box.project,
-					box.school || box.moughata || box.wilaya,
+					box.school || box.chiefdom || box.council || box.district || box.province,
 					<SeverityPill color={colorsMap[progress]}>{textsMap[progress]}</SeverityPill>,
 				  ];
 			})

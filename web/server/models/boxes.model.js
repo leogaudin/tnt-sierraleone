@@ -6,9 +6,10 @@ const Box = new Schema(
 	{
 		id: { type: String, required: true },
 		project: { type: String, required: true },
-		wilaya: { type: String, required: true },
-		moughata: { type: String, required: false },
-		commune: { type: String, required: false },
+		province: { type: String, required: true },
+		district: { type: String, required: false },
+		council: { type: String, required: false },
+		chiefdom: { type: String, required: false },
 		school: { type: String, required: true },
 		htName: { type: String, required: false },
 		htPhone: { type: String, required: false },
