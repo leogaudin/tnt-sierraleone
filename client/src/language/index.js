@@ -24,6 +24,7 @@ i18n
 					'continue': 'Continue',
 					'authError': 'Error during authentication',
 					'goBack': 'Go back',
+					'boxesLoading': 'Loading boxes...',
 				},
 			},
 		},

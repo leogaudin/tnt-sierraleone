@@ -1,3 +1,4 @@
+import Home from "../pages/Home";
 import Login from "../pages/Login"
 
 export const API_URL =
@@ -6,8 +7,9 @@ export const API_URL =
 						// :
 						'https://track-and-trace-api.vercel.app/api'
 
+export const user = JSON.parse(localStorage.getItem('user'));
+
 export const callAPI = async (method, endpoint, data = null, headers = {}) => {
-	const user = JSON.parse(localStorage.getItem('user'));
 	const authorization = user?.apiKey || null;
 	const requestHeaders = {
 		'Content-Type': 'application/json',
@@ -24,10 +26,11 @@ export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 	return response;
 }
 
+
 export const routes = [
 	{
 		path: '/',
-		// component: 'Home',
+		component: Home,
 	},
 	{
 		path: '/auth',

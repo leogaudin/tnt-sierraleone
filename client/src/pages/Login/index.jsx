@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { palette } from '../../theme';
-import { callAPI } from '../../service';
+import { callAPI, user } from '../../service';
 import { useNavigate } from 'react-router-dom';
 import { sha512 } from 'js-sha512';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,6 @@ export default function Login() {
 	const { t } = useTranslation();
 
 	useEffect(() => {
-		const user = localStorage.getItem('user');
 		if (user)
 			navigate('/');
 	}, []);

@@ -1,12 +1,16 @@
 import { Flex } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { user } from '../service';
+import AppContext from '../context';
+import BoxesLoading from './BoxesLoading';
 
 export default function RouteWrapper({ route }) {
 	const navigate = useNavigate();
+	const { loading } = useContext(AppContext);
 
 	useEffect(() => {
-		if (!route.public && !localStorage.getItem('user')) {
+		if (!route.public && !user) {
 			navigate('/auth');
 		}
 	}, []);
@@ -20,7 +24,10 @@ export default function RouteWrapper({ route }) {
 			direction='column'
 			// padding={5}
 		>
-			<route.component />
+			{user && loading
+				? <BoxesLoading />
+				: <route.component />
+			}
 		</Flex>
 	)
 }
