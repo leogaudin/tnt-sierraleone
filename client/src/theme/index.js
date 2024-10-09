@@ -10,9 +10,8 @@ const primary = {
 }
 
 export const palette = {
-	colorScheme,
 	text: 'black',
-	background: white,
+	background: 'white',
 	primary: primary,
 	success: {
 		light: baseTheme.colors.green[100],
