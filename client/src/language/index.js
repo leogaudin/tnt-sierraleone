@@ -27,6 +27,7 @@ i18n
 					'boxesLoading': 'Loading boxes...',
 					'home': 'Home',
 					'loggedInAs': 'Logged in as',
+					'logout': 'Logout',
 				},
 			},
 		},

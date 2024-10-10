@@ -9,12 +9,14 @@ import {
 	Heading,
 	Text,
 	Icon,
+	Button,
 } from '@chakra-ui/react';
 import { palette } from '../theme';
 import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';
 import { navbarWidth, routes, user } from '../service';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { IoMdExit } from "react-icons/io";
 
 export default function Navbar() {
 	const [scrolled, setScrolled] = useState(false);
@@ -75,6 +77,25 @@ export default function Navbar() {
 		</>
 	);
 
+	const LogoutButton = () => (
+		<Button
+			size='sm'
+			colorScheme='red'
+			variant='ghost'
+			onClick={() => {
+				localStorage.removeItem('user');
+				window.location.reload();
+			}}
+			opacity={.5}
+			_hover={{
+				opacity: 1,
+			}}
+			leftIcon={<IoMdExit />}
+		>
+			{t('logout')}
+		</Button>
+	);
+
 	if (isMobile)
 		return (
 			<Flex
@@ -130,6 +151,7 @@ export default function Navbar() {
 								gap={5}
 							>
 								<NavItems navLinks={navLinks} />
+								<LogoutButton />
 							</Stack>
 						</Box>
 					</Box>
@@ -152,7 +174,12 @@ export default function Navbar() {
 				<Flex
 					width='100%'
 					mx='auto'
-					justify='center'
+					px={5}
+					justify='space-evenly'
+					align='stretch'
+					height='100%'
+					direction='column'
+					gap={5}
 				>
 					{/* <Link
 						href='#'
@@ -169,27 +196,20 @@ export default function Navbar() {
 						<Image src={logo} alt='logo' w={10} h={10} objectFit='contain' />
 					</Link> */}
 					<Stack
-						as='ul'
-						listStyleType='none'
-						display={{ base: 'none', md: 'flex' }}
-						direction='column'
-						align='stretch'
-						gap={5}
+						align='center'
+						fontSize={'small'}
 					>
-						<Stack
-							align='center'
-							marginY={42}
-							fontSize={'small'}
+						<Text>{t('loggedInAs')}</Text>
+						<Heading
+							fontSize='inherit'
 						>
-							<Text>{t('loggedInAs')}</Text>
-							<Heading
-								fontSize='inherit'
-							>
-								{user.email}
-							</Heading>
-						</Stack>
+							{user.email}
+						</Heading>
+					</Stack>
+					<Stack>
 						<NavItems navLinks={navLinks} />
 					</Stack>
+					<LogoutButton />
 				</Flex>
 			</Flex>
 		);
