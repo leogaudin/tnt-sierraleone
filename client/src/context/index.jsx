@@ -20,27 +20,21 @@ export const AppProvider = ({ children }) => {
 		if (user) {
 			try {
 				setBoxes(null);
-				let hasMore = true;
 				const limit = 2100;
-				const requests = [];
+				const responses = [];
 
-				while (hasMore) {
-					const skip = requests.length * limit;
+				while (true) {
+					const skip = responses.length;
 					const request = await callAPI('GET', `boxes/${user.id}?skip=${skip}&limit=${limit}`);
-					requests.push(request);
 					const response = await request.json();
-					if (response.data.length < limit)
-						hasMore = false;
+					responses.push(...response?.data);
+					if ((response?.data?.length || 0) < limit)
+						break;
 				}
 
-				const responses = await Promise.all(requests);
-				const mergedBoxes = responses.reduce((accumulator, response) => {
-					return accumulator.concat(response.data);
-				}, []);
-
-				mergedBoxes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-				setBoxes(mergedBoxes);
-				return mergedBoxes;
+				responses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+				setBoxes(responses);
+				return responses;
 			} catch (err) {
 				toast({
 					title: 'Error',
