@@ -25,6 +25,8 @@ i18n
 					'authError': 'Error during authentication',
 					'goBack': 'Go back',
 					'boxesLoading': 'Loading boxes...',
+					'home': 'Home',
+					'loggedInAs': 'Logged in as',
 				},
 			},
 		},

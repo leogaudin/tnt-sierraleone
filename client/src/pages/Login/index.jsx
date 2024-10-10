@@ -82,87 +82,89 @@ export default function Login() {
 	}, [showFullForm]);
 
 	return (
-		<Flex
-			width={{ base: '100%', md: 'xs' }}
-			height='100vh'
-			direction='column'
-			justify='center'
-		>
-			<FormControl my={2} id='username' isRequired>
-				<FormLabel>{t('username')}</FormLabel>
-				<Input
-					disabled={showFullForm}
-					width='100%'
-					focusBorderColor={palette.primary.main}
-					type='text'
-					value={username}
-					onChange={handleUsernameChange}
-					onKeyDown={e=> {
-						if (e.key === 'Enter') {
-							checkIfExists();
-						}
-					}}
-				/>
-			</FormControl>
-			<Collapse in={showFullForm}>
-				<FormControl my={2} id='password' isRequired>
-					<FormLabel>{t('password')}</FormLabel>
-					<InputGroup>
-						<Input
-							width='100%'
-							focusBorderColor={palette.primary.main}
-							type={showPassword ? 'text' : 'password'}
-							value={password}
-							onChange={handlePasswordChange}
-							onKeyDown={e=> {
-								if (e.key === 'Enter') {
-									handleAuth();
-								}
-							}}
-						/>
-						<InputRightElement h='full'>
-							<Button
-								variant='ghost'
-								onClick={() => setShowPassword((showPassword) => !showPassword)}>
-								{showPassword ? <ViewIcon /> : <ViewOffIcon />}
-							</Button>
-						</InputRightElement>
-					</InputGroup>
-				</FormControl>
-			</Collapse>
-			<Button
-				mt={2}
-				isLoading={loading}
-				size='lg'
-				color={palette.background}
-				bg={palette.primary.main}
-				_hover={{ bg: palette.primary.dark }}
-				onClick={
-					showFullForm
-						? handleAuth
-						: checkIfExists
-				}
-				width='100%'
+		<Flex height='100vh'>
+			<Flex
+				width='xs'
+				mx='auto'
+				direction='column'
+				justify='center'
 			>
-				{
-					showFullForm
-					? (
-						userExists
-						? `${t('welcomeBack')} ${t('login')}`
-						: t('createNewAccount')
-					)
-					: t('continue')
-				}
-			</Button>
-			{showFullForm && (
+				<FormControl my={2} id='username' isRequired>
+					<FormLabel>{t('username')}</FormLabel>
+					<Input
+						disabled={showFullForm}
+						width='100%'
+						focusBorderColor={palette.primary.main}
+						type='text'
+						value={username}
+						onChange={handleUsernameChange}
+						onKeyDown={e=> {
+							if (e.key === 'Enter') {
+								checkIfExists();
+							}
+						}}
+					/>
+				</FormControl>
+				<Collapse in={showFullForm}>
+					<FormControl my={2} id='password' isRequired>
+						<FormLabel>{t('password')}</FormLabel>
+						<InputGroup>
+							<Input
+								width='100%'
+								focusBorderColor={palette.primary.main}
+								type={showPassword ? 'text' : 'password'}
+								value={password}
+								onChange={handlePasswordChange}
+								onKeyDown={e=> {
+									if (e.key === 'Enter') {
+										handleAuth();
+									}
+								}}
+							/>
+							<InputRightElement h='full'>
+								<Button
+									variant='ghost'
+									onClick={() => setShowPassword((showPassword) => !showPassword)}>
+									{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+					</FormControl>
+				</Collapse>
 				<Button
-					colorScheme='gray'
-					onClick={() => setShowFullForm(false)}
 					mt={2}
+					isLoading={loading}
+					size='lg'
+					color={palette.background}
+					bg={palette.primary.main}
+					_hover={{ bg: palette.primary.dark }}
+					onClick={
+						showFullForm
+							? handleAuth
+							: checkIfExists
+					}
+					width='100%'
 				>
-					{t('goBack')}
+					{
+						showFullForm
+						? (
+							userExists
+							? `${t('welcomeBack')} ${t('login')}`
+							: t('createNewAccount')
+						)
+						: t('continue')
+					}
 				</Button>
-			)}
+				{showFullForm && (
+					<Button
+						colorScheme='gray'
+						onClick={() => setShowFullForm(false)}
+						mt={2}
+					>
+						{t('goBack')}
+					</Button>
+				)}
+			</Flex>
 		</Flex>
 	);
 }

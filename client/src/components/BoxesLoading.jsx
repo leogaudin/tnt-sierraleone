@@ -7,18 +7,20 @@ export default function BoxesLoading() {
 
 	return (
 		<Flex
-			width='100%'
-			height='100vh'
-			direction='row'
+			direction={{ base: 'column', md: 'row' }}
 			justify='center'
 			align='center'
 			color={palette.primary.dark}
+			marginTop='33vh'
 		>
-			<Heading>
+			<Heading
+				fontWeight='normal'
+			>
 				{t('boxesLoading')}
 			</Heading>
 			<Spinner
 				marginX={10}
+				marginY={5}
 				size='xl'
 			/>
 		</Flex>

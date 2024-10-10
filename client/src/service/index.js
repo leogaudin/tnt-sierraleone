@@ -1,5 +1,10 @@
+import i18n from "../language";
+
 import Home from "../pages/Home";
 import Login from "../pages/Login"
+
+import { IoHome } from "react-icons/io5";
+
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -8,6 +13,8 @@ export const API_URL =
 						'https://track-and-trace-api.vercel.app/api'
 
 export const user = JSON.parse(localStorage.getItem('user'));
+
+export const navbarWidth = '250px';
 
 export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 	const authorization = user?.apiKey || null;
@@ -26,11 +33,27 @@ export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 	return response;
 }
 
-
 export const routes = [
 	{
 		path: '/',
 		component: Home,
+		title: i18n.t('home'),
+		inNav: true,
+		icon: IoHome,
+	},
+	{
+		path: '/2',
+		component: Home,
+		title: i18n.t('home') + 2333333,
+		inNav: true,
+		icon: IoHome,
+	},
+	{
+		path: '/3',
+		component: Home,
+		title: i18n.t('home') + 3,
+		inNav: true,
+		icon: IoHome,
 	},
 	{
 		path: '/auth',
