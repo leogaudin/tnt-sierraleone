@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { palette } from '../../../theme';
 import { Map, Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { getLatLngCenter, getZoomLevel } from '../../../service/utils';
 
 function ScansMap({
 	box,
@@ -32,11 +33,14 @@ function ScansMap({
 		]);
 
 	const initMap = () => {
+		const center = getLatLngCenter(coords);
+		const zoom = getZoomLevel(coords);
+
 		const map = new Map({
 			container: containerRef.current,
 			style: 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json',
-			// center: getLatLngCenter(coords),
-			zoom: 1,
+			center,
+			zoom,
 		});
 		map._container.style.width = '100%';
 		return map;
@@ -50,6 +54,7 @@ function ScansMap({
 					'message': `${scan.operatorId}\n${new Date(scan.time).toUTCString()}\n${scan.comment}`,
 					'iconSize': [50, 50],
 					'icon': `<svg fill="${palette.primary.main}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21,2H15a1,1,0,0,0-1,1V9a1,1,0,0,0,1,1h1v2h2V10h2v2h2V3A1,1,0,0,0,21,2ZM18,8H16V4h4V8ZM3,10H9a1,1,0,0,0,1-1V3A1,1,0,0,0,9,2H3A1,1,0,0,0,2,3V9A1,1,0,0,0,3,10ZM4,4H8V8H4ZM5,16v2H3V16ZM3,20H5v2H3Zm4-2v2H5V18Zm0-2H5V14H7V12H9v4ZM5,12v2H3V12Zm9,3v1H13V14H11v4h3v3a1,1,0,0,0,1,1h6a1,1,0,0,0,1-1V15a1,1,0,0,0-1-1H16V12H14Zm6,1v4H16V16ZM9,18h2v2h1v2H7V20H9ZM13,6H11V4h2ZM11,8h2v4H11ZM5,5H7V7H5ZM17,5h2V7H17Zm2,14H17V17h2Z"/></svg>`,
+					'color': palette.primary.main,
 				},
 				'geometry': {
 					'type': 'Point',
@@ -67,7 +72,8 @@ function ScansMap({
 				'properties': {
 					'message': t('recipient'),
 					'iconSize': [50, 50],
-					'icon': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 6H17.2C18.8802 6 19.7202 6 20.362 6.32698C20.9265 6.6146 21.3854 7.07354 21.673 7.63803C22 8.27976 22 9.11984 22 10.8V18H11M7 6C9.20914 6 11 7.79086 11 10V18M7 6C4.79086 6 3 7.79086 3 10V18H11M17 3H14V12M10 18V21H14V18M7 12H7.01" stroke="${palette.success.main}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`
+					'icon': `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 6H17.2C18.8802 6 19.7202 6 20.362 6.32698C20.9265 6.6146 21.3854 7.07354 21.673 7.63803C22 8.27976 22 9.11984 22 10.8V18H11M7 6C9.20914 6 11 7.79086 11 10V18M7 6C4.79086 6 3 7.79086 3 10V18H11M17 3H14V12M10 18V21H14V18M7 12H7.01" stroke="${palette.success.main}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+					'color': palette.success.main,
 				},
 				'geometry': {
 					'type': 'Point',
@@ -92,6 +98,7 @@ function ScansMap({
 				height: `${marker.properties.iconSize[1]}px`,
 				padding: '10px',
 				borderRadius: '50%',
+				border: `1px solid ${marker.properties.color}`,
 				backgroundColor: 'white',
 				cursor: 'pointer',
 			};
