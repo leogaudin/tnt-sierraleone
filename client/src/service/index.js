@@ -96,11 +96,3 @@ export const progressColors = {
 	reachedOrReceived: palette.warning.main,
 	validated: palette.success.main,
 }
-
-export const progressIcons = {
-	noScans: icons.close,
-	inProgress: icons.clock,
-	reachedGps: icons.pin,
-	received: icons.eye,
-	validated: icons.check,
-}
