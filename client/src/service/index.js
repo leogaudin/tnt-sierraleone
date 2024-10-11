@@ -7,6 +7,7 @@ import Boxes from '../pages/Boxes';
 import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock } from 'react-icons/fa';
 import { IoMdExit } from 'react-icons/io';
+import { palette } from '../theme';
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -86,3 +87,20 @@ export const excludedKeys = [
 	'schoolLatitude',
 	'schoolLongitude',
 ];
+
+export const progressColors = {
+	noScans: palette.error.main,
+	inProgress: palette.info.main,
+	reachedGps: palette.warning.main,
+	received: palette.warning.main,
+	reachedOrReceived: palette.warning.main,
+	validated: palette.success.main,
+}
+
+export const progressIcons = {
+	noScans: icons.close,
+	inProgress: icons.clock,
+	reachedGps: icons.pin,
+	received: icons.eye,
+	validated: icons.check,
+}

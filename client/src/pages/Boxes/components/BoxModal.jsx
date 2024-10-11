@@ -81,7 +81,7 @@ export default function BoxModal({
 										t('time'),
 										t('comment'),
 										t('received'),
-										t('reachedgps')
+										t('reachedGps')
 									]}
 									fields={[
 										'time',

@@ -30,7 +30,7 @@ export function getLastInProgressScan(box) {
 
 export function getProgress(box) {
 	if (!box?.scans || box?.scans?.length === 0) {
-		return "noscans";
+		return 'noScans';
 	}
 
 	const lastFinalScan = getLastFinalScan(box);
@@ -38,17 +38,17 @@ export function getProgress(box) {
 
 	if (lastFinalScan) {
 		if (lastReceivedScan) {
-			return "validated";
+			return 'validated';
 		}
-		return "reachedgps";
+		return 'reachedGps';
 	}
 	if (lastReceivedScan) {
-		return "received";
+		return 'received';
 	}
-	return "inprogress";
+	return 'inProgress';
 }
 
-export function getStatusPercentage(sample, status = "delivered") {
+export function getStatusPercentage(sample, status = 'delivered') {
 	sample.forEach(box => {
 		box.progress = getProgress(box);
 	});
@@ -56,4 +56,33 @@ export function getStatusPercentage(sample, status = "delivered") {
 	const deliveredBoxes = sample.filter(box => box.progress === status).length;
 
 	return (deliveredBoxes / sample.length) * 100;
+}
+
+export const sampleToRepartition = (sample) => {
+	const data = {
+		noScans: 0,
+		inProgress: 0,
+		reachedOrReceived: 0,
+		validated: 0,
+	}
+
+	sample.forEach(box => {
+		if (box?.scans?.length > 0) {
+			const lastFinalScan = getLastFinalScan(box);
+			const lastReceivedScan = getLastMarkedAsReceivedScan(box);
+			if (lastFinalScan || lastReceivedScan) {
+				if (lastFinalScan && lastReceivedScan) {
+					data.validated++;
+				} else {
+					data.reachedOrReceived++;
+				}
+			} else {
+				data.inProgress++;
+			}
+		} else {
+			data.noScans++;
+		}
+	});
+
+	return data;
 }
