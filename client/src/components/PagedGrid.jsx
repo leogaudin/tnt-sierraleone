@@ -41,7 +41,7 @@ export default function PagedGrid({
 					{pageSizes.map(size => <option key={size} value={size}>{size}</option>)}
 				</Select>
 				<SimpleGrid
-					columns={{ base: 1, lg: 3 }}
+					columns={{ base: 1, lg: 2 }}
 					spacing={5}
 					width='100%'
 					marginY={5}
