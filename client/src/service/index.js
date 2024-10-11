@@ -3,9 +3,10 @@ import i18n from '../language';
 import Home from '../pages/Home';
 import Login from '../pages/Login'
 import Boxes from '../pages/Boxes';
+import Scans from '../pages/Scans';
 
 import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
-import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock } from 'react-icons/fa';
+import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode } from 'react-icons/fa';
 import { IoMdExit } from 'react-icons/io';
 import { palette } from '../theme';
 
@@ -47,6 +48,7 @@ export const icons = {
 	pin: FaMapPin,
 	eye: FaEye,
 	clock: FaClock,
+	qr: FaQrcode,
 }
 
 export const routes = [
@@ -65,11 +67,11 @@ export const routes = [
 		icon: icons.box,
 	},
 	{
-		path: '/3',
-		component: Home,
-		title: i18n.t('home') + 3,
+		path: '/scans',
+		component: Scans,
+		title: i18n.t('scans'),
 		inNav: true,
-		icon: IoHome,
+		icon: icons.qr,
 	},
 	{
 		path: '/auth',
