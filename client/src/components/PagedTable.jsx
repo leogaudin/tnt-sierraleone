@@ -38,7 +38,7 @@ export default function PagedTable({
 	const { t } = useTranslation();
 
 	const sort = (sample) => {
-		if (!!!sample) return;
+		if (!sample) return;
 		const sortedSample = [...sample].sort((a, b) => {
 			if (a[sortField] < b[sortField]) {
 				return sortOrder === 'asc' ? -1 : 1;
@@ -61,7 +61,7 @@ export default function PagedTable({
 	}, [elements, excludeIf]);
 
 	const getElementsToDisplay = () => {
-		if (!!!processedElements) return null;
+		if (!processedElements) return null;
 		const start = (currentPage - 1) * pageSize;
 		const end = start + pageSize;
 		return sort(processedElements.slice(start, end));
@@ -86,7 +86,7 @@ export default function PagedTable({
 
 	const pageSizes = [10, 20, 50, 100];
 
-	if (!!!elements) return <Loading />;
+	if (!elements) return <Loading />;
 	return (
 		<Stack>
 			{allowToChoosePageSize &&
