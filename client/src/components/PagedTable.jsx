@@ -84,7 +84,7 @@ export default function PagedTable({
 			// />
 	}
 
-	const pageSizes = [10, 20, 50, 100];
+	const pageSizes = [10, 20, 50, 100, 500];
 
 	if (!elements) return <Loading />;
 	return (
