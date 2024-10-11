@@ -1,10 +1,12 @@
-import i18n from "../language";
+import i18n from '../language';
 
-import Home from "../pages/Home";
-import Login from "../pages/Login"
+import Home from '../pages/Home';
+import Login from '../pages/Login'
+import Boxes from '../pages/Boxes';
 
-import { IoHome } from "react-icons/io5";
-
+import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
+import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock } from 'react-icons/fa';
+import { IoMdExit } from 'react-icons/io';
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -33,20 +35,33 @@ export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 	return response;
 }
 
+export const icons = {
+	home: IoHome,
+	box: FaBoxOpen,
+	exit: IoMdExit,
+	check: IoCheckmark,
+	close: IoClose,
+	up: FaChevronUp,
+	down: FaChevronDown,
+	pin: FaMapPin,
+	eye: FaEye,
+	clock: FaClock,
+}
+
 export const routes = [
 	{
 		path: '/',
 		component: Home,
 		title: i18n.t('home'),
 		inNav: true,
-		icon: IoHome,
+		icon: icons.home,
 	},
 	{
-		path: '/2',
-		component: Home,
-		title: i18n.t('home') + 2333333,
+		path: '/boxes',
+		component: Boxes,
+		title: i18n.t('boxes'),
 		inNav: true,
-		icon: IoHome,
+		icon: icons.box,
 	},
 	{
 		path: '/3',

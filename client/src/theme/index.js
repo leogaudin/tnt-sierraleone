@@ -4,9 +4,11 @@ import {
 } from '@chakra-ui/react'
 
 const primary = {
+	lightest: '#F0F5FF',
 	light: '#EBF0FE',
 	main: '#0949FF',
 	dark: '#0033C0',
+	darkest: '#001D6A',
 }
 
 export const palette = {
@@ -33,6 +35,11 @@ export const palette = {
 		main: baseTheme.colors.blue[500],
 		dark: baseTheme.colors.blue[900],
 	},
+	gray: {
+		light: '#F8F8F8',
+		main: '#929292',
+		dark: '#424242',
+	}
 }
 
 export const theme = extendTheme({

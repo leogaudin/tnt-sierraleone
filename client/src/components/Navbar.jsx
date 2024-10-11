@@ -13,10 +13,9 @@ import {
 } from '@chakra-ui/react';
 import { palette } from '../theme';
 import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';
-import { navbarWidth, routes, user } from '../service';
+import { icons, navbarWidth, routes, user } from '../service';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { IoMdExit } from "react-icons/io";
 
 export default function Navbar() {
 	const [scrolled, setScrolled] = useState(false);
@@ -41,8 +40,8 @@ export default function Navbar() {
 
 	const NavItems = ({ navLinks }) => (
 		<>
-			{navLinks.map((nav) => (
-				<Link to={nav.path}>
+			{navLinks.map((nav, i) => (
+				<Link key={nav.path + i} to={nav.path}>
 					<Flex
 						key={nav.path}
 						onClick={() => {
@@ -52,15 +51,15 @@ export default function Navbar() {
 						fontWeight='medium'
 						fontSize='18px'
 						color={current === nav.path
-							? palette.background
-							: palette.primary.dark
+							? palette.primary.dark
+							: 'inherit'
 						}
 						bg={current === nav.path
-							? palette.primary.dark
+							? palette.gray.light
 							: 'transparent'
 						}
 						_hover={{
-							opacity: .75,
+							opacity: .8,
 						}}
 						transition={'.25s'}
 						paddingX={7}
@@ -90,7 +89,7 @@ export default function Navbar() {
 			_hover={{
 				opacity: 1,
 			}}
-			leftIcon={<IoMdExit />}
+			leftIcon={<icons.exit />}
 		>
 			{t('logout')}
 		</Button>
@@ -167,34 +166,24 @@ export default function Navbar() {
 				left={0}
 				height='100vh'
 				width={navbarWidth}
-				bg={scrolled ? palette.background : 'transparent'}
-				color={palette.primary.dark}
 				overflow='auto'
+				color={palette.gray.main}
 			>
 				<Flex
 					width='100%'
 					mx='auto'
 					px={5}
-					justify='space-evenly'
+					py={10}
+					justify='space-between'
 					align='stretch'
 					height='100%'
 					direction='column'
 					gap={5}
 				>
-					{/* <Link
-						href='#'
-						onClick={() => {
-							window.scrollTo(0, 0);
-						}}
-						display='flex'
-						gap={2}
-						opacity={.7}
-						_hover={{
-							opacity: 1,
-						}}
-					>
-						<Image src={logo} alt='logo' w={10} h={10} objectFit='contain' />
-					</Link> */}
+					<div />
+					<Stack>
+						<NavItems navLinks={navLinks} />
+					</Stack>
 					<Stack
 						align='center'
 						fontSize={'small'}
@@ -205,11 +194,8 @@ export default function Navbar() {
 						>
 							{user.email}
 						</Heading>
+						<LogoutButton />
 					</Stack>
-					<Stack>
-						<NavItems navLinks={navLinks} />
-					</Stack>
-					<LogoutButton />
 				</Flex>
 			</Flex>
 		);

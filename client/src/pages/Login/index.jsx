@@ -53,7 +53,10 @@ export default function Login() {
 		callAPI('POST', userExists ? 'login' : 'register', user)
 			.then(res => res.json())
 			.then((res) => {
+				if (!res['user'])
+					throw new Error();
 				localStorage.setItem('user', JSON.stringify(res['user']));
+				window.location.href = '/';
 				window.location.reload();
 			})
 			.catch(e => alert(t('authError')))
