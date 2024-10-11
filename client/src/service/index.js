@@ -75,4 +75,14 @@ export const routes = [
 		component: Login,
 		public: true,
 	},
-]
+];
+
+export const excludedKeys = [
+	'_id',
+	'__v',
+	'id',
+	'adminId',
+	'scans',
+	'schoolLatitude',
+	'schoolLongitude',
+];

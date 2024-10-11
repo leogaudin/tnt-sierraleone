@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import AppContext from '../../context';
 import PagedGrid from '../../components/PagedGrid';
-import BoxCard from '../../components/BoxCard';
+import BoxCard from './components/BoxCard';
 
 export default function Boxes() {
 	const { boxes } = useContext(AppContext);
@@ -11,7 +11,7 @@ export default function Boxes() {
 			<PagedGrid
 				elements={boxes}
 				renderElement={(box) => (
-					<BoxCard box={box} />
+					<BoxCard box={box} key={box.id} />
 				)}
 			/>
 		</>
