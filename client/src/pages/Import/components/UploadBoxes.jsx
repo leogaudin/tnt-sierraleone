@@ -6,7 +6,7 @@ import { useState } from 'react';
 import UploadModal from './UploadModal';
 
 export default function UploadBoxes() {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { isOpen, onOpen } = useDisclosure();
 	const { t } = useTranslation();
 	const [file, setFile] = useState(null);
 
@@ -19,7 +19,6 @@ export default function UploadBoxes() {
 		<>
 			{file && (
 				<UploadModal
-					onClose={onClose}
 					isOpen={isOpen}
 					file={file}
 				/>

@@ -5,7 +5,6 @@ import { palette } from '../../../theme';
 import { handleDistributionList } from '../../../service/csv';
 
 export default function UploadModal({
-	onClose,
 	isOpen,
 	file,
 }) {
@@ -20,7 +19,6 @@ export default function UploadModal({
 	return (
 		<Modal
 			isOpen={isOpen}
-			onClose={output?.length ? null : onClose}
 			size='xl'
 		>
 			<ModalOverlay />
@@ -30,7 +28,6 @@ export default function UploadModal({
 				>
 					{t('addBoxes')}
 				</ModalHeader>
-				<ModalCloseButton />
 				<ModalBody>
 					{output?.length
 						? (
