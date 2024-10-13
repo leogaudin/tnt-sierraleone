@@ -30,7 +30,7 @@ export default function PagedTable({
 	...props
 }) {
 	const [currentPage, setCurrentPage] = useState(1);
-	const [pageSize, setPageSize] = useState(10);
+	const [pageSize, setPageSize] = useState(50);
 	const [sortField, setSortField] = useState('time');
 	const [sortOrder, setSortOrder] = useState('desc');
 	const [processedElements, setProcessedElements] = useState(null);

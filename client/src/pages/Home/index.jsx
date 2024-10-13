@@ -6,6 +6,7 @@ import { Card, Flex, Heading, HStack, Stack } from '@chakra-ui/react';
 import { sampleToRepartition } from '../../service/stats';
 import { progressColors } from '../../service';
 import { useTranslation } from 'react-i18next';
+import { palette } from '../../theme';
 
 export default function Home() {
 	const [groupedBoxes, setGroupedBoxes] = useState({});
@@ -54,7 +55,11 @@ export default function Home() {
 							align='center'
 							padding={5}
 						>
-							<Heading>{t('currently')}</Heading>
+							<Heading
+								color={palette.gray.main}
+							>
+								{t('currently')}
+							</Heading>
 							<HStack
 								gap={5}
 							>

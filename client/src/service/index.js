@@ -6,9 +6,11 @@ import Boxes from '../pages/Boxes';
 import Scans from '../pages/Scans';
 
 import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
-import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode } from 'react-icons/fa';
+import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
 import { IoMdExit } from 'react-icons/io';
+import { BiImport, BiExport } from "react-icons/bi";
 import { palette } from '../theme';
+import Import from '../pages/Import';
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -49,6 +51,9 @@ export const icons = {
 	eye: FaEye,
 	clock: FaClock,
 	qr: FaQrcode,
+	import: BiImport,
+	export: BiExport,
+	plus: FaPlus,
 }
 
 export const routes = [
@@ -74,10 +79,28 @@ export const routes = [
 		icon: icons.qr,
 	},
 	{
+		path: '/import',
+		component: Import,
+		title: i18n.t('import'),
+		inNav: true,
+		icon: icons.import,
+	},
+	{
 		path: '/auth',
 		component: Login,
 		public: true,
 	},
+];
+
+export const boxFields = [
+	'project',
+	'division',
+	'district',
+	'zone',
+	'school',
+	'htName',
+	'htPhone',
+	'schoolCode',
 ];
 
 export const excludedKeys = [

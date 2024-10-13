@@ -28,7 +28,7 @@ export default function RouteWrapper({ route }) {
 				justify='center'
 				direction='column'
 				overflow='scroll'
-				// padding={5}
+				padding={5}
 			>
 				{loading
 					? <BoxesLoading />

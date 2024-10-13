@@ -38,6 +38,13 @@ export default function BoxCard({
 
 	const progressColor = progressColors[progress];
 
+	const lastSeen = lastScan
+						? Math.round(haversineDistance(
+							{ latitude: lastScan.location.coords.latitude, longitude: lastScan.location.coords.longitude },
+							{ latitude: box.schoolLatitude, longitude: box.schoolLongitude },
+						) / 1000)
+						: null;
+
 	return (
 		<>
 			<BoxModal
@@ -112,21 +119,23 @@ export default function BoxCard({
 									color={progressColor}
 									icon={progressIcons[progress]}
 								/>
-								{lastScan
-									? (
+								{lastScan &&
+									(
 										<Text
-											fontWeight='normal'
 											color={progressColor}
 											opacity={.8}
+											textAlign='center'
 										>
-											{Math.round(haversineDistance(
-												{ latitude: lastScan.location.coords.latitude, longitude: lastScan.location.coords.longitude },
-												{ latitude: box.schoolLatitude, longitude: box.schoolLongitude },
-											) / 1000)} km {t('away')}
+											{t('lastSeen')}
+											<br />
+											<span
+												style={{
+													fontWeight: 'bold',
+												}}
+											>
+												{t('kmAway', { count: lastSeen } )}
+											</span>
 										</Text>
-									)
-									: (
-										null
 									)
 								}
 							</Stack>
