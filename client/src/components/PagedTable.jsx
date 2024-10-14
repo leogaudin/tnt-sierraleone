@@ -89,25 +89,6 @@ export default function PagedTable({
 	if (!elements) return <Loading />;
 	return (
 		<Stack>
-			{allowToChoosePageSize &&
-				<Flex
-					direction='column'
-					align='center'
-					padding={2}
-				>
-					<Text fontWeight='bold'>
-						{t('elementsPerPage')}
-					</Text>
-					<Select
-						focusBorderColor={palette.primary.dark}
-						value={pageSize}
-						onChange={e => setPageSize(parseInt(e.target.value))}
-						width={20}
-					>
-						{pageSizes.map(size => <option key={size} value={size}>{size}</option>)}
-					</Select>
-				</Flex>
-			}
 			<TableContainer>
 				<Table layout='fixed'>
 					<Thead>
@@ -165,6 +146,7 @@ export default function PagedTable({
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 				pageSize={pageSize}
+				setPageSize={setPageSize}
 			/>
 		</Stack>
 	)

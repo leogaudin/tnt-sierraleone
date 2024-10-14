@@ -9,6 +9,7 @@ import {
 import { palette } from '../../../theme';
 import { sampleToRepartition } from '../../../service/stats';
 import { useTranslation } from 'react-i18next';
+import { Flex } from '@chakra-ui/react';
 
 const getAllTimestamps = (sample) => {
 	const timestamps = [];
@@ -74,8 +75,14 @@ const getPercent = (value, total) => {
 	return `${(ratio * 100).toFixed(1)}%`;
 };
 
-export default function Timeline({ sample }) {
+export default function Timeline({
+	sample,
+	height = 400,
+}) {
 	const { t } = useTranslation();
+
+	if (!sample?.length || sample.flatMap(box => box.scans).length === 0)
+		return null;
 
 	const renderTooltipContent = o => {
 		const {
@@ -112,20 +119,24 @@ export default function Timeline({ sample }) {
 	};
 
 	return (
-		<ResponsiveContainer width='100%' height='100%'>
-			<AreaChart
-				// width={500}
-				// height={400}
-				data={sampleToTimeline(JSON.parse(JSON.stringify(sample)))}
-			>
-				<XAxis dataKey='name' />
-				<YAxis />
-				<Tooltip content={renderTooltipContent} />
-				<Area type='monotone' dataKey='validated' stackId='1' stroke={palette.success.main} fill={palette.success.main} />
-				<Area type='monotone' dataKey='reachedOrReceived' stackId='1' stroke={palette.warning.main} fill={palette.warning.main} />
-				<Area type='monotone' dataKey='inProgress' stackId='1' stroke={palette.info.main} fill={palette.info.main} />
-				<Area type='monotone' dataKey='noScans' stackId='1' stroke={palette.error.main} fill={palette.error.main} />
-			</AreaChart>
-		</ResponsiveContainer>
+		<Flex
+			height={height}
+		>
+			<ResponsiveContainer width='100%' height='100%'>
+				<AreaChart
+					// width={500}
+					// height={400}
+					data={sampleToTimeline(JSON.parse(JSON.stringify(sample)))}
+				>
+					<XAxis dataKey='name' />
+					<YAxis />
+					<Tooltip content={renderTooltipContent} />
+					<Area type='monotone' dataKey='validated' stackId='1' stroke={palette.success.main} fill={palette.success.main} />
+					<Area type='monotone' dataKey='reachedOrReceived' stackId='1' stroke={palette.warning.main} fill={palette.warning.main} />
+					<Area type='monotone' dataKey='inProgress' stackId='1' stroke={palette.info.main} fill={palette.info.main} />
+					<Area type='monotone' dataKey='noScans' stackId='1' stroke={palette.error.main} fill={palette.error.main} />
+				</AreaChart>
+			</ResponsiveContainer>
+		</Flex>
 	)
 }

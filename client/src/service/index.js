@@ -84,6 +84,7 @@ export const routes = [
 		title: i18n.t('import'),
 		inNav: true,
 		icon: icons.import,
+		worksWithoutBoxes: true,
 	},
 	{
 		path: '/auth',

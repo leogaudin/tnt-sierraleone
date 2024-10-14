@@ -5,10 +5,11 @@ import { navbarWidth, user } from '../service';
 import AppContext from '../context';
 import BoxesLoading from './BoxesLoading';
 import Navbar from './Navbar';
+import NothingToSee from './NothingToSee';
 
 export default function RouteWrapper({ route }) {
 	const navigate = useNavigate();
-	const { loading } = useContext(AppContext);
+	const { loading, boxes } = useContext(AppContext);
 
 	useEffect(() => {
 		if (!route.public && !user) {
@@ -30,9 +31,13 @@ export default function RouteWrapper({ route }) {
 				overflow='scroll'
 				padding={5}
 			>
-				{loading
-					? <BoxesLoading />
-					: <route.component />
+				{route.worksWithoutBoxes
+					? <route.component />
+					: loading
+						? <BoxesLoading />
+						: boxes?.length || route.public
+							? <route.component />
+							: <NothingToSee />
 				}
 			</Flex>
 		</Flex>

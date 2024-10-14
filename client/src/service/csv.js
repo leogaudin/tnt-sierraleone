@@ -80,9 +80,16 @@ export async function handleDistributionList(file, setOutput) {
 				const payload = {
 					data: lzstring.compressToEncodedURIComponent(JSON.stringify(buffer)),
 				};
-				// callAPI('POST', 'boxes', payload)
-				addBoxes(payload)
+				callAPI('POST', 'boxes', payload)
+				// addBoxes(payload)
 					.then((res) => {
+						if (res.status >= 400)
+							throw new Error(res.statusText);
+						return res;
+					})
+					.then((res) => res.json())
+					.then((res) => {
+						console.log(res);
 						responses.push(res);
 						uploaded += buffer.length;
 						setOutput(prev => {
@@ -103,9 +110,11 @@ export async function handleDistributionList(file, setOutput) {
 								const invalids = invalid.map((instance) => {
 									const instanceFields = {};
 									boxFields.forEach((field) => {
-										instanceFields[field] = instance[field];
+										if (field in instance)
+											instanceFields[field] = instance[field];
 									});
-									return JSON.stringify(instanceFields);
+									if (Object.keys(instanceFields).length)
+										return JSON.stringify(instanceFields);
 								});
 
 								const invalidOutput = invalids.length
@@ -130,6 +139,7 @@ export async function handleDistributionList(file, setOutput) {
 						}
 					})
 					.catch((err) => {
+						console.error(err);
 						setOutput(prev => {
 							return [...prev,
 								`Error uploading items`,

@@ -42,14 +42,10 @@ export default function Home() {
 						>
 							{key}
 						</Heading>
-						<Flex
-							height='400px'
-						>
-							<Timeline
-								key={i}
-								sample={sample}
-							/>
-						</Flex>
+						<Timeline
+							key={i}
+							sample={sample}
+						/>
 						<Stack
 							// width='100%'
 							align='center'

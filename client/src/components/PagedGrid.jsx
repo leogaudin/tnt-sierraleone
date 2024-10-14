@@ -18,10 +18,6 @@ export default function PagedGrid({
 	const [currentPage, setCurrentPage] = useState(1);
 	const [pageSize, setPageSize] = useState(20);
 
-	const { t } = useTranslation();
-
-	const pageSizes = [10, 20, 50, 100, 500];
-
 	return (
 		<Stack>
 			<Flex
@@ -29,17 +25,6 @@ export default function PagedGrid({
 				align='center'
 				padding={2}
 			>
-				<Text fontWeight='bold'>
-					{t('elementsPerPage')}
-				</Text>
-				<Select
-					focusBorderColor={palette.primary.dark}
-					value={pageSize}
-					onChange={e => setPageSize(parseInt(e.target.value))}
-					width={20}
-				>
-					{pageSizes.map(size => <option key={size} value={size}>{size}</option>)}
-				</Select>
 				<SimpleGrid
 					columns={{ base: 1, lg: 2 }}
 					spacing={5}
@@ -57,6 +42,7 @@ export default function PagedGrid({
 					currentPage={currentPage}
 					setCurrentPage={setCurrentPage}
 					pageSize={pageSize}
+					setPageSize={setPageSize}
 				/>
 			</Flex>
 		</Stack>

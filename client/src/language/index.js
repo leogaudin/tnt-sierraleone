@@ -83,6 +83,8 @@ i18n
 					upload: 'Upload',
 					addBoxes: 'Add boxes',
 					columnOrder: 'Column order',
+					nothingToSee: 'Nothing to see here',
+					nothingToSeePrompt: 'Go to the Import page',
 				},
 			},
 		},

@@ -27,7 +27,8 @@ export const AppProvider = ({ children }) => {
 					const skip = responses.length;
 					const request = await callAPI('GET', `boxes/${user.id}?skip=${skip}&limit=${limit}`);
 					const response = await request.json();
-					responses.push(...response?.data);
+					if (response?.data?.length)
+						responses.push(...response?.data);
 					if ((response?.data?.length || 0) < limit)
 						break;
 				}
@@ -36,6 +37,7 @@ export const AppProvider = ({ children }) => {
 				setBoxes(responses);
 				return responses;
 			} catch (err) {
+				console.error(err);
 				toast({
 					title: 'Error',
 					description: err.response?.data?.message || err.message,
