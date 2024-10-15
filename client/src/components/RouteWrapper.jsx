@@ -6,6 +6,8 @@ import AppContext from '../context';
 import BoxesLoading from './BoxesLoading';
 import Navbar from './Navbar';
 import NothingToSee from './NothingToSee';
+import { Helmet } from 'react-helmet-async';
+import { name } from '../service/specific';
 
 export default function RouteWrapper({ route }) {
 	const navigate = useNavigate();
@@ -18,28 +20,35 @@ export default function RouteWrapper({ route }) {
 	}, []);
 
 	return (
-		<Flex
-			direction={{ base: 'column', md: 'row' }}
-		>
-			{user && <Navbar />}
+		<>
+			<Helmet>
+				<title>
+					{route.title ? `${route.title} - ${name}` : name}
+				</title>
+			</Helmet>
 			<Flex
-				marginLeft={{ base: 0, md: user ? navbarWidth : 0 }}
-				width='100%'
-				height='100%'
-				justify='center'
-				direction='column'
-				overflow='scroll'
-				padding={5}
+				direction={{ base: 'column', md: 'row' }}
 			>
-				{route.worksWithoutBoxes
-					? <route.component />
-					: loading
-						? <BoxesLoading />
-						: boxes?.length || route.public
-							? <route.component />
-							: <NothingToSee />
-				}
+				{user && <Navbar />}
+				<Flex
+					marginLeft={{ base: 0, md: user ? navbarWidth : 0 }}
+					width='100%'
+					height='100%'
+					justify='center'
+					direction='column'
+					overflow='scroll'
+					padding={5}
+				>
+					{route.worksWithoutBoxes
+						? <route.component />
+						: loading
+							? <BoxesLoading />
+							: boxes?.length || route.public
+								? <route.component />
+								: <NothingToSee />
+					}
+				</Flex>
 			</Flex>
-		</Flex>
+		</>
 	)
 }
