@@ -9,8 +9,10 @@ import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
 import { IoMdExit, IoMdRefresh } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
+import { MdDelete } from 'react-icons/md';
 import { palette } from '../theme';
 import Import from '../pages/Import';
+import Export from '../pages/Export';
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -55,6 +57,7 @@ export const icons = {
 	export: BiExport,
 	plus: FaPlus,
 	refresh: IoMdRefresh,
+	delete: MdDelete,
 }
 
 export const routes = [
@@ -86,6 +89,13 @@ export const routes = [
 		inNav: true,
 		icon: icons.import,
 		worksWithoutBoxes: true,
+	},
+	{
+		path: '/export',
+		component: Export,
+		title: i18n.t('export'),
+		inNav: true,
+		icon: icons.export,
 	},
 	{
 		path: '/auth',

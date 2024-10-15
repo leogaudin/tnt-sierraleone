@@ -10,6 +10,7 @@ export default function BoxesLoading() {
 			direction={{ base: 'column', md: 'row' }}
 			justify='center'
 			align='center'
+			textAlign='center'
 			color={palette.primary.dark}
 			marginTop='33vh'
 		>
