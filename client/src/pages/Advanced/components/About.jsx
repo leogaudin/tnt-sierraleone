@@ -1,8 +1,11 @@
-import { Flex, Heading, HStack, Text } from "@chakra-ui/react";
-import { palette } from "../../../theme";
-import { API_URL } from "../../../service";
+import { Flex, Heading, HStack, Text } from '@chakra-ui/react';
+import { palette } from '../../../theme';
+import { API_URL } from '../../../service';
+import { useTranslation } from 'react-i18next';
 
 export default function About() {
+	const { t } = useTranslation();
+
 	return (
 		<Flex
 			direction='column'
@@ -10,7 +13,7 @@ export default function About() {
 			align='stretch'
 			gap={5}
 		>
-			<Heading>About</Heading>
+			<Heading>{t('about')}</Heading>
 			<HStack
 				gap={2.5}
 			>

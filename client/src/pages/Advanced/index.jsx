@@ -52,7 +52,7 @@ export default function Advanced() {
 					variant='solid'
 					onClick={onOpen}
 				>
-					Delete
+					{t('delete')}
 				</Button>
 				<ConfirmDialog
 					message={t('deletePrompt')}

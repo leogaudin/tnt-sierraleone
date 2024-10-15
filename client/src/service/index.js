@@ -63,7 +63,7 @@ export const icons = {
 	settings: IoMdSettings,
 }
 
-export const routes = [
+export const getRoutes = () => [
 	{
 		path: '/auth',
 		component: Login,

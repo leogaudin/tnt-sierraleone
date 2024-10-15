@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
 	Flex,
 	Box,
@@ -10,12 +10,15 @@ import {
 	Text,
 	Icon,
 	Button,
+	Select,
 } from '@chakra-ui/react';
 import { palette } from '../theme';
 import { HamburgerIcon, SmallCloseIcon } from '@chakra-ui/icons';
-import { icons, navbarWidth, routes, user } from '../service';
+import { getRoutes, icons, navbarWidth, user } from '../service';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import i18n, { languages } from '../language';
+import AppContext from '../context';
 
 export default function Navbar() {
 	const [scrolled, setScrolled] = useState(false);
@@ -23,6 +26,7 @@ export default function Navbar() {
 	const [isMobile] = useMediaQuery('(max-width: 48em)');
 
 	const { t } = useTranslation();
+	const { language, setLanguage } = useContext(AppContext);
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -34,7 +38,7 @@ export default function Navbar() {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	const navLinks = routes.filter((route) => route.inNav);
+	const navLinks = getRoutes().filter((route) => route.inNav);
 
 	const current = window.location.pathname;
 
@@ -188,6 +192,23 @@ export default function Navbar() {
 						align='center'
 						fontSize={'small'}
 					>
+						<Select
+							value={language}
+							onChange={(event) => {
+								setLanguage(event.target.value);
+								i18n.changeLanguage(event.target.value);
+							}}
+							focusBorderColor='gray'
+							fontSize='inherit'
+							width='fit-content'
+							marginY={3}
+						>
+							{languages.map((language) => (
+								<option key={language.code} value={language.code}>
+									{language.label}
+								</option>
+							))}
+						</Select>
 						<Text>{t('loggedInAs')}</Text>
 						<Heading
 							fontSize='inherit'
