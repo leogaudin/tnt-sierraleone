@@ -7,7 +7,7 @@ import Scans from '../pages/Scans';
 
 import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
-import { IoMdExit } from 'react-icons/io';
+import { IoMdExit, IoMdRefresh } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
 import { palette } from '../theme';
 import Import from '../pages/Import';
@@ -54,6 +54,7 @@ export const icons = {
 	import: BiImport,
 	export: BiExport,
 	plus: FaPlus,
+	refresh: IoMdRefresh,
 }
 
 export const routes = [

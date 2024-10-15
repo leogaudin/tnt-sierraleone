@@ -1,12 +1,12 @@
 import { Flex, Heading, Icon, Text, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { boxFields, icons } from '../../../service';
+import { icons } from '../../../service';
 import DragDrop from '../../../components/DragDrop';
 import { useState } from 'react';
 import UploadModal from './UploadModal';
-import { uploadDistributionList } from '../../../service/csv';
+import { updateGPSCoordinates } from '../../../service/csv';
 
-export default function UploadBoxes() {
+export default function UpdateGPS() {
 	const { isOpen, onOpen } = useDisclosure();
 	const { t } = useTranslation();
 	const [file, setFile] = useState(null);
@@ -22,7 +22,7 @@ export default function UploadBoxes() {
 				<UploadModal
 					isOpen={isOpen}
 					file={file}
-					handleFile={uploadDistributionList}
+					handleFile={updateGPSCoordinates}
 				/>
 			)}
 			<DragDrop
@@ -36,11 +36,11 @@ export default function UploadBoxes() {
 					gap={2.5}
 				>
 					<Icon
-						as={icons.plus}
+						as={icons.refresh}
 						boxSize={5}
 					/>
 					<Heading>
-						{t('addBoxes')}
+						{t('updateGPS')}
 					</Heading>
 				</Flex>
 				<Heading
@@ -48,13 +48,13 @@ export default function UploadBoxes() {
 					fontWeight='light'
 					lineHeight={1.5}
 				>
-					{t('uploadPrompt')}
+					{t('updateGPSPrompt')}
 				</Heading>
 				<Text
 					opacity={0.5}
 				>
 					{t('columnOrder')}{': '}
-					<code>{boxFields.join(', ') + `, ${t('latitude')}, ${t('longitude')}`}</code>
+					<code>{`${t('school')}, ${t('district')}, ${t('latitude')}, ${t('longitude')}`}</code>
 				</Text>
 			</DragDrop>
 		</>

@@ -85,6 +85,8 @@ i18n
 					columnOrder: 'Column order',
 					nothingToSee: 'Nothing to see here',
 					nothingToSeePrompt: 'Go to the Import page',
+					updateGPS: 'Update GPS',
+					updateGPSPrompt: 'Update the GPS coordinates of the boxes',
 				},
 			},
 		},

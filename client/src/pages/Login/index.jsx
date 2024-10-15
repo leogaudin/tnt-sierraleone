@@ -56,7 +56,6 @@ export default function Login() {
 				if (!res['user'])
 					throw new Error();
 				localStorage.setItem('user', JSON.stringify(res['user']));
-				window.location.href = '/';
 				window.location.reload();
 			})
 			.catch(e => alert(t('authError')))

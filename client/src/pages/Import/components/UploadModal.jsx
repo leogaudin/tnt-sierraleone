@@ -2,18 +2,23 @@ import { Flex, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, Mo
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { palette } from '../../../theme';
-import { handleDistributionList } from '../../../service/csv';
 
+/**
+ * @param boolean isOpen
+ * @param File file
+ * @param (file: File, setOutput: Function) => void handleFile
+ */
 export default function UploadModal({
 	isOpen,
 	file,
+	handleFile,
 }) {
 	if (!file) return null;
 	const [output, setOutput] = useState([]);
 	const { t } = useTranslation();
 
 	useEffect(() => {
-		handleDistributionList(file, setOutput)
+		handleFile(file, setOutput);
 	}, [file]);
 
 	return (
@@ -23,11 +28,6 @@ export default function UploadModal({
 		>
 			<ModalOverlay />
 			<ModalContent>
-				<ModalHeader
-					fontWeight='bold'
-				>
-					{t('addBoxes')}
-				</ModalHeader>
 				<ModalBody>
 					{output?.length
 						? (
@@ -38,6 +38,7 @@ export default function UploadModal({
 								borderRadius={10}
 								overflowY='scroll'
 								maxHeight='70vh'
+								width='100%'
 								direction='column'
 							>
 								{output?.map((line, i) => {
@@ -53,7 +54,7 @@ export default function UploadModal({
 								})}
 							</Flex>
 						)
-						: null
+						: <code>{t('loading')}...</code>
 					}
 				</ModalBody>
 			</ModalContent>
