@@ -92,6 +92,11 @@ i18n
 					filters: 'Filters',
 					select: 'Select {{option}}',
 					itemsSelected: '{{count}} items selected',
+					printableLabels: 'Printable labels',
+					printableLabelsDetail: 'Downloads the box labels with QR codes, in order to be printed',
+					currentDeliveryReport: 'Current delivery report',
+					currentDeliveryReportDetail: 'Downloads a report with every box as an entry, including important scans metadata',
+
 				},
 			},
 		},
