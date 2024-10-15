@@ -14,7 +14,8 @@ import {
 } from '@react-pdf/renderer';
 import QRCode from 'qrcode';
 import JSZip from 'jszip';
-import { boxFields, icons } from '../../../service';
+import { icons } from '../../../service';
+import { boxFields } from '../../../service/specific';
 import { Button, Tooltip, Text, Stack, HStack, Icon } from '@chakra-ui/react';
 
 const PDFExport = ({ objects, folderName = 'Documents' }) => {

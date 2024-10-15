@@ -1,10 +1,11 @@
 import { Flex, Heading, Icon, Text, useDisclosure } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { boxFields, icons } from '../../../service';
+import { icons } from '../../../service';
 import DragDrop from '../../../components/DragDrop';
 import { useState } from 'react';
 import UploadModal from './UploadModal';
 import { uploadDistributionList } from '../../../service/csv';
+import { boxFields } from '../../../service/specific';
 
 export default function UploadBoxes() {
 	const { isOpen, onOpen } = useDisclosure();

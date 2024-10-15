@@ -2,19 +2,12 @@ import {
 	extendTheme,
 	baseTheme,
 } from '@chakra-ui/react'
-
-const primary = {
-	lightest: '#F0F5FF',
-	light: '#EBF0FE',
-	main: '#0949FF',
-	dark: '#0033C0',
-	darkest: '#001D6A',
-}
+import { colors } from '../service/specific'
 
 export const palette = {
 	text: 'black',
 	background: 'white',
-	primary: primary,
+	primary: colors,
 	success: {
 		light: baseTheme.colors.green[100],
 		main: baseTheme.colors.green[500],

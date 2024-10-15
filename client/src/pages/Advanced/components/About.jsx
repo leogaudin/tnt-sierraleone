@@ -1,6 +1,6 @@
 import { Flex, Heading, HStack, Text } from '@chakra-ui/react';
 import { palette } from '../../../theme';
-import { API_URL } from '../../../service';
+import { API_URL } from '../../../service/specific';
 import { useTranslation } from 'react-i18next';
 
 export default function About() {

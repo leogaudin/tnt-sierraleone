@@ -15,6 +15,7 @@ import { icons } from "../../../service";
 import { useTranslation } from "react-i18next";
 import { getLastFinalScan, getLastMarkedAsReceivedScan } from "../../../service/stats";
 import { haversineDistance } from "../../../service/utils";
+import { essentialFields } from '../../../service/specific';
 
 function downloadJson(data, filename) {
 	const blob = new Blob([ JSON.stringify(data) ], { type: 'application/json' });
@@ -57,10 +58,18 @@ export default function Report({ boxes }) {
 		const receivedDistanceInMeters = receivedCoords ? Math.round(haversineDistance(schoolCoords, receivedCoords)) : '';
 		const lastScanDistanceInMeters = lastScan ? Math.round(haversineDistance(schoolCoords, lastScan.location.coords)) : '';
 
-		return {
+		const result = {
 			id: box.id,
-			district: box.district,
-			school: box.school,
+		};
+
+		essentialFields.forEach(field => {
+			if (box[field]) {
+				result[field] = box[field];
+			}
+		});
+
+		return {
+			...result,
 			schoolLatitude: box.schoolLatitude,
 			schoolLongitude: box.schoolLongitude,
 			lastScanLatitude: lastScan?.location?.coords.latitude || '',

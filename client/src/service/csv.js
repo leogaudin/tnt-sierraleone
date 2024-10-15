@@ -1,7 +1,8 @@
 import Papa from 'papaparse';
 import SparkMD5 from 'spark-md5';
-import { boxFields, callAPI } from '.';
+import { callAPI } from '.';
 import lzstring from 'lz-string';
+import { boxFields, essentialFields } from './specific';
 
 // export async function addBoxes(payload) {
 // 	return new Promise((resolve, reject) => {
@@ -174,7 +175,7 @@ export async function updateGPSCoordinates(file, setOutput) {
 		step: (element) => {
 			try {
 				const newBox = {};
-				const fields = ['school', 'district', 'schoolLatitude', 'schoolLongitude'];
+				const fields = [...essentialFields, 'schoolLatitude', 'schoolLongitude'];
 
 				fields.forEach((field, index) => {
 					if (!element.data[index])

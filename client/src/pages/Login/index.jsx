@@ -8,6 +8,7 @@ import {
 	Button,
 	Collapse,
 	Flex,
+	Image,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { palette } from '../../theme';
@@ -84,7 +85,7 @@ export default function Login() {
 	}, [showFullForm]);
 
 	return (
-		<Flex height='100vh'>
+		<Flex height='90vh' direction={{ base: 'column', md: 'row' }} justify='center'>
 			<Flex
 				width='xs'
 				mx='auto'
@@ -167,6 +168,14 @@ export default function Login() {
 					</Button>
 				)}
 			</Flex>
+			<Image
+				src='/favicon.svg'
+				alt='logo'
+				width='100%'
+				height='auto'
+				maxWidth='33vw'
+				mx='auto'
+			/>
 		</Flex>
 	);
 }

@@ -184,7 +184,17 @@ export default function Navbar() {
 					direction='column'
 					gap={5}
 				>
-					<div />
+					<Flex
+						justify='center'
+					>
+						<Image
+							src='/favicon.svg'
+							alt='logo'
+							width='100%'
+							height='auto'
+							maxWidth='100px'
+						/>
+					</Flex>
 					<Stack>
 						<NavItems navLinks={navLinks} />
 					</Stack>

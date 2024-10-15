@@ -14,12 +14,7 @@ import { IoMdExit, IoMdRefresh, IoMdSettings } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
 import { MdDelete } from 'react-icons/md';
 import { palette } from '../theme';
-
-export const API_URL =
-						// process.env.NODE_ENV === 'development'
-						// ? 'http://localhost:3000/api'
-						// :
-						'https://track-and-trace-api.vercel.app/api'
+import { API_URL } from './specific';
 
 export const user = JSON.parse(localStorage.getItem('user'));
 
@@ -112,27 +107,6 @@ export const getRoutes = () => [
 		inNav: true,
 		icon: icons.settings,
 	},
-];
-
-export const boxFields = [
-	'project',
-	'division',
-	'district',
-	'zone',
-	'school',
-	'htName',
-	'htPhone',
-	'schoolCode',
-];
-
-export const excludedKeys = [
-	'_id',
-	'__v',
-	'id',
-	'adminId',
-	'scans',
-	'schoolLatitude',
-	'schoolLongitude',
 ];
 
 export const progressColors = {

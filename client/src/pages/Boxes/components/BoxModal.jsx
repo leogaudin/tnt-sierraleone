@@ -11,11 +11,11 @@ import {
 	Divider,
 } from '@chakra-ui/react'
 import { useTranslation } from 'react-i18next';
-import { excludedKeys } from '../../../service';
 import { QRCodeSVG } from 'qrcode.react';
 import ScansMap from './ScansMap';
 import PagedTable from '../../../components/PagedTable';
 import { timeAgo } from '../../../service/utils';
+import { excludedKeys } from '../../../service/specific';
 
 export default function BoxModal({
 	isOpen,

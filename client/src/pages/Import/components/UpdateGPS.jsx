@@ -5,6 +5,7 @@ import DragDrop from '../../../components/DragDrop';
 import { useState } from 'react';
 import UploadModal from './UploadModal';
 import { updateGPSCoordinates } from '../../../service/csv';
+import { essentialFields } from '../../../service/specific';
 
 export default function UpdateGPS() {
 	const { isOpen, onOpen } = useDisclosure();
@@ -54,7 +55,7 @@ export default function UpdateGPS() {
 					opacity={0.5}
 				>
 					{t('columnOrder')}{': '}
-					<code>{`${t('school')}, ${t('district')}, ${t('latitude')}, ${t('longitude')}`}</code>
+					<code>{`${essentialFields.join(', ')}, ${t('latitude')}, ${t('longitude')}`}</code>
 				</Text>
 			</DragDrop>
 		</>

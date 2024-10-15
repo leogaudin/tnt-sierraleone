@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { excludedKeys, icons, progressColors } from '../service';
+import { icons, progressColors } from '../service';
 import {
 	Select,
 	IconButton,
@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { palette } from '../theme';
 import { getProgress } from '../service/stats';
+import { excludedKeys } from '../service/specific';
 
 export default function BoxFiltering({
 	boxes,
@@ -110,7 +111,7 @@ export default function BoxFiltering({
 					{Array.from(new Set(boxes.map((box) => box[filter.field]))).map((option) => {
 						if (isPossible(filters, filter.field, option))
 							return (
-								<option key={option} value={option} selected={filter.value === option}>
+								<option key={option} value={option}>
 									{option}
 								</option>
 							)
