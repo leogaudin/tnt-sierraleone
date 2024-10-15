@@ -94,7 +94,7 @@ export default function Timeline({
 			<div
 				style={{
 					background: '#fff',
-					border: '1px solid #ccc',
+					border: '1.5px solid #ccc',
 					margin: 0,
 					padding: 10,
 					borderRadius: 5

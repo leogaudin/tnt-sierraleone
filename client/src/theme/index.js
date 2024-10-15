@@ -36,9 +36,11 @@ export const palette = {
 		dark: baseTheme.colors.blue[900],
 	},
 	gray: {
+		lightest: '#FAFAFA',
 		light: '#F8F8F8',
 		main: '#929292',
 		dark: '#424242',
+		darkest: '#212121',
 	}
 }
 

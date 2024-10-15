@@ -64,7 +64,7 @@ export default function DragDrop({
 			width='100%'
 			height={height}
 			borderRadius={15}
-			border={`1px solid ${palette.primary.dark}`}
+			border={`1.5px solid ${palette.primary.dark}`}
 			bg={hover ? palette.primary.light : 'transparent'}
 			align='center'
 			justify='center'

@@ -98,7 +98,7 @@ function ScansMap({
 				height: `${marker.properties.iconSize[1]}px`,
 				padding: '10px',
 				borderRadius: '50%',
-				border: `1px solid ${marker.properties.color}`,
+				border: `1.5px solid ${marker.properties.color}`,
 				backgroundColor: 'white',
 				cursor: 'pointer',
 			};

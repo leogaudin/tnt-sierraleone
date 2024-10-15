@@ -137,7 +137,7 @@ export default function BoxFiltering({
 			textAlign='center'
 			padding={5}
 			gap={2.5}
-			border={`1px solid ${palette.gray.main}`}
+			bg={palette.gray.lightest}
 			borderRadius={15}
 		>
 			<Text fontWeight='bold'>{t('filters')}</Text>
@@ -166,6 +166,7 @@ export default function BoxFiltering({
 				defaultValue='any'
 				onChange={handleProgressChange}
 				focusBorderColor={palette.primary.dark}
+				borderColor={palette.primary.light}
 			>
 				<option value='any'>{t('any')}</option>
 				{Object.keys(progressColors).map((key) => (

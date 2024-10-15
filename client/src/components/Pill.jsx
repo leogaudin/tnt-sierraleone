@@ -18,7 +18,7 @@ export default function Pill({
 
 	const additionalStyles = {
 		backgroundColor: variant === 'solid' ? color + '25' : 'transparent',
-		border: variant === 'outline' ? `1px solid ${color}` : 'none',
+		border: variant === 'outline' ? `1.5px solid ${color}` : 'none',
 		justifyContent: icon ? 'left' : 'center',
 		padding: text ? '0.25rem 0.75rem' : '0.5rem',
 	};
