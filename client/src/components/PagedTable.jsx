@@ -125,7 +125,11 @@ export default function PagedTable({
 									onClick={onRowClick ? () => onRowClick(element) : null}
 								>
 									{fields.map((field, index) => (
-										<Td key={index} overflow='hidden' textOverflow='ellipsis'>
+										<Td
+											key={index}
+											whiteSpace='normal'
+											overflowWrap='break-word'
+										>
 											{transforms[field]
 												? transforms[field](element[field])
 												: (typeof element[field] === 'boolean'

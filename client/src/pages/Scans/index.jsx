@@ -55,6 +55,7 @@ export default function Scans() {
 				]}
 				transforms={{
 					time: (time) => timeAgo(time),
+					boxId: (boxId) => <code>{`${boxId.slice(0, 5)}...`}</code>
 				}}
 				onRowClick={handleClick}
 			/>
