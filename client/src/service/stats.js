@@ -48,12 +48,10 @@ export function getProgress(box) {
 	return 'inProgress';
 }
 
-export function getStatusPercentage(sample, status = 'delivered') {
-	sample.forEach(box => {
-		box.progress = getProgress(box);
-	});
+export function getStatusPercentage(sample, status = 'validated') {
+	const boxes = sample.map(box => { return { ...box, progress: getProgress(box) } });
 
-	const deliveredBoxes = sample.filter(box => box.progress === status).length;
+	const deliveredBoxes = boxes.filter(box => box.progress === status).length;
 
 	return (deliveredBoxes / sample.length) * 100;
 }

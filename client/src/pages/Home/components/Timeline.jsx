@@ -100,7 +100,7 @@ export default function Timeline({
 					borderRadius: 5
 				}}
 			>
-				<h3>{`${label} (Total: ${total})`}</h3>
+				<h3>{`${label}`}</h3>
 				<ul
 					style={{
 						listStyle: 'none'
@@ -113,6 +113,7 @@ export default function Timeline({
 							{`${t(entry.name)}: ${entry.value} (${getPercent(entry.value, total)})`}
 						</li>
 					))}
+					<li style={{ fontWeight: 'light' }}>{`${t('total')}: ${total}`}</li>
 				</ul>
 			</div>
 		);

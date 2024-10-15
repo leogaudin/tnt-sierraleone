@@ -2,8 +2,8 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../../context';
 import Timeline from './components/Timeline';
 import { groupByProperty } from '../../service/utils'
-import { Card, Flex, Heading, HStack, Stack } from '@chakra-ui/react';
-import { sampleToRepartition } from '../../service/stats';
+import { Card, Flex, Heading, HStack, Progress, Stack } from '@chakra-ui/react';
+import { getStatusPercentage, sampleToRepartition } from '../../service/stats';
 import { progressColors } from '../../service';
 import { useTranslation } from 'react-i18next';
 import { palette } from '../../theme';
@@ -27,6 +27,7 @@ export default function Home() {
 				if (!sample) return null;
 
 				const repartition = sampleToRepartition(sample);
+				const progress = getStatusPercentage(sample);
 
 				return (
 					<Card
@@ -36,12 +37,34 @@ export default function Home() {
 						overflow='hidden'
 						shadow='md'
 					>
-						<Heading
-							size='md'
-							p={4}
+						<Stack
+							marginTop={5}
+							marginBottom={10}
 						>
-							{key}
-						</Heading>
+							<Heading
+								size='md'
+								paddingX={4}
+								fontWeight='normal'
+							>
+								{key}
+							</Heading>
+							<Heading
+								size='lg'
+								paddingX={4}
+								fontWeight='light'
+							>
+								<span style={{ fontWeight: 'bold' }}>{progress.toFixed(2)}%</span>
+								{' '}{t('validated').toLowerCase()}
+							</Heading>
+							<Progress
+								hasStripe
+								isAnimated
+								colorScheme='green'
+								// bgColor={palette.success.main}
+								size='sm'
+								value={progress}
+							/>
+						</Stack>
 						<Timeline
 							key={i}
 							sample={sample}
@@ -49,10 +72,12 @@ export default function Home() {
 						<Stack
 							// width='100%'
 							align='center'
+							textAlign='center'
 							padding={5}
 						>
 							<Heading
 								color={palette.gray.main}
+								fontWeight='light'
 							>
 								{t('currently')}
 							</Heading>
