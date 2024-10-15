@@ -4,15 +4,15 @@ import Home from '../pages/Home';
 import Login from '../pages/Login'
 import Boxes from '../pages/Boxes';
 import Scans from '../pages/Scans';
+import Import from '../pages/Import';
+import Export from '../pages/Export';
 
-import { IoHome, IoClose, IoCheckmark } from 'react-icons/io5';
+import { IoHome, IoClose, IoCheckmark, IoPrint } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
 import { IoMdExit, IoMdRefresh } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
 import { MdDelete } from 'react-icons/md';
 import { palette } from '../theme';
-import Import from '../pages/Import';
-import Export from '../pages/Export';
 
 export const API_URL =
 						// process.env.NODE_ENV === 'development'
@@ -58,6 +58,7 @@ export const icons = {
 	plus: FaPlus,
 	refresh: IoMdRefresh,
 	delete: MdDelete,
+	print: IoPrint,
 }
 
 export const routes = [
