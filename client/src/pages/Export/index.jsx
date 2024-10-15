@@ -15,18 +15,13 @@ export default function Export() {
 		<Flex
 			wrap='wrap'
 			justify='center'
-			align='center'
+			align='stretch'
 			direction='column'
 			gap={5}
 		>
 			<BoxFiltering
 				boxes={boxes}
 				setFilteredBoxes={setFiltered}
-			/>
-			<Icon
-				as={icons.down}
-				color={palette.gray.dark}
-				boxSize={10}
 			/>
 			<Stack>
 				<PDFExport

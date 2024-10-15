@@ -92,7 +92,6 @@ export default function BoxFiltering({
 					onChange={(event) => handleFieldChange(index, event)}
 					focusBorderColor={palette.primary.dark}
 				>
-					{/* <option key='blank' value=''>{t('select', { option: t('field') })}</option> */}
 					{availableOptions.map((field) => {
 						if (filters.some((filter) => filter.field === field)) return null;
 						return (
@@ -108,7 +107,6 @@ export default function BoxFiltering({
 					onChange={(event) => handleValueChange(index, event)}
 					focusBorderColor={palette.primary.dark}
 				>
-					{/* <option key='blank' value=''>{t('select', { option: t('value') })}</option> */}
 					{Array.from(new Set(boxes.map((box) => box[filter.field]))).map((option) => {
 						if (isPossible(filters, filter.field, option))
 							return (
@@ -147,7 +145,6 @@ export default function BoxFiltering({
 				gap={2.5}
 				wrap='wrap'
 			>
-				{/* Filters */}
 				{filters.map((filter, index) => (
 					<FilterSelect key={index} filter={filter} index={index} />
 				))}
@@ -155,9 +152,6 @@ export default function BoxFiltering({
 					variant='outline'
 					icon={<icons.plus />}
 					onClick={addFilter}
-					color={palette.primary.dark}
-					borderColor={palette.primary.dark}
-					bg='transparent'
 				/>
 			</Flex>
 			<Text fontWeight='bold'>{t('progress')}</Text>
@@ -178,7 +172,6 @@ export default function BoxFiltering({
 			<Text
 				fontSize='small'
 				fontWeight='bold'
-				// color={palette.gray.dark}
 				textTransform='uppercase'
 				marginY={5}
 			>
