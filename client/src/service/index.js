@@ -6,10 +6,11 @@ import Boxes from '../pages/Boxes';
 import Scans from '../pages/Scans';
 import Import from '../pages/Import';
 import Export from '../pages/Export';
+import Advanced from '../pages/Advanced';
 
 import { IoHome, IoClose, IoCheckmark, IoPrint } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
-import { IoMdExit, IoMdRefresh } from 'react-icons/io';
+import { IoMdExit, IoMdRefresh, IoMdSettings } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
 import { MdDelete } from 'react-icons/md';
 import { palette } from '../theme';
@@ -59,9 +60,15 @@ export const icons = {
 	refresh: IoMdRefresh,
 	delete: MdDelete,
 	print: IoPrint,
+	settings: IoMdSettings,
 }
 
 export const routes = [
+	{
+		path: '/auth',
+		component: Login,
+		public: true,
+	},
 	{
 		path: '/',
 		component: Home,
@@ -99,9 +106,11 @@ export const routes = [
 		icon: icons.export,
 	},
 	{
-		path: '/auth',
-		component: Login,
-		public: true,
+		path: '/advanced',
+		component: Advanced,
+		title: i18n.t('advanced'),
+		inNav: true,
+		icon: icons.settings,
 	},
 ];
 

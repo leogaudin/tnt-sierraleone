@@ -96,7 +96,12 @@ i18n
 					printableLabelsDetail: 'Downloads the box labels with QR codes, in order to be printed',
 					currentDeliveryReport: 'Current delivery report',
 					currentDeliveryReportDetail: 'Downloads a report with every box as an entry, including important scans metadata',
-
+					cancel: 'Cancel',
+					confirm: 'Confirm',
+					confirmAction: 'Confirm action',
+					delete: 'Delete',
+					deletePrompt: 'Are you sure you want to delete the selected boxes?',
+					advanced: 'Advanced',
 				},
 			},
 		},
