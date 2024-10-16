@@ -18,15 +18,15 @@ export function getLastMarkedAsReceivedScan(box) {
 	});
 }
 
-export function getLastInProgressScan(box) {
-	const scans = box.scans;
-	if (!scans || !scans.length) return null;
-	const inProgressScans = scans.filter(scan => !scan.finalDestination && !scan.markedAsReceived);
-	if (!inProgressScans.length) return null;
-	return inProgressScans.reduce((acc, scan) => {
-		return acc.time > scan.time ? acc : scan;
-	});
-}
+// export function getLastInProgressScan(box) {
+// 	const scans = box.scans;
+// 	if (!scans || !scans.length) return null;
+// 	const inProgressScans = scans.filter(scan => !scan.finalDestination && !scan.markedAsReceived);
+// 	if (!inProgressScans.length) return null;
+// 	return inProgressScans.reduce((acc, scan) => {
+// 		return acc.time > scan.time ? acc : scan;
+// 	});
+// }
 
 export function getProgress(box) {
 	if (!box?.scans || box?.scans?.length === 0) {

@@ -1,6 +1,9 @@
 import express from 'express';
 import Admin from '../models/admins.model.js';
 import Box from '../models/boxes.model.js';
+import { requireApiKey } from '../service/apiKey.js';
+import { handle200Success } from '../service/errorHandlers.js';
+import { sampleToTimeline } from '../service/stats.js';
 
 const router = express.Router();
 
@@ -39,7 +42,21 @@ router.get('/insights/:id', async (req, res) => {
 });
 
 router.get('/timeline', async (req, res) => {
-	// TODO: implement timeline
+	const { id, filters } = req.body;
+	const user = Admin.findOne({ id });
+
+	const apiKeyRequired = !user.publicInsights;
+
+	const getTimeline = () => {
+		const boxes = Box.find({ ...filters });
+		return handle200Success(res, sampleToTimeline(boxes));
+	}
+
+	if (apiKeyRequired) {
+		return requireApiKey(req, res, getTimeline);
+	} else {
+		return getTimeline();
+	}
 });
 
 export default router;

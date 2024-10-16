@@ -44,14 +44,16 @@ const isSameDay = (date1, date2) => {
 		&& d1.getFullYear() === d2.getFullYear();
 }
 
-const sampleToTimeline = (sample) => {
+function sampleToTimeline(sample) {
 	const timestamps = [...getAllTimestamps(sample)];
 	const data = [];
 
 	const initial = timestamps[0];
+	const maxTimestamp = timestamps[timestamps.length - 1]
 	let repartition;
 
-	for (let i = initial; i <= timestamps[timestamps.length - 1]; i += 86400000) {
+	for (let i = initial; i <= maxTimestamp; i += 86400000) {
+		if (!timestamps.length) break;
 		while (timestamps.length > 0 && timestamps[0] < i) {
 			timestamps.shift();
 		}
