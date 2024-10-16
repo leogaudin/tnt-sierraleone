@@ -7,9 +7,10 @@ import Scans from '../pages/Scans';
 import Import from '../pages/Import';
 import Export from '../pages/Export';
 import Advanced from '../pages/Advanced';
+import PublicInsights from '../pages/PublicInsights';
 
 import { IoHome, IoClose, IoCheckmark, IoPrint } from 'react-icons/io5';
-import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus } from 'react-icons/fa';
+import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus, FaCopy } from 'react-icons/fa';
 import { IoMdExit, IoMdRefresh, IoMdSettings } from 'react-icons/io';
 import { BiImport, BiExport } from "react-icons/bi";
 import { MdDelete } from 'react-icons/md';
@@ -37,6 +38,33 @@ export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 	return response;
 }
 
+export async function fetchBoxes(id, setBoxes) {
+	try {
+		setBoxes(null);
+		const limit = 2100;
+		const responses = [];
+
+		while (true) {
+			const skip = responses.length;
+			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${limit}`);
+			const response = await request.json();
+			if (response?.data?.length)
+				responses.push(...response?.data);
+			if ((response?.data?.length || 0) < limit)
+				break;
+		}
+
+		responses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		console.log(responses);
+		setBoxes(responses);
+		return responses;
+	} catch (err) {
+		console.error(err);
+		setBoxes(null);
+	}
+}
+
+
 export const icons = {
 	home: IoHome,
 	box: FaBoxOpen,
@@ -56,6 +84,7 @@ export const icons = {
 	delete: MdDelete,
 	print: IoPrint,
 	settings: IoMdSettings,
+	copy: FaCopy,
 }
 
 export const getRoutes = () => [
@@ -106,6 +135,13 @@ export const getRoutes = () => [
 		title: i18n.t('advanced'),
 		inNav: true,
 		icon: icons.settings,
+	},
+	{
+		path: '/insights/:id',
+		component: PublicInsights,
+		title: i18n.t('insights'),
+		public: true,
+		worksWithoutBoxes: true,
 	},
 ];
 
