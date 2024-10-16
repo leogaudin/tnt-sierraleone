@@ -35,8 +35,8 @@ const apiPort = 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: "*",
-        methods: "GET,POST,PUT,DELETE, PATCH",
+        origin: '*',
+        methods: 'GET,POST,PUT,DELETE, PATCH',
         credentials: true,
         maxAge: 3600,
     })

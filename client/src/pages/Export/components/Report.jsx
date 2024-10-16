@@ -10,11 +10,11 @@ import {
 	HStack,
 	Text,
 	Stack,
-} from "@chakra-ui/react";
-import { icons } from "../../../service";
-import { useTranslation } from "react-i18next";
-import { getLastFinalScan, getLastMarkedAsReceivedScan } from "../../../service/stats";
-import { haversineDistance } from "../../../service/utils";
+} from '@chakra-ui/react';
+import { icons } from '../../../service';
+import { useTranslation } from 'react-i18next';
+import { getLastFinalScan, getLastMarkedAsReceivedScan } from '../../../service/stats';
+import { haversineDistance } from '../../../service/utils';
 import { essentialFields } from '../../../service/specific';
 
 function downloadJson(data, filename) {

@@ -1,6 +1,6 @@
-import { Flex, Heading, Spinner } from "@chakra-ui/react";
-import { palette } from "../theme";
-import { useTranslation } from "react-i18next";
+import { Flex, Heading, Spinner } from '@chakra-ui/react';
+import { palette } from '../theme';
+import { useTranslation } from 'react-i18next';
 
 export default function BoxesLoading() {
 	const { t } = useTranslation();

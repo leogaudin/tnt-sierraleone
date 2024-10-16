@@ -152,7 +152,7 @@ const PDFExport = ({ objects, folderName = 'Documents' }) => {
 			chunkIndex++;
 		}
 
-		zip.generateAsync({ type: "blob" }).then(function (content) {
+		zip.generateAsync({ type: 'blob' }).then(function (content) {
 			saveAs(content, `${folderName}.zip`);
 			setLoading(false);
 			setPagesComplete(0);

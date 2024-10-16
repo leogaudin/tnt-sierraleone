@@ -1,6 +1,6 @@
-import { Flex } from "@chakra-ui/react";
-import { palette } from "../theme";
-import { useRef, useState } from "react";
+import { Flex } from '@chakra-ui/react';
+import { palette } from '../theme';
+import { useRef, useState } from 'react';
 
 export default function DragDrop({
 	onFile,

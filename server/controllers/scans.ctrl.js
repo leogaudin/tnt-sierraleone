@@ -14,7 +14,7 @@ router.post('/scan', async (req, res) => {
 		const box = await Box.findOne({ id: boxId });
 
 		if (!box)
-			return res.status(404).json({ error: "Box not found" });
+			return res.status(404).json({ error: 'Box not found' });
 
 		const schoolCoords = {
 			latitude: box.schoolLatitude,
@@ -44,10 +44,10 @@ router.post('/scan', async (req, res) => {
 
 		await Box.updateOne({ id: boxId }, { $set: { scans: box.scans } });
 
-		return res.status(200).json({ message: "Scan added successfully", box });
+		return res.status(200).json({ message: 'Scan added successfully', box });
 	} catch (error) {
-		console.error("Error adding scan:", error);
-		return res.status(500).json({ error: "An error occurred while adding the scan" });
+		console.error('Error adding scan:', error);
+		return res.status(500).json({ error: 'An error occurred while adding the scan' });
 	}
 });
 

@@ -1,8 +1,8 @@
-import { Flex, Heading, Icon, Text } from "@chakra-ui/react";
-import { palette } from "../theme";
-import { icons } from "../service";
-import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Flex, Heading, Icon, Text } from '@chakra-ui/react';
+import { palette } from '../theme';
+import { icons } from '../service';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function NothingToSee() {
 	const { t } = useTranslation();

@@ -58,7 +58,7 @@ router.post('/boxes/coords', async (req, res) => {
 			const result = await Box.updateMany(
 				{ school: box.school, state: box.state, adminId: admin.id },
 				{ $set: { schoolLatitude: box.schoolLatitude, schoolLongitude: box.schoolLongitude } },
-				{ "multi": true }
+				{ 'multi': true }
 			);
 			matchedCount += result.matchedCount;
 			updatedCount += result.modifiedCount;

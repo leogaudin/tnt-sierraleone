@@ -41,10 +41,10 @@ export const theme = extendTheme({
 	initialColorMode: 'light',
 	styles: {
 		global: {
-			"html, body": {
+			'html, body': {
 				margin: 0,
 				padding: 0,
-				boxSizing: "border-box",
+				boxSizing: 'border-box',
 				color: palette.text,
 				backgroundColor: palette.background,
 				zIndex: 0,

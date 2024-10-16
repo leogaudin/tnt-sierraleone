@@ -12,7 +12,7 @@ import PublicInsights from '../pages/PublicInsights';
 import { IoHome, IoClose, IoCheckmark, IoPrint } from 'react-icons/io5';
 import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrcode, FaPlus, FaCopy } from 'react-icons/fa';
 import { IoMdExit, IoMdRefresh, IoMdSettings } from 'react-icons/io';
-import { BiImport, BiExport } from "react-icons/bi";
+import { BiImport, BiExport } from 'react-icons/bi';
 import { MdDelete } from 'react-icons/md';
 import { palette } from '../theme';
 import { API_URL } from './specific';
