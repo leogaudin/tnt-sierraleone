@@ -3,7 +3,7 @@ import Admin from '../models/admins.model.js';
 import Box from '../models/boxes.model.js';
 import { requireApiKey } from '../service/apiKey.js';
 import { handle200Success } from '../service/errorHandlers.js';
-import { sampleToTimeline } from '../service/stats.js';
+import { sampleToRepartition, sampleToTimeline } from '../service/stats.js';
 
 const router = express.Router();
 
@@ -43,20 +43,30 @@ router.get('/insights/:id', async (req, res) => {
 
 router.get('/timeline', async (req, res) => {
 	const { id, filters } = req.body;
-	const user = Admin.findOne({ id });
+	const user = await Admin.findOne({ id });
 
-	const apiKeyRequired = !user.publicInsights;
-
-	const getTimeline = () => {
-		const boxes = Box.find({ ...filters });
+	const getTimeline = async () => {
+		const boxes = await Box.find({ ...filters });
 		return handle200Success(res, sampleToTimeline(boxes));
 	}
 
-	if (apiKeyRequired) {
-		return requireApiKey(req, res, getTimeline);
-	} else {
-		return getTimeline();
+	return !user.publicInsights
+			? requireApiKey(req, res, getTimeline)
+			: getTimeline()
+});
+
+router.get('/repartition', async (req, res) => {
+	const { id, filters } = req.body;
+	const user = await Admin.findOne({ id });
+
+	const getRepartition = async () => {
+		const boxes = await Box.find({ ...filters });
+		return handle200Success(res, sampleToRepartition(boxes));
 	}
+
+	return !user.publicInsights
+			? requireApiKey(req, res, getRepartition)
+			: getRepartition()
 });
 
 export default router;
