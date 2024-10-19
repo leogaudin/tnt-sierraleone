@@ -113,8 +113,10 @@ export function sampleToTimeline(sample) {
 
 	if (timestamps.length === 0) return data;
 
+	const oneDay = 86400000;
+
 	const initial = timestamps[0];
-	const final = timestamps[timestamps.length - 1] + 86400000;
+	const final = timestamps[timestamps.length - 1] + oneDay;
 
 	let i = final;
 	let repartitionAtDate;
@@ -123,13 +125,13 @@ export function sampleToTimeline(sample) {
 	// Find the first day with different repartition
 	while (i >= initial) {
 		repartitionAtDate = repartitionAtDayBefore || sampleToRepartition(getSampleAtDate(sample, i));
-		repartitionAtDayBefore = sampleToRepartition(getSampleAtDate(sample, i - 86400000));
+		repartitionAtDayBefore = sampleToRepartition(getSampleAtDate(sample, i - oneDay));
 
 		const isSame = Object.keys(repartitionAtDate).every(key => repartitionAtDate[key] === repartitionAtDayBefore[key]);
 
 		if (!isSame) break;
 
-		i -= 86400000;
+		i -= oneDay;
 	}
 
 	// Add every previous day
@@ -141,7 +143,7 @@ export function sampleToTimeline(sample) {
 			...repartitionAtDate
 		});
 
-		i -= 86400000;
+		i -= oneDay;
 	}
 
 	return data;
