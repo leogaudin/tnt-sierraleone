@@ -10,9 +10,6 @@ export const createMany = (Model, apiKeyNeeded = true) => async (req, res) => {
 		processInstances(instances);
 
 		async function processInstances(instances) {
-			const validInstances = [];
-			const invalidInstances = [];
-
 			// Check API key only once
 			let apiKeyChecked = false;
 			if (apiKeyNeeded) {
@@ -26,23 +23,12 @@ export const createMany = (Model, apiKeyNeeded = true) => async (req, res) => {
 				}
 			}
 
-			for (const instance of instances) {
-				if (!instance.id)
-					invalidInstances.push({instance, error: `You must provide an id for the item`});
-				else
-					validInstances.push(instance);
-			}
-
 			if (apiKeyNeeded && !apiKeyChecked)
 				return handle400Error(res, 'API key check failed');
 
 			try {
-				await Model.insertMany(validInstances);
-
-				if (invalidInstances.length > 0)
-					return handle206Success(res, 'Some items were not created', invalidInstances, validInstances);
-				else
-					return handle201Success(res, 'Items created!', invalidInstances, validInstances);
+				const inserted = await Model.insertMany(instances);
+				return handle201Success(res, 'Items created!', { insertedCount: inserted.length });
 			} catch (error) {
 				console.error('Error occurred during database insertion:', error);
 				return handle400Error(res, error);

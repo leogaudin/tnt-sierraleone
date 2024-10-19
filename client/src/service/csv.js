@@ -103,34 +103,14 @@ export async function uploadDistributionList(file, setOutput) {
 							processBuffer(nextBuffer);
 						} else {
 							// All boxes have been uploaded
-							const invalid = responses.flatMap((res) => res.invalidInstances);
-							const valid = responses.flatMap((res) => res.validInstances);
+							const inserted = responses.reduce((acc, res) => acc + res.insertedCount, 0);
 
 							setOutput(prev => {
-								const invalids = invalid.map((instance) => {
-									const instanceFields = {};
-									boxFields.forEach((field) => {
-										if (field in instance)
-											instanceFields[field] = instance[field];
-									});
-									if (Object.keys(instanceFields).length)
-										return JSON.stringify(instanceFields);
-								});
-
-								const invalidOutput = invalids.length
-												? [
-													`Invalid instances:`,
-													...invalids,
-													`-------`,
-												]
-												: [];
 
 								return [...prev,
 									`-------`,
-									...invalidOutput,
 									`All items uploaded.`,
-									`${valid.length} valid instances.`,
-									`${invalid.length} invalid instances.`,
+									`${inserted} items added to database.`,
 									`-------`,
 									`Reload the page to see the changes.`,
 									`-------`,
@@ -183,17 +163,11 @@ export async function updateGPSCoordinates(file, setOutput) {
 					newBox[field] = element.data[index];
 				});
 
-				if (isNaN(parseFloat(newBox.schoolLatitude.replace(',', '.'))) || isNaN(parseFloat(newBox.schoolLongitude.replace(',', '.'))))
+				if (boxes.length && isNaN(parseFloat(newBox.schoolLatitude.replace(',', '.'))) || isNaN(parseFloat(newBox.schoolLongitude.replace(',', '.'))))
 					throw new Error(`Latitude ${newBox.schoolLatitude} or Longitude ${newBox.schoolLongitude} is invalid.`);
 
 				newBox.schoolLatitude = parseFloat(newBox.schoolLatitude.replace(',', '.'));
 				newBox.schoolLongitude = parseFloat(newBox.schoolLongitude.replace(',', '.'));
-
-				setOutput(prev => {
-					return [...prev,
-						`School ${newBox.school} will be at (${newBox.schoolLatitude}, ${newBox.schoolLongitude})`,
-					];
-				});
 
 				boxes.push(newBox);
 			} catch (err) {
@@ -226,7 +200,7 @@ export async function updateGPSCoordinates(file, setOutput) {
 				];
 			});
 
-			const BUFFER_LENGTH = 50;
+			const BUFFER_LENGTH = 500;
 			const numBoxes = boxes.length;
 			let uploaded = 0;
 			let updated = 0;

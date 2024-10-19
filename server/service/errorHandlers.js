@@ -22,24 +22,22 @@ export const handle409Error = (res, error) => {
 	}
 };
 
-export const handle201Success = (res, message, invalidInstances, validInstances) => {
+export const handle201Success = (res, message, data) => {
 	if (!res.headersSent) {
 		return res.status(201).json({
 			success: true,
 			message,
-			invalidInstances,
-			validInstances,
+			...data,
 		});
 	}
 };
 
-export const handle206Success = (res, message, invalidInstances, validInstances) => {
+export const handle206Success = (res, message, data) => {
 	if (!res.headersSent) {
 		return res.status(206).json({
 			success: true,
 			message,
-			invalidInstances,
-			validInstances,
+			...data,
 		});
 	}
 };
