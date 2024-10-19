@@ -85,9 +85,12 @@ const getAllTimestamps = (sample) => {
 }
 
 const getSampleAtDate = (sample, date) => {
-	return JSON.parse(JSON.stringify(sample)).map(box => {
-		box.scans = box.scans.filter(scan => scan.location.timestamp <= date);
-		return box;
+	return sample.map(box => {
+		const scans = box.scans.filter(scan => scan.location.timestamp <= date);
+		return {
+			...box,
+			scans
+		};
 	});
 }
 
@@ -105,29 +108,31 @@ const isSameDay = (date1, date2) => {
 }
 
 export function sampleToTimeline(sample) {
-	const timestamps = [...getAllTimestamps(sample)];
-	const data = [];
+    const timestamps = getAllTimestamps(sample);
+    const data = [];
 
-	const initial = timestamps[0];
-	const maxTimestamp = timestamps[timestamps.length - 1]
-	let repartition;
+    if (timestamps.length === 0) return data;
 
-	for (let i = initial; i <= maxTimestamp; i += 86400000) {
-		if (!timestamps.length) break;
-		while (timestamps.length > 0 && timestamps[0] < i) {
-			timestamps.shift();
-		}
-		if (timestamps.length > 0 && isSameDay(i, timestamps[0])) {
-			timestamps.shift();
-			const boxesAtDate = getSampleAtDate(sample, i);
-			repartition = sampleToRepartition(boxesAtDate);
-		}
+    const initial = timestamps[0];
+    const maxTimestamp = timestamps[timestamps.length - 1] + 86400000;
+    let repartition;
+    let index = 0;
 
-		data.push({
-			name: getDateString(i),
-			...repartition
-		});
-	}
+    for (let i = initial; i <= maxTimestamp; i += 86400000) {
+        while (index < timestamps.length && timestamps[index] < i) {
+            index++;
+        }
+        if (index < timestamps.length && isSameDay(i, timestamps[index])) {
+            const boxesAtDate = getSampleAtDate(sample, i);
+            repartition = sampleToRepartition(boxesAtDate);
+            index++;
+        }
 
-	return data;
+        data.push({
+            name: getDateString(i),
+            ...repartition
+        });
+    }
+
+    return data;
 }
