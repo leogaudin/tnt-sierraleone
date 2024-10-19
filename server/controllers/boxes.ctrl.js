@@ -56,7 +56,7 @@ router.post('/boxes/coords', async (req, res) => {
 		let matchedCount = 0;
 		await Promise.all(boxes.map(async (box) => {
 			const result = await Box.updateMany(
-				{ school: box.school, state: box.state, adminId: admin.id },
+				{ school: box.school, district: box.district, adminId: admin.id },
 				{ $set: { schoolLatitude: box.schoolLatitude, schoolLongitude: box.schoolLongitude } },
 				{ 'multi': true }
 			);
@@ -65,10 +65,11 @@ router.post('/boxes/coords', async (req, res) => {
 			return;
 		}));
 		await Promise.all(boxes.map(async (box) => {
-			const boxesToUpdate = await Box.find({ school: box.school, adminId: admin.id });
-			await Promise.all(boxesToUpdate.map(async (box) => {
-				box.scans = box.scans || [];
-				box.scans.forEach((scan) => {
+			const boxesToUpdate = await Box.find({ school: box.school, district: box.district, adminId: admin.id });
+
+			const bulkWrite = boxesToUpdate.map((box) => {
+				const scans = box.scans || [];
+				scans.forEach((scan) => {
 					const schoolCoords = {
 						latitude: box.schoolLatitude,
 						longitude: box.schoolLongitude,
@@ -79,11 +80,14 @@ router.post('/boxes/coords', async (req, res) => {
 					};
 					scan.finalDestination = isFinalDestination(schoolCoords, scanCoords);
 				});
-				const updatedBox = await Box.updateOne(
-					{ id: box.id },
-					{ $set: { scans: box.scans } }
-				);
-			}));
+				return {
+					updateOne: {
+						filter: { id: box.id },
+						update: { $set: { scans: box.scans } },
+					},
+				};
+			});
+			await Box.bulkWrite(bulkWrite);
 		}));
 		return res.status(200).json({ success: true, updatedCount, matchedCount });
 	} catch (error) {
