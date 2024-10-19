@@ -108,31 +108,30 @@ const isSameDay = (date1, date2) => {
 }
 
 export function sampleToTimeline(sample) {
-    const timestamps = getAllTimestamps(sample);
-    const data = [];
+	const timestamps = getAllTimestamps(sample);
+	const data = [];
 
-    if (timestamps.length === 0) return data;
+	if (timestamps.length === 0) return data;
 
-    const initial = timestamps[0];
-    const maxTimestamp = timestamps[timestamps.length - 1] + 86400000;
-    let repartition;
-    let index = 0;
+	const initial = timestamps[0];
+	const final = timestamps[timestamps.length - 1] + 86400000;
 
-    for (let i = initial; i <= maxTimestamp; i += 86400000) {
-        while (index < timestamps.length && timestamps[index] < i) {
-            index++;
-        }
-        if (index < timestamps.length && isSameDay(i, timestamps[index])) {
-            const boxesAtDate = getSampleAtDate(sample, i);
-            repartition = sampleToRepartition(boxesAtDate);
-            index++;
-        }
+	let repartitionAtDate;
+	let repartitionAtDayBefore;
 
-        data.push({
-            name: getDateString(i),
-            ...repartition
-        });
-    }
+	for (let i = final; i >= initial; i -= 86400000) {
+		repartitionAtDate = repartitionAtDayBefore || sampleToRepartition(getSampleAtDate(sample, i));
+		repartitionAtDayBefore = sampleToRepartition(getSampleAtDate(sample, i - 86400000));
 
-    return data;
+		const isSame = Object.keys(repartitionAtDate).every(key => repartitionAtDate[key] === repartitionAtDayBefore[key]);
+
+		if (isSame) continue;
+
+		data.unshift({
+			name: getDateString(i),
+			...repartitionAtDate
+		});
+	}
+
+	return data;
 }
