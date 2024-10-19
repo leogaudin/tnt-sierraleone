@@ -116,21 +116,32 @@ export function sampleToTimeline(sample) {
 	const initial = timestamps[0];
 	const final = timestamps[timestamps.length - 1] + 86400000;
 
+	let i = final;
 	let repartitionAtDate;
 	let repartitionAtDayBefore;
 
-	for (let i = final; i >= initial; i -= 86400000) {
+	// Find the first day with different repartition
+	while (i >= initial) {
 		repartitionAtDate = repartitionAtDayBefore || sampleToRepartition(getSampleAtDate(sample, i));
 		repartitionAtDayBefore = sampleToRepartition(getSampleAtDate(sample, i - 86400000));
 
 		const isSame = Object.keys(repartitionAtDate).every(key => repartitionAtDate[key] === repartitionAtDayBefore[key]);
 
-		if (isSame) continue;
+		if (!isSame) break;
+
+		i -= 86400000;
+	}
+
+	// Add every previous day
+	while (i >= initial) {
+		repartitionAtDate = sampleToRepartition(getSampleAtDate(sample, i));
 
 		data.unshift({
 			name: getDateString(i),
 			...repartitionAtDate
 		});
+
+		i -= 86400000;
 	}
 
 	return data;
