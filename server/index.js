@@ -21,12 +21,12 @@ mongoose.connect(mongoString, {
 const database = mongoose.connection;
 
 database.on('error', (error) => {
-    console.log(error)
+    console.error(error)
 })
 
-// database.once('connected', () => {
-//     console.log('Database Connected');
-// })
+database.once('connected', () => {
+    console.info('Database Connected');
+})
 
 const app = express();
 app.disable('x-powered-by');

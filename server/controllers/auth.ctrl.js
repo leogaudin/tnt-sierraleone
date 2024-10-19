@@ -19,8 +19,6 @@ router.post('/login', async (req, res) => {
 		if (password !== user.password)
 			return res.status(401).json({ message: 'Invalid password' });
 
-		const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
-		user.token = token;
 		return res.status(200).json({ user });
 	} catch (err) {
 		console.error(err);
@@ -50,8 +48,6 @@ router.post('/register', async (req, res) => {
 		const instance = new Admin(user);
 		await instance.save();
 
-		const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
-		user.token = token;
 		return res.status(201).json({ user });
 	} catch (err) {
 		console.error(err);

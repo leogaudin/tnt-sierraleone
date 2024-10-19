@@ -21,7 +21,7 @@ export default function PublicInsights() {
 				}
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
 	}, [id]);
 
@@ -37,7 +37,7 @@ export default function PublicInsights() {
 	return (
 		<>
 			{boxes?.length
-				? <Insights boxes={boxes} />
+				? <Insights boxes={boxes} id={id} />
 				: <BoxesLoading />
 			}
 		</>

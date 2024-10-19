@@ -31,8 +31,9 @@ export default function BoxCard({
 	const progressIcons = {
 		noScans: <icons.close />,
 		inProgress: <icons.clock />,
-		reachedGps: <icons.pin />,
-		received: <icons.eye />,
+		// reachedGps: <icons.pin />,
+		// received: <icons.eye />,
+		reachedOrReceived: <icons.eye />,
 		validated: <icons.check />,
 	}
 
