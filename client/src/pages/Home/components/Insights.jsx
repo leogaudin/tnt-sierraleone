@@ -11,7 +11,7 @@ export default function Insights({ boxes, id }) {
 	const { t } = useTranslation();
 
 	const [loading, setLoading] = useState(true);
-	const [repartition, setRepartition] = useState({});
+	const [repartitions, setRepartitions] = useState({});
 
 	const controller = new AbortController();
 	const signal = controller.signal;
@@ -19,6 +19,19 @@ export default function Insights({ boxes, id }) {
 	useEffect(() => {
 		const projects = [...new Set(boxes.map(box => box.project))];
 		setProjects(projects);
+
+		projects.forEach(project => {
+			callAPI('POST', 'repartition', { id, filters: { project } }, {}, signal)
+				.then(res => res.json())
+				.then(res => {
+					setRepartitions((prev) => ({
+						...prev,
+						[project]: res.data
+					}));
+					setLoading(false);
+				})
+				.catch(err => console.error(err));
+		});
 
 		return () => controller.abort();
 	}, [boxes]);
@@ -29,18 +42,9 @@ export default function Insights({ boxes, id }) {
 				const sample = boxes.filter(box => box.project === project);
 				if (!sample) return null;
 
-				callAPI('POST', 'repartition', { id, filters: { project } }, {}, signal)
-					.then(res => res.json())
-					.then(res => {
-						setRepartition(res.data);
-						setLoading(false);
-					})
-					.catch(error => {
-						console.error(error);
-					});
-
 				if (loading) return <Loading />;
 
+				const repartition = repartitions[project];
 				const progress = (repartition.validated / repartition.total) * 100;
 
 				return (
