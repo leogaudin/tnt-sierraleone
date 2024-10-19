@@ -10,6 +10,9 @@ import { palette } from '../../../theme';
 import { sampleToRepartition } from '../../../service/stats';
 import { useTranslation } from 'react-i18next';
 import { Flex } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
+import { callAPI } from '../../../service';
+import Loading from '../../../components/Loading';
 
 const getAllTimestamps = (sample) => {
 	const timestamps = [];
@@ -79,12 +82,35 @@ const getPercent = (value, total) => {
 
 export default function Timeline({
 	sample,
+	project,
+	id,
 	height = 400,
 }) {
 	const { t } = useTranslation();
+	const [timeline, setTimeline] = useState(null);
+	const [loading, setLoading] = useState(true);
 
-	if (!sample?.length || sample.flatMap(box => box.scans).length === 0)
-		return null;
+	// if (!sample?.length || sample.flatMap(box => box.scans).length === 0)
+	// 	return null;
+	const controller = new AbortController();
+	const signal = controller.signal;
+
+	useEffect(() => {
+		const filters = { project };
+
+		callAPI('POST', 'timeline', { id, filters }, {}, signal)
+			.then(res => res.json())
+			.then(res => {
+				console.log(res);
+				setTimeline(res.data);
+				setLoading(false);
+			})
+			.catch(err => {
+				console.error(err);
+			});
+
+		// return () => controller.abort();
+	}, [sample]);
 
 	const renderTooltipContent = o => {
 		const {
@@ -121,6 +147,9 @@ export default function Timeline({
 		);
 	};
 
+	if (loading)
+		return <Loading />;
+
 	return (
 		<Flex
 			height={height}
@@ -129,14 +158,14 @@ export default function Timeline({
 				<AreaChart
 					// width={500}
 					// height={400}
-					data={sampleToTimeline(JSON.parse(JSON.stringify(sample)))}
+					data={timeline}
 				>
 					<XAxis dataKey='name' />
 					<YAxis />
 					<Tooltip content={renderTooltipContent} />
 					<Area type='monotone' dataKey='validated' stackId='1' stroke={palette.success.main} fill={palette.success.main} />
-					<Area type='monotone' dataKey='reachedOrReceived' stackId='1' stroke={palette.warning.main} fill={palette.warning.main} />
-					<Area type='monotone' dataKey='inProgress' stackId='1' stroke={palette.info.main} fill={palette.info.main} />
+					<Area type='monotone' dataKey='reachedOrReceived' stackId='1' stroke={palette.info.main} fill={palette.info.main} />
+					<Area type='monotone' dataKey='inProgress' stackId='1' stroke={palette.warning.main} fill={palette.warning.main} />
 					<Area type='monotone' dataKey='noScans' stackId='1' stroke={palette.error.main} fill={palette.error.main} />
 				</AreaChart>
 			</ResponsiveContainer>

@@ -18,6 +18,16 @@ export function getLastMarkedAsReceivedScan(box) {
 	});
 }
 
+export function getLastValidatedScan(box) {
+	const scans = box.scans;
+	if (!scans || !scans.length) return null;
+	const validatedScans = scans.filter(scan => scan.finalDestination && scan.markedAsReceived);
+	if (!validatedScans.length) return null;
+	return validatedScans.reduce((acc, scan) => {
+		return acc.time > scan.time ? acc : scan;
+	});
+}
+
 // export function getLastInProgressScan(box) {
 // 	const scans = box.scans;
 // 	if (!scans || !scans.length) return null;
@@ -33,18 +43,18 @@ export function getProgress(box) {
 		return 'noScans';
 	}
 
+	const lastValidatedScan = getLastValidatedScan(box);
 	const lastFinalScan = getLastFinalScan(box);
 	const lastReceivedScan = getLastMarkedAsReceivedScan(box);
 
-	if (lastFinalScan) {
-		if (lastReceivedScan) {
-			return 'validated';
-		}
-		return 'reachedGps';
+	if (lastValidatedScan) {
+		return 'validated';
 	}
-	if (lastReceivedScan) {
-		return 'received';
+
+	if (lastFinalScan || lastReceivedScan) {
+		return 'reachedOrReceived';
 	}
+
 	return 'inProgress';
 }
 

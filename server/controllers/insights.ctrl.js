@@ -41,9 +41,15 @@ router.get('/insights/:id', async (req, res) => {
 	}
 });
 
-router.get('/timeline', async (req, res) => {
+router.post('/timeline', async (req, res) => {
 	const { id, filters } = req.body;
 	const user = await Admin.findOne({ id });
+
+	if (!filters)
+		return res.status(400).json({ message: 'Missing filters' });
+
+	if (!user)
+		return res.status(404).json({ message: 'Admin not found' });
 
 	const getTimeline = async () => {
 		const boxes = await Box.find({ ...filters });
@@ -55,7 +61,7 @@ router.get('/timeline', async (req, res) => {
 			: getTimeline()
 });
 
-router.get('/repartition', async (req, res) => {
+router.post('/repartition', async (req, res) => {
 	const { id, filters } = req.body;
 	const user = await Admin.findOne({ id });
 

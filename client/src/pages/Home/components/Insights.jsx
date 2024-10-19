@@ -1,29 +1,47 @@
 import { useEffect, useState } from 'react';
 import Timeline from './Timeline';
-import { groupByProperty } from '../../../service/utils'
 import { Card, Heading, HStack, Progress, Stack } from '@chakra-ui/react';
-import { getStatusPercentage, sampleToRepartition } from '../../../service/stats';
-import { progressColors } from '../../../service';
+import { callAPI, progressColors } from '../../../service';
 import { useTranslation } from 'react-i18next';
 import { palette } from '../../../theme';
+import Loading from '../../../components/Loading';
 
-export default function Insights({ boxes }) {
-	const [groupedBoxes, setGroupedBoxes] = useState({});
+export default function Insights({ boxes, id }) {
+	const [projects, setProjects] = useState([]);
 	const { t } = useTranslation();
 
+	const [loading, setLoading] = useState(true);
+	const [repartition, setRepartition] = useState({});
+
+	const controller = new AbortController();
+	const signal = controller.signal;
+
 	useEffect(() => {
-		if (boxes)
-			setGroupedBoxes(groupByProperty(boxes, 'project'));
+		const projects = [...new Set(boxes.map(box => box.project))];
+		setProjects(projects);
+
+		return () => controller.abort();
 	}, [boxes]);
 
 	return (
 		<>
-			{Object.keys(groupedBoxes).map((key, i) => {
-				const sample = groupedBoxes[key];
+			{projects.map((project, i) => {
+				const sample = boxes.filter(box => box.project === project);
 				if (!sample) return null;
 
-				const repartition = sampleToRepartition(sample);
-				const progress = getStatusPercentage(sample);
+				callAPI('POST', 'repartition', { id, filters: { project } }, {}, signal)
+					.then(res => res.json())
+					.then(res => {
+						setRepartition(res.data);
+						setLoading(false);
+					})
+					.catch(error => {
+						console.error(error);
+					});
+
+				if (loading) return <Loading />;
+
+				const progress = (repartition.validated / repartition.total) * 100;
 
 				return (
 					<Card
@@ -42,7 +60,7 @@ export default function Insights({ boxes }) {
 								paddingX={4}
 								fontWeight='normal'
 							>
-								{key}
+								{project}
 							</Heading>
 							<Heading
 								size='lg'
@@ -63,7 +81,8 @@ export default function Insights({ boxes }) {
 						</Stack>
 						<Timeline
 							key={i}
-							sample={sample}
+							project={project}
+							id={id}
 						/>
 						<Stack
 							// width='100%'

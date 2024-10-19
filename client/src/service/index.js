@@ -21,7 +21,7 @@ export const user = JSON.parse(localStorage.getItem('user'));
 
 export const navbarWidth = '250px';
 
-export const callAPI = async (method, endpoint, data = null, headers = {}) => {
+export const callAPI = async (method, endpoint, data = null, headers = {}, signal = null) => {
 	const authorization = user?.apiKey || null;
 	const requestHeaders = {
 		'Content-Type': 'application/json',
@@ -33,6 +33,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}) => {
 		method: method,
 		headers: requestHeaders,
 		body: data ? JSON.stringify(data) : null,
+		signal: signal,
 	});
 
 	return response;
@@ -55,7 +56,6 @@ export async function fetchBoxes(id, setBoxes) {
 		}
 
 		responses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-		console.log(responses);
 		setBoxes(responses);
 		return responses;
 	} catch (err) {
@@ -92,6 +92,7 @@ export const getRoutes = () => [
 		path: '/auth',
 		component: Login,
 		public: true,
+		worksWithoutBoxes: true,
 	},
 	{
 		path: '/',
@@ -147,9 +148,10 @@ export const getRoutes = () => [
 
 export const progressColors = {
 	noScans: palette.error.main,
-	inProgress: palette.info.main,
-	reachedGps: palette.warning.main,
-	received: palette.warning.main,
-	reachedOrReceived: palette.warning.main,
+	inProgress: palette.warning.main,
+	// reachedGps: palette.info.main,
+	// received: palette.info.main,
+	reachedOrReceived: palette.info.main,
 	validated: palette.success.main,
+	total: palette.text,
 }

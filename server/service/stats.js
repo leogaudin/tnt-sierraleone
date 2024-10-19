@@ -18,6 +18,36 @@ export function getLastMarkedAsReceivedScan(box) {
 	});
 }
 
+export function getLastValidatedScan(box) {
+	const scans = box.scans;
+	if (!scans || !scans.length) return null;
+	const validatedScans = scans.filter(scan => scan.finalDestination && scan.markedAsReceived);
+	if (!validatedScans.length) return null;
+	return validatedScans.reduce((acc, scan) => {
+		return acc.time > scan.time ? acc : scan;
+	});
+}
+
+export function getProgress(box) {
+	if (!box?.scans || box?.scans?.length === 0) {
+		return 'noScans';
+	}
+
+	const lastValidatedScan = getLastValidatedScan(box);
+	const lastFinalScan = getLastFinalScan(box);
+	const lastReceivedScan = getLastMarkedAsReceivedScan(box);
+
+	if (lastValidatedScan) {
+		return 'validated';
+	}
+
+	if (lastFinalScan || lastReceivedScan) {
+		return 'reachedOrReceived';
+	}
+
+	return 'inProgress';
+}
+
 export function sampleToRepartition(sample) {
 	const data = {
 		noScans: 0,
@@ -26,23 +56,17 @@ export function sampleToRepartition(sample) {
 		validated: 0,
 	}
 
+	data.total = sample.length;
+
 	sample.forEach(box => {
-		if (box?.scans?.length > 0) {
-			const lastFinalScan = getLastFinalScan(box);
-			const lastReceivedScan = getLastMarkedAsReceivedScan(box);
-			if (lastFinalScan || lastReceivedScan) {
-				if (lastFinalScan && lastReceivedScan) {
-					data.validated++;
-				} else {
-					data.reachedOrReceived++;
-				}
-			} else {
-				data.inProgress++;
-			}
-		} else {
+		if (!box.scans || box.scans.length === 0) {
 			data.noScans++;
+		} else {
+			const progress = getProgress(box);
+			data[progress]++;
 		}
 	});
+
 
 	return data;
 }
