@@ -34,12 +34,12 @@ export function getProgress(box) {
 	}
 
 	const lastValidatedScan = getLastValidatedScan(box);
-	const lastFinalScan = getLastFinalScan(box);
-	const lastReceivedScan = getLastMarkedAsReceivedScan(box);
-
 	if (lastValidatedScan) {
 		return 'validated';
 	}
+
+	const lastFinalScan = getLastFinalScan(box);
+	const lastReceivedScan = getLastMarkedAsReceivedScan(box);
 
 	if (lastFinalScan || lastReceivedScan) {
 		return 'reachedOrReceived';
