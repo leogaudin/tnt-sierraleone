@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { icons } from '../../../service';
 import { useTranslation } from 'react-i18next';
-import { getLastFinalScan, getLastMarkedAsReceivedScan } from '../../../service/stats';
+import { getLastFinalScan, getLastMarkedAsReceivedScan, getLastValidatedScan } from '../../../service/stats';
 import { haversineDistance } from '../../../service/utils';
 import { essentialFields } from '../../../service/specific';
 
@@ -34,7 +34,9 @@ export default function Report({ boxes }) {
 	const toExport = boxes.map(box => {
 		const lastReachedScan = getLastFinalScan(box);
 		const lastMarkedAsReceivedScan = getLastMarkedAsReceivedScan(box);
-		const lastScan = box.scans ? box.scans[box.scans.length - 1] : null;
+		const lastValidatedScan = getLastValidatedScan(box);
+		box.scans.sort((a, b) => new Date(b.location.timestamp) - new Date(a.location.timestamp));
+		const lastScan = box.scans[0] || null;
 
 		const schoolCoords = {
 			latitude: box.schoolLatitude,
@@ -77,9 +79,12 @@ export default function Report({ boxes }) {
 			lastScanDistanceInMeters,
 			lastScanDate: lastScan ? new Date(lastScan?.location.timestamp).toLocaleDateString() : '',
 			reachedGps: !!lastReachedScan,
+			reachedDate: lastReachedScan ? new Date(lastReachedScan?.location.timestamp).toLocaleDateString() : '',
 			received: !!lastMarkedAsReceivedScan,
 			receivedDistanceInMeters,
 			receivedDate: lastMarkedAsReceivedScan ? new Date(lastMarkedAsReceivedScan?.location.timestamp).toLocaleDateString() : '',
+			validated: !!lastValidatedScan,
+			validatedDate: lastValidatedScan ? new Date(lastValidatedScan?.location.timestamp).toLocaleDateString() : '',
 		}
 	});
 
