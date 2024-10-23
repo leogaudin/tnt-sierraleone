@@ -8,8 +8,10 @@ export const requestAllPermissions = async () => {
 				PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
 				PermissionsAndroid.PERMISSIONS.CAMERA,
 			]);
+			console.log(result)
 			return ({
-				location: result['android.permission.ACCESS_FINE_LOCATION'] === 'granted',
+				location: result['android.permission.ACCESS_FINE_LOCATION'] === 'granted'
+							|| result['android.permission.ACCESS_COARSE_LOCATION'] === 'granted',
 				camera: result['android.permission.CAMERA'] === 'granted'
 			});
 		} else if (Platform.OS === 'ios') {

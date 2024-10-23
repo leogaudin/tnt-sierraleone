@@ -16,26 +16,19 @@ import { sendScan } from '../service/api';
 import AppContext from '../context';
 
 export default function SendScanModal({ modalVisible, setModalVisible, data }) {
-	const [locationLoaded, setLocationLoaded] = useState(false);
 	const [userLocation, setUserLocation] = useState();
-	const [componentMounted, setComponentMounted] = useState(false);
 	const [comment, setComment] = useState('');
-	const [toggleCheckBox, setToggleCheckBox] = useState(false);
+	const [toggled, setToggled] = useState(false);
 	const { login, hasInternetConnection, setOfflineData } = useContext(AppContext);
 
-	useEffect(() => {
-		setComponentMounted(true);
-	}, []);
-
 	const handleSubmit = () => {
-		setLocationLoaded(false);
 		const scan = {
 			id: '',
 			boxId: data,
 			operatorId: login,
 			time: Date.now(),
 			location: userLocation,
-			markedAsReceived: toggleCheckBox,
+			markedAsReceived: toggled,
 			comment: comment,
 		};
 		scan.id = SparkMD5.hash(JSON.stringify(scan));
@@ -56,29 +49,30 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 		}
 	};
 
-	if (!locationLoaded && componentMounted) {
-		Geolocation.getCurrentPosition(
-			position => {
-				setUserLocation(position);
-				setLocationLoaded(true);
-			},
-			error => {
-				if (error.code === 3) {
-					showToast('error', 'Timeout', 'The location search has timed out.');
-				}
-			},
-			{
-				enableHighAccuracy: false,
-				timeout: 10000,
-				maximumAge: 10000
-			},
-		);
-	}
+	useEffect(() => {
+		if (modalVisible) {
+			Geolocation.getCurrentPosition(
+				(position) => {
+					setUserLocation(position);
+				},
+				(error) => {
+					if (error.code === 3) {
+						showToast('error', 'Timeout', 'The location search has timed out.');
+					}
+				},
+				{
+					enableHighAccuracy: true,
+					timeout: 10000,
+					maximumAge: 10000,
+				},
+			);
+		}
+	}, [modalVisible]);
 
 	function resetData() {
-		setLocationLoaded(false);
+		setUserLocation(null);
 		setComment('');
-		setToggleCheckBox(false);
+		setToggled(false);
 	}
 
 	return (
@@ -99,10 +93,21 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 								<Text style={[styles.title]}>
 									Box n°{data}
 								</Text>
-								{!(locationLoaded && componentMounted)
-									? <Text>Determining current location...</Text>
-									: null
-								}
+								<View
+									style={{
+										flexDirection: 'column',
+										alignItems: 'center',
+										marginVertical: 15,
+									}}
+								>
+									<Text style={{ fontWeight: 'bold' }}>Location</Text>
+									<Text>
+										{userLocation
+											? `(${userLocation.coords.latitude}, ${userLocation.coords.longitude})`
+											: `Determining...`
+										}
+									</Text>
+								</View>
 								<TextInput
 									mode='outlined'
 									value={comment}
@@ -118,8 +123,8 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 										marginVertical: 15,
 									}}>
 									<CheckBox
-										value={toggleCheckBox}
-										onValueChange={newValue => setToggleCheckBox(newValue)}
+										value={toggled}
+										onValueChange={newValue => setToggled(newValue)}
 										style={{ marginRight: 10 }}
 										tintColors={{ true: '#007AFF', false: '#C7C7CC' }}
 									/>
@@ -136,7 +141,7 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 										Cancel
 									</Button>
 									<Button
-										disabled={!locationLoaded || !userLocation}
+										disabled={!userLocation}
 										mode='contained'
 										style={{ margin: 5 }}
 										onPress={handleSubmit}
