@@ -3,7 +3,6 @@ import { showToast } from './toast';
 
 export function sendScan(data) {
 	return new Promise((resolve, reject) => {
-		console.log(JSON.stringify(data))
 		fetch(`${API_URL}/scan`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },

@@ -54,6 +54,6 @@ app.use('/api', adminsController);
 app.use('/api', authController);
 app.use('/api', insightsController);
 
-app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+app.listen(apiPort, () => console.info(`Server running on port ${apiPort}`));
 
 export default app;

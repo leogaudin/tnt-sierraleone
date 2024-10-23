@@ -23,7 +23,7 @@ export const getById = (Model, apiKeyNeeded = true) => async (req, res) => {
 
 		return handle200Success(res, instance);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return handle400Error(res, error);
 	}
 };

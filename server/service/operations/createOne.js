@@ -50,7 +50,7 @@ export const createOne = (Model, apiKeyNeeded = true) => async (req, res) => {
 			message: `Item created!`,
 		});
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return handle400Error(res, error);
 	}
 };

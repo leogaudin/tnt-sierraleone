@@ -41,7 +41,7 @@ export const removeValue = async (key) => {
 	} catch (e) {
 		console.error(e);
 	}
-	console.log('Removed ' + key + '.');
+	console.info('Removed ' + key + '.');
 };
 
 /**
@@ -66,7 +66,6 @@ export const storeOfflineData = (dataToSend) => {
 export const sendOfflineData = (offlineData, setOfflineData, failedData = []) => {
 	if (offlineData.length > 0) {
 		const scanToSend = offlineData[0];
-		console.log('Sending offline data:', scanToSend);
 		sendScan(scanToSend)
 			.catch((error) => {
 				failedData.push(scanToSend);

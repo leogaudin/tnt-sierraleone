@@ -33,7 +33,7 @@ export const deleteMany = (Model, apiKeyNeeded = true) => async (req, res) => {
 			return handle400Error(res, 'API key check failed');
 		}
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return handle400Error(res, error);
 	}
 };

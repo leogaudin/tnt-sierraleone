@@ -40,7 +40,7 @@ router.get('/boxes/:adminId', async (req, res) => {
 
 		return res.status(200).json({ success: true, data: boxes });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return res.status(400).json({ success: false, error: error });
 	}
 });
@@ -91,7 +91,7 @@ router.post('/boxes/coords', async (req, res) => {
 		}));
 		return res.status(200).json({ success: true, updatedCount, matchedCount });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return res.status(400).json({ success: false, error: error });
 	}
 });
