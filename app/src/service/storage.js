@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { sendScan } from './api';
 import { offlineKey } from '../constants';
+import { showToast } from './toast';
 
 /**
  * Stores a string in AsyncStorage
@@ -70,12 +71,18 @@ export const sendOfflineData = (offlineData, setOfflineData, failedData = []) =>
 			.catch((error) => {
 				failedData.push(scanToSend);
 				console.error('Error sending offline data:', error)
+				console.error('Failed data:', failedData);
+				showToast(
+					'error',
+					'Error sending offline data',
+					'Offline data will be sent when connection is restored',
+				);
 			})
 			.finally(() => {
 				offlineData.shift();
 				AsyncStorage.setItem(offlineKey, JSON.stringify(offlineData))
 					.then(() => {
-						sendOfflineData(offlineData, failedData);
+						sendOfflineData(offlineData, setOfflineData, failedData);
 					})
 					.catch((error) => {
 						console.error('Error updating offline data:', error);

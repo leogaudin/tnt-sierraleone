@@ -55,7 +55,7 @@ export const AppProvider = ({ children }) => {
 				if (storedData && JSON.stringify(offlineData) !== storedData)
 					setOfflineData(JSON.parse(storedData));
 			} catch (error) {
-				console.log('Error retrieving offline data:', error);
+				console.error('Error retrieving offline data:', error);
 			}
 		};
 
