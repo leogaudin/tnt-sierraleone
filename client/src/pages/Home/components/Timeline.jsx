@@ -109,7 +109,7 @@ export default function Timeline({
 				console.error(err);
 			});
 
-		return () => controller.abort();
+		// return () => controller.abort();
 	}, [sample]);
 
 	const renderTooltipContent = o => {
