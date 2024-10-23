@@ -18,7 +18,7 @@ const getAllTimestamps = (sample) => {
 	const timestamps = [];
 	[...sample].forEach(box => {
 		box.scans.forEach(scan => {
-			timestamps.push(scan.location.timestamp);
+			timestamps.push(scan.time);
 		});
 	});
 
@@ -29,7 +29,7 @@ const getAllTimestamps = (sample) => {
 
 const getSampleAtDate = (sample, date) => {
 	return JSON.parse(JSON.stringify(sample)).map(box => {
-		box.scans = box.scans.filter(scan => scan.location.timestamp <= date);
+		box.scans = box.scans.filter(scan => scan.time <= date);
 		return box;
 	});
 }
@@ -101,7 +101,6 @@ export default function Timeline({
 		callAPI('POST', 'timeline', { id, filters }, {}, signal)
 			.then(res => res.json())
 			.then(res => {
-				console.log(res);
 				setTimeline(res.data);
 				setLoading(false);
 			})

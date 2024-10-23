@@ -75,7 +75,7 @@ const getAllTimestamps = (sample) => {
 	const timestamps = [];
 	[...sample].forEach(box => {
 		box.scans.forEach(scan => {
-			timestamps.push(scan.location.timestamp);
+			timestamps.push(scan.time);
 		});
 	});
 
@@ -86,7 +86,7 @@ const getAllTimestamps = (sample) => {
 
 const getSampleAtDate = (sample, date) => {
 	return sample.map(box => {
-		const scans = box.scans.filter(scan => scan.location.timestamp <= date);
+		const scans = box.scans.filter(scan => scan.time <= date);
 		return {
 			...box,
 			scans

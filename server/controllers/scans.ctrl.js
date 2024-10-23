@@ -33,9 +33,9 @@ router.post('/scan', async (req, res) => {
 			operatorId,
 			location,
 			countryName,
-			time: location.timestamp,
+			time,
 			markedAsReceived,
-			finalDestination: isFinalDestination(schoolCoords, scanCoords)
+			finalDestination: isFinalDestination(schoolCoords, scanCoords),
 		};
 
 		box.scans = box.scans || [];
