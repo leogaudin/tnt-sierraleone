@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post('/scan', async (req, res) => {
 	try {
-		const { boxId, comment, id, operatorId, location, markedAsReceived } = req.body;
+		const { boxId, comment, id, operatorId, time, location, markedAsReceived } = req.body;
 
 		const countryName = feature([location.coords.longitude, location.coords.latitude]).properties.nameEn;
 
