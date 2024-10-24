@@ -28,7 +28,7 @@ router.post('/toggle_insights', async (req, res) => {
 	}
 });
 
-router.get('/public_insights/:id', async (req, res) => {
+router.get('/is_public/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 
@@ -42,40 +42,6 @@ router.get('/public_insights/:id', async (req, res) => {
 		return res.status(500).json({ message: 'Internal server error' });
 	}
 });
-
-// router.post('/timeline', async (req, res) => {
-// 	const { id, filters } = req.body;
-// 	const user = await Admin.findOne({ id });
-
-// 	if (!filters)
-// 		return res.status(400).json({ message: 'Missing filters' });
-
-// 	if (!user)
-// 		return res.status(404).json({ message: 'Admin not found' });
-
-// 	const getTimeline = async () => {
-// 		const boxes = await Box.find({ ...filters });
-// 		return handle200Success(res, sampleToTimeline(boxes));
-// 	}
-
-// 	return !user.publicInsights
-// 			? requireApiKey(req, res, getTimeline)
-// 			: getTimeline()
-// });
-
-// router.post('/repartition', async (req, res) => {
-// 	const { id, filters } = req.body;
-// 	const user = await Admin.findOne({ id });
-
-// 	const getRepartition = async () => {
-// 		const boxes = await Box.find({ ...filters });
-// 		return handle200Success(res, sampleToRepartition(boxes));
-// 	}
-
-// 	return !user.publicInsights
-// 			? requireApiKey(req, res, getRepartition)
-// 			: getRepartition()
-// });
 
 router.get('/get_insights/:id', async (req, res) => {
 	const { id } = req.params;

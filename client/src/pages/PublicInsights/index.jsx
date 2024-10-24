@@ -11,7 +11,7 @@ export default function PublicInsights() {
 	const [unauthorized, setUnauthorized] = useState(false);
 
 	useEffect(() => {
-		callAPI('get', `public_insights/${id}`)
+		callAPI('get', `is_public/${id}`)
 			.then((res) => res.json())
 			.then((response) => {
 				if (response.publicInsights) {

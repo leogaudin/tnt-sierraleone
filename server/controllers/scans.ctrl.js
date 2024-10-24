@@ -38,11 +38,8 @@ router.post('/scan', async (req, res) => {
 			finalDestination: isFinalDestination(schoolCoords, scanCoords),
 		};
 
-		box.scans = box.scans || [];
-
-		box.scans.push(newScan);
-
-		await Box.updateOne({ id: boxId }, { $set: { scans: box.scans } });
+		box.scans = [...box.scans, newScan];
+		await box.save();
 
 		return res.status(200).json({ message: 'Scan added successfully', box });
 	} catch (error) {
