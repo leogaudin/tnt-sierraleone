@@ -1,14 +1,12 @@
 import {
 	Button,
-	Flex,
 	HStack,
-	IconButton,
 	Input,
 	Stack,
 	Text,
 	useToast,
 } from '@chakra-ui/react'
-import { callAPI, icons, user } from '../../../service/';
+import { callAPI, user } from '../../../service/';
 import { palette } from '../../../theme';
 import { useTranslation } from 'react-i18next';
 
@@ -89,14 +87,6 @@ export default function InsightsController() {
 							colorScheme={user.publicInsights ? 'green' : 'red'}
 							borderColor={user.publicInsights ? palette.success.main : palette.error.main}
 							focusBorderColor={palette.primary.dark}
-							onClick={handleCopy}
-						/>
-						<IconButton
-							variant='outline'
-							icon={<icons.copy />}
-							colorScheme={user.publicInsights ? 'green' : 'red'}
-							width='100%'
-							boxSize={10}
 							onClick={handleCopy}
 						/>
 					</HStack>
