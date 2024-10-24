@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { icons, progressColors } from '../service';
+import { icons, progresses } from '../service';
 import {
 	Select,
 	IconButton,
@@ -164,9 +164,9 @@ export default function BoxFiltering({
 				borderColor={palette.primary.light}
 			>
 				<option value='any'>{t('any')}</option>
-				{Object.keys(progressColors).map((key) => (
-					<option key={key} value={key}>
-						{t(key)}
+				{progresses.map((progress) => (
+					<option key={progress.key} value={progress.key}>
+						{t(progress.key)}
 					</option>
 				))}
 			</Select>

@@ -134,18 +134,6 @@ export async function uploadDistributionList(file, setOutput) {
 	})
 }
 
-// function updateGPS(payload) {
-// 	// Fake API call
-// 	return new Promise((resolve, reject) => {
-// 		setTimeout(() => {
-// 			resolve({
-// 				status: 200,
-// 				updatedCount: Math.floor(Math.random() * 100),
-// 			});
-// 		}, Math.random() * 1000);
-// 	});
-// }
-
 export async function updateGPSCoordinates(file, setOutput) {
 	const data = await file.text();
 	const boxes = [];
@@ -204,11 +192,11 @@ export async function updateGPSCoordinates(file, setOutput) {
 			const numBoxes = boxes.length;
 			let uploaded = 0;
 			let updated = 0;
+			let recalculated = 0;
 			const responses = [];
 
 			const processBuffer = (buffer) => {
 				callAPI('POST', 'boxes/coords', { boxes: buffer })
-				// updateGPS({ boxes })
 					.then((res) => {
 						if (res.status >= 400)
 							throw new Error(res.statusText);
@@ -219,6 +207,7 @@ export async function updateGPSCoordinates(file, setOutput) {
 						responses.push(res);
 						uploaded += buffer.length;
 						updated += res.updatedCount;
+						recalculated = res.recalculatedCount;
 						setOutput(prev => {
 							return [...prev,
 								`${res.updatedCount} objects updated.`,
@@ -233,8 +222,9 @@ export async function updateGPSCoordinates(file, setOutput) {
 							setOutput(prev => {
 								return [...prev,
 									`-------`,
-									`${uploaded} coordinates uploaded.`,
-									`${updated} objects updated.`,
+									`Uploaded ${uploaded} coordinates.`,
+									`Updated coordinates of ${updated} objects.`,
+									`Recalculated scans in ${recalculated} objects.`,
 									`-------`,
 									`Reload the page to see the changes.`,
 									`-------`,

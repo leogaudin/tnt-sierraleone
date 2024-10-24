@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { haversineDistance } from '../../../service/utils';
 import Pill from '../../../components/Pill';
 import { getProgress } from '../../../service/stats';
-import { icons, progressColors } from '../../../service';
+import { progresses } from '../../../service';
 import BoxModal from './BoxModal';
 
 export default function BoxCard({
@@ -28,16 +28,7 @@ export default function BoxCard({
 
 	const progress = getProgress(box);
 
-	const progressIcons = {
-		noScans: <icons.close />,
-		inProgress: <icons.clock />,
-		// reachedGps: <icons.pin />,
-		// received: <icons.eye />,
-		reachedOrReceived: <icons.eye />,
-		validated: <icons.check />,
-	}
-
-	const progressColor = progressColors[progress];
+	const progressMeta = progresses.find((p) => p.key === progress);
 
 	const lastSeen = lastScan
 						? Math.round(haversineDistance(
@@ -117,13 +108,13 @@ export default function BoxCard({
 								<Pill
 									variant='solid'
 									text={t(progress)}
-									color={progressColor}
-									icon={progressIcons[progress]}
+									color={progressMeta.color}
+									icon={<progressMeta.icon />}
 								/>
 								{lastScan &&
 									(
 										<Text
-											color={progressColor}
+											color={progressMeta.color}
 											opacity={.8}
 											textAlign='center'
 										>

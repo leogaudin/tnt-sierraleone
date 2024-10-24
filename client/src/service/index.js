@@ -39,7 +39,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 	return response;
 }
 
-export async function fetchBoxes(id, setBoxes) {
+export async function fetchAllBoxes(id, setBoxes) {
 	try {
 		setBoxes(null);
 		const limit = 2100;
@@ -61,6 +61,18 @@ export async function fetchBoxes(id, setBoxes) {
 	} catch (err) {
 		console.error(err);
 		setBoxes(null);
+	}
+}
+
+export async function fetchInsights(id, setInsights) {
+	try {
+		const request = await callAPI('GET', `get_insights/${id}`);
+		const response = await request.json();
+		setInsights(response.data);
+		return response.data;
+	} catch (err) {
+		console.error(err);
+		setInsights(null);
 	}
 }
 
@@ -146,12 +158,43 @@ export const getRoutes = () => [
 	},
 ];
 
-export const progressColors = {
-	noScans: palette.error.main,
-	inProgress: palette.warning.main,
-	// reachedGps: palette.info.main,
-	// received: palette.info.main,
-	reachedOrReceived: palette.info.main,
-	validated: palette.success.main,
-	total: palette.text,
-}
+export const progresses = [
+	{
+		key: 'total',
+		color: palette.text,
+		label: i18n.t('total'),
+		userAvailable: false,
+	},
+	{
+		key: 'noScans',
+		color: palette.error.main,
+		label: i18n.t('noScans'),
+		userAvailable: true,
+		icon: icons.close,
+		inTimeline: true,
+	},
+	{
+		key: 'inProgress',
+		color: palette.warning.main,
+		label: i18n.t('inProgress'),
+		userAvailable: true,
+		icon: icons.clock,
+		inTimeline: true,
+	},
+	{
+		key: 'reachedOrReceived',
+		color: palette.info.main,
+		label: i18n.t('reachedOrReceived'),
+		userAvailable: true,
+		icon: icons.eye,
+		inTimeline: true,
+	},
+	{
+		key: 'validated',
+		color: palette.success.main,
+		label: i18n.t('validated'),
+		userAvailable: true,
+		icon: icons.check,
+		inTimeline: true,
+	},
+]

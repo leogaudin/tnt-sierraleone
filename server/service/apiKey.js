@@ -21,5 +21,5 @@ export const requireApiKey = async (req, res, next) => {
 		return handle401Error(res, 'Invalid API key');
 	}
 
-	next();
+	return next(admin);
 };

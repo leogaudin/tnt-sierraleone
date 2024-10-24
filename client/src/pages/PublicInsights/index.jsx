@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { callAPI, fetchBoxes } from '../../service';
+import { callAPI, fetchInsights } from '../../service';
 import Insights from '../Home/components/Insights';
 import BoxesLoading from '../../components/BoxesLoading';
 import { Heading } from '@chakra-ui/react';
 
 export default function PublicInsights() {
 	const { id } = useParams();
-	const [boxes, setBoxes] = useState(null);
+	const [insights, setInsights] = useState(null);
 	const [unauthorized, setUnauthorized] = useState(false);
 
 	useEffect(() => {
-		callAPI('get', `insights/${id}`)
+		callAPI('get', `public_insights/${id}`)
 			.then((res) => res.json())
 			.then((response) => {
 				if (response.publicInsights) {
-					fetchBoxes(id, setBoxes)
+					fetchInsights(id, setInsights);
 				} else {
 					setUnauthorized(true);
 				}
@@ -36,8 +36,8 @@ export default function PublicInsights() {
 
 	return (
 		<>
-			{boxes?.length
-				? <Insights boxes={boxes} id={id} />
+			{insights
+				? <Insights insights={insights} />
 				: <BoxesLoading />
 			}
 		</>
