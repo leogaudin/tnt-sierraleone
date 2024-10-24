@@ -7,26 +7,28 @@ import { sampleToRepartition, sampleToTimeline } from '../service/stats.js';
 
 const router = express.Router();
 
-router.post('/insights', async (req, res) => {
+router.post('/toggle_insights', async (req, res) => {
 	try {
-		const { id, publicInsights } = req.body;
-		if (typeof publicInsights !== 'boolean')
-			return res.status(400).json({ message: 'Missing publicInsights' });
+		const apiKey = req.headers['x-authorization'];
 
-		const admin = await Admin.findOne({ id });
+		if (!apiKey)
+			return res.status(401).json({ message: 'Unauthorized' });
+
+		const admin = await Admin.findOne({ apiKey });
+
 		if (!admin)
 			return res.status(404).json({ message: 'Admin not found' });
 
-		admin.publicInsights = publicInsights;
+		admin.publicInsights = !!!admin.publicInsights;
 		await admin.save();
-		return res.status(200).json({ message: 'Successfully set insights to ' + publicInsights });
+		return res.status(200).json({ message: 'Successfully set insights to ' + admin.publicInsights, publicInsights: admin.publicInsights });
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ message: 'Internal server error' });
 	}
 });
 
-router.get('/insights/:id', async (req, res) => {
+router.get('/public_insights/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 
@@ -41,38 +43,70 @@ router.get('/insights/:id', async (req, res) => {
 	}
 });
 
-router.post('/timeline', async (req, res) => {
-	const { id, filters } = req.body;
-	const user = await Admin.findOne({ id });
+// router.post('/timeline', async (req, res) => {
+// 	const { id, filters } = req.body;
+// 	const user = await Admin.findOne({ id });
 
-	if (!filters)
-		return res.status(400).json({ message: 'Missing filters' });
+// 	if (!filters)
+// 		return res.status(400).json({ message: 'Missing filters' });
+
+// 	if (!user)
+// 		return res.status(404).json({ message: 'Admin not found' });
+
+// 	const getTimeline = async () => {
+// 		const boxes = await Box.find({ ...filters });
+// 		return handle200Success(res, sampleToTimeline(boxes));
+// 	}
+
+// 	return !user.publicInsights
+// 			? requireApiKey(req, res, getTimeline)
+// 			: getTimeline()
+// });
+
+// router.post('/repartition', async (req, res) => {
+// 	const { id, filters } = req.body;
+// 	const user = await Admin.findOne({ id });
+
+// 	const getRepartition = async () => {
+// 		const boxes = await Box.find({ ...filters });
+// 		return handle200Success(res, sampleToRepartition(boxes));
+// 	}
+
+// 	return !user.publicInsights
+// 			? requireApiKey(req, res, getRepartition)
+// 			: getRepartition()
+// });
+
+router.get('/get_insights/:id', async (req, res) => {
+	const { id } = req.params;
+	const user = await Admin.findOne({ id });
 
 	if (!user)
 		return res.status(404).json({ message: 'Admin not found' });
 
-	const getTimeline = async () => {
-		const boxes = await Box.find({ ...filters });
-		return handle200Success(res, sampleToTimeline(boxes));
-	}
+	const getInsights = async () => {
+		const boxes = await Box.find({ adminId: user.id });
 
-	return !user.publicInsights
-			? requireApiKey(req, res, getTimeline)
-			: getTimeline()
-});
+		const insights = {};
 
-router.post('/repartition', async (req, res) => {
-	const { id, filters } = req.body;
-	const user = await Admin.findOne({ id });
+		const projects = [...new Set(boxes.map(box => box.project))];
+		projects.forEach((project) => {
+			const sample = boxes.filter(box => box.project === project);
+			insights[project] = {
+				timeline: sampleToTimeline(sample),
+				repartition: sampleToRepartition(sample),
+			};
+		});
 
-	const getRepartition = async () => {
-		const boxes = await Box.find({ ...filters });
-		return handle200Success(res, sampleToRepartition(boxes));
-	}
+		return handle200Success(res, insights);
+	};
 
-	return !user.publicInsights
-			? requireApiKey(req, res, getRepartition)
-			: getRepartition()
+	if (!user.publicInsights)
+		requireApiKey(req, res, async () => {
+			return await getInsights();
+		});
+	else
+		return await getInsights();
 });
 
 export default router;

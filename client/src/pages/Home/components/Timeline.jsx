@@ -6,13 +6,10 @@ import {
 	Tooltip,
 	ResponsiveContainer
 } from 'recharts';
-import { palette } from '../../../theme';
 import { sampleToRepartition } from '../../../service/stats';
 import { useTranslation } from 'react-i18next';
 import { Flex } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import { callAPI } from '../../../service';
-import Loading from '../../../components/Loading';
+import { progresses } from '../../../service';
 
 const getAllTimestamps = (sample) => {
 	const timestamps = [];
@@ -81,35 +78,12 @@ const getPercent = (value, total) => {
 };
 
 export default function Timeline({
-	sample,
-	project,
-	id,
+	data,
 	height = 400,
 }) {
 	const { t } = useTranslation();
-	const [timeline, setTimeline] = useState(null);
-	const [loading, setLoading] = useState(true);
 
-	// if (!sample?.length || sample.flatMap(box => box.scans).length === 0)
-	// 	return null;
-	const controller = new AbortController();
-	const signal = controller.signal;
-
-	useEffect(() => {
-		const filters = { project };
-
-		callAPI('POST', 'timeline', { id, filters }, {}, signal)
-			.then(res => res.json())
-			.then(res => {
-				setTimeline(res.data);
-				setLoading(false);
-			})
-			.catch(err => {
-				console.error(err);
-			});
-
-		// return () => controller.abort();
-	}, [sample]);
+	if (!data.length) return null;
 
 	const renderTooltipContent = o => {
 		const {
@@ -146,26 +120,31 @@ export default function Timeline({
 		);
 	};
 
-	if (loading)
-		return <Loading />;
-
 	return (
 		<Flex
 			height={height}
 		>
 			<ResponsiveContainer width='100%' height='100%'>
 				<AreaChart
-					// width={500}
-					// height={400}
-					data={timeline}
+					data={data}
 				>
 					<XAxis dataKey='name' />
 					<YAxis />
 					<Tooltip content={renderTooltipContent} />
-					<Area type='monotone' dataKey='validated' stackId='1' stroke={palette.success.main} fill={palette.success.main} />
-					<Area type='monotone' dataKey='reachedOrReceived' stackId='1' stroke={palette.info.main} fill={palette.info.main} />
-					<Area type='monotone' dataKey='inProgress' stackId='1' stroke={palette.warning.main} fill={palette.warning.main} />
-					<Area type='monotone' dataKey='noScans' stackId='1' stroke={palette.error.main} fill={palette.error.main} />
+					{[...progresses].toReversed().map((progress, i) => {
+						if (progress.inTimeline) {
+							return (
+								<Area
+									key={i}
+									type='monotone'
+									dataKey={progress.key}
+									stackId='1'
+									stroke={progress.color}
+									fill={progress.color}
+								/>
+							)
+						}
+					})}
 				</AreaChart>
 			</ResponsiveContainer>
 		</Flex>

@@ -3,6 +3,7 @@ import {
 	Flex,
 	HStack,
 	IconButton,
+	Input,
 	Stack,
 	Text,
 	useToast,
@@ -14,6 +15,19 @@ import { useTranslation } from 'react-i18next';
 export default function InsightsController() {
 	const { t } = useTranslation();
 	const toast = useToast();
+
+	const link = `${window.location.href}insights/${user.id}`;
+
+	const handleCopy = () => {
+		toast({
+			title: t('copied'),
+			status: 'success',
+			duration: 1000,
+			isClosable: true,
+			position: 'top',
+		})
+		navigator.clipboard.writeText(link);
+	};
 
 	return (
 		<Stack
@@ -30,13 +44,12 @@ export default function InsightsController() {
 				variant='outline'
 				colorScheme={user.publicInsights ? 'green' : 'red'}
 				onClick={() => {
-					const id = user.id;
-					const publicInsights = !user.publicInsights;
-					callAPI('post', 'insights', { id, publicInsights })
-						.then(() => {
-							window.location.reload();
-							user.publicInsights = publicInsights;
+					callAPI('POST', 'toggle_insights')
+						.then((res) => res.json())
+						.then((res) => {
+							user.publicInsights = res.publicInsights;
 							localStorage.setItem('user', JSON.stringify(user));
+							window.location.reload();
 						})
 						.catch(() => {
 							toast({
@@ -63,35 +76,28 @@ export default function InsightsController() {
 					</Text>
 					<HStack
 						width='100%'
-						gap={5}
+						gap={2}
 						fontSize='small'
 						overflowWrap='anywhere'
-						padding={2}
 						borderRadius={15}
 					>
-						<Text
-							width='100%'
-							overflowWrap='anywhere'
-							as='code'
-						>
-							{`${window.location.href}insights/${user.id}`}
-						</Text>
+						<Input
+							value={link}
+							isReadOnly
+							fontFamily='monospace'
+							fontSize='small'
+							colorScheme={user.publicInsights ? 'green' : 'red'}
+							borderColor={user.publicInsights ? palette.success.main : palette.error.main}
+							focusBorderColor={palette.primary.dark}
+							onClick={handleCopy}
+						/>
 						<IconButton
 							variant='outline'
 							icon={<icons.copy />}
 							colorScheme={user.publicInsights ? 'green' : 'red'}
 							width='100%'
 							boxSize={10}
-							onClick={() => {
-								toast({
-									title: t('copied'),
-									status: 'success',
-									duration: 1000,
-									isClosable: true,
-									position: 'top',
-								})
-								navigator.clipboard.writeText(`${window.location.href}insights/${user.id}`)
-							}}
+							onClick={handleCopy}
 						/>
 					</HStack>
 				</>

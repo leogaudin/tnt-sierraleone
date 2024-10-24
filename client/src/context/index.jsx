@@ -1,8 +1,9 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { fetchBoxes, user } from '../service';
+import { fetchAllBoxes, fetchInsights, user } from '../service';
 
 const AppContext = createContext({
 	boxes: [],
+	insights: [],
 	language: 'en',
 	setLanguage: () => {},
 	loading: true,
@@ -12,21 +13,30 @@ export const AppProvider = ({ children }) => {
 	const [boxes, setBoxes] = useState(null);
 	const [language, setLanguage] = useState('en');
 	const [loading, setLoading] = useState(true);
+	const [insights, setInsights] = useState(null);
 
 	useEffect(() => {
 		if (!user?.id) return;
-		fetchBoxes(user.id, setBoxes)
-			.then(() => setLoading(false))
+		Promise.all([
+			fetchAllBoxes(user.id, setBoxes),
+			fetchInsights(user.id, setInsights),
+		])
+			.then(() => {
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	}, []);
 
 	return (
 		<AppContext.Provider
 			value={{
 				boxes,
+				insights,
 				language,
 				setLanguage,
 				loading,
-				fetchBoxes,
 			}}
 		>
 			{children}

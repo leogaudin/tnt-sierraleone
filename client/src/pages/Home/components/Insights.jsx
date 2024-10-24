@@ -1,54 +1,25 @@
-import { useEffect, useState } from 'react';
 import Timeline from './Timeline';
 import { Card, Heading, HStack, Progress, Stack } from '@chakra-ui/react';
-import { callAPI, progressColors } from '../../../service';
+import { progresses } from '../../../service';
 import { useTranslation } from 'react-i18next';
 import { palette } from '../../../theme';
 import Loading from '../../../components/Loading';
 
-export default function Insights({ boxes, id }) {
-	const [projects, setProjects] = useState([]);
+export default function Insights({ insights }) {
 	const { t } = useTranslation();
 
-	const [loading, setLoading] = useState(true);
-	const [repartitions, setRepartitions] = useState({});
-
-	const controller = new AbortController();
-	const signal = controller.signal;
-
-	useEffect(() => {
-		const projects = [...new Set(boxes.map(box => box.project))];
-		setProjects(projects);
-
-		projects.forEach(project => {
-			callAPI('POST', 'repartition', { id, filters: { project } }, {}, signal)
-				.then(res => res.json())
-				.then(res => {
-					setRepartitions((prev) => ({
-						...prev,
-						[project]: res.data
-					}));
-					setLoading(false);
-				})
-				.catch(err => console.error(err));
-		});
-
-		return () => controller.abort();
-	}, [boxes]);
+	if (!insights)
+		return <Loading />;
 
 	return (
 		<>
-			{projects.map((project, i) => {
-				const sample = boxes.filter(box => box.project === project);
-				if (!sample) return null;
-
-				if (loading) return <Loading />;
-
-				const repartition = repartitions[project];
+			{Object.keys(insights).map((project, i) => {
+				const { timeline, repartition } = insights[project];
 				const progress = (repartition.validated / repartition.total) * 100;
 
 				return (
 					<Card
+						key={project + i}
 						width='100%'
 						direction='column'
 						borderRadius={15}
@@ -85,8 +56,7 @@ export default function Insights({ boxes, id }) {
 						</Stack>
 						<Timeline
 							key={i}
-							project={project}
-							id={id}
+							data={timeline}
 						/>
 						<Stack
 							// width='100%'
@@ -104,9 +74,10 @@ export default function Insights({ boxes, id }) {
 								gap={5}
 							>
 								{Object.keys(repartition).map((key, i) => {
+									const progress = progresses.find(p => p.key === key);
 									return (
 										<Stack
-											color={progressColors[key]}
+											color={progress.color}
 											align='center'
 											key={key}
 										>
@@ -116,7 +87,7 @@ export default function Insights({ boxes, id }) {
 											<Heading
 												size='sm'
 											>
-												{t(key)}
+												{t(progress.label)}
 											</Heading>
 										</Stack>
 									);
