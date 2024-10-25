@@ -1,5 +1,4 @@
 import Box from '../models/boxes.model.js';
-import { feature } from '@rapideditor/country-coder';
 import express from 'express'
 import { isFinalDestination } from '../service/index.js';
 
@@ -8,8 +7,6 @@ const router = express.Router()
 router.post('/scan', async (req, res) => {
 	try {
 		const { boxId, comment, id, operatorId, time, location, markedAsReceived } = req.body;
-
-		const countryName = feature([location.coords.longitude, location.coords.latitude]).properties.nameEn;
 
 		const box = await Box.findOne({ id: boxId });
 
@@ -32,7 +29,6 @@ router.post('/scan', async (req, res) => {
 			id,
 			operatorId,
 			location,
-			countryName,
 			time,
 			markedAsReceived,
 			finalDestination: isFinalDestination(schoolCoords, scanCoords),
