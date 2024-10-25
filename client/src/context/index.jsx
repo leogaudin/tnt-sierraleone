@@ -18,7 +18,7 @@ export const AppProvider = ({ children }) => {
 	useEffect(() => {
 		if (!user?.id) return;
 		Promise.all([
-			fetchAllBoxes(user.id, setBoxes),
+			fetchAllBoxes(user.id, setBoxes, () => {}),
 			fetchInsights(user.id, setInsights),
 		])
 			.then(() => {

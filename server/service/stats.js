@@ -135,7 +135,7 @@ export function sampleToTimeline(sample) {
 	}
 
 	// Add every previous day
-	while (i >= initial) {
+	while (i >= initial && i >= final - oneDay * 365) {
 		repartitionAtDate = sampleToRepartition(getSampleAtDate(sample, i));
 
 		data.unshift({

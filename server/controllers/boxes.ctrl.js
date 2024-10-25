@@ -11,6 +11,7 @@ import {
 } from '../service/crud.js';
 import { requireApiKey } from '../service/apiKey.js';
 import { isFinalDestination } from '../service/index.js';
+import { getInsights } from './insights.ctrl.js';
 
 const router = express.Router();
 
@@ -20,20 +21,37 @@ router.delete('/box/:id', deleteOne(Box));
 router.delete('/boxes', deleteMany(Box))
 router.get('/box/:id', getById(Box));
 router.get('/boxes', getAll(Box));
-
 router.get('/boxes/:adminId', async (req, res) => {
 	try {
-		const admin = await Admin.findOne({ id: req.params.adminId });
-		if (!admin)
+		const found = await Admin.findOne({ id: req.params.adminId });
+		if (!found)
 			return res.status(404).json({ success: false, error: `Admin not found` });
 
-		requireApiKey(req, res, async () => {
+		requireApiKey(req, res, async (admin) => {
+			if (admin.id !== req.params.adminId)
+				return res.status(401).json({ success: false, error: `Unauthorized` });
+
+			// if (req.query.insights) {
+			// 	const boxes = await Box.find({ adminId: req.params.adminId });
+
+			// 	if (!boxes.length)
+			// 		return res.status(404).json({ success: false, error: `No boxes available` });
+
+			// 	return res.status(200).json({
+			// 		success: true,
+			// 		data: {
+			// 			boxes: boxes.slice(parseInt(req.query.skip), parseInt(req.query.skip) + parseInt(req.query.limit)),
+			// 			insights: getInsights(boxes),
+			// 		}
+			// 	});
+			// }
+
 			const boxes = await Box.find({ adminId: req.params.adminId }).skip(parseInt(req.query.skip)).limit(parseInt(req.query.limit));
 
 			if (!boxes.length)
 				return res.status(404).json({ success: false, error: `No boxes available` });
 
-			return res.status(200).json({ success: true, data: boxes });
+			return res.status(200).json({ success: true, data: { boxes } });
 		});
 	} catch (error) {
 		console.error(error);

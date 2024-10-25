@@ -43,6 +43,28 @@ router.get('/is_public/:id', async (req, res) => {
 	}
 });
 
+export const getInsights = (boxes) => {
+	const insights = {};
+
+	const samples = boxes.reduce((acc, box) => {
+		if (!acc[box.project])
+			acc[box.project] = [];
+		acc[box.project].push(box);
+		return acc;
+	}, {});
+
+	Object.keys(samples).forEach(project => {
+		const sample = samples[project];
+
+		insights[project] = {
+			timeline: sampleToTimeline(sample),
+			repartition: sampleToRepartition(sample),
+		};
+	});
+
+	return insights;
+};
+
 router.get('/get_insights/:id', async (req, res) => {
 	const { id } = req.params;
 	const user = await Admin.findOne({ id });
@@ -50,29 +72,14 @@ router.get('/get_insights/:id', async (req, res) => {
 	if (!user)
 		return res.status(404).json({ message: 'Admin not found' });
 
-	const getInsights = async () => {
-		const boxes = await Box.find({ adminId: user.id });
-
-		const insights = {};
-
-		const projects = [...new Set(boxes.map(box => box.project))];
-		projects.forEach((project) => {
-			const sample = boxes.filter(box => box.project === project);
-			insights[project] = {
-				timeline: sampleToTimeline(sample),
-				repartition: sampleToRepartition(sample),
-			};
-		});
-
-		return handle200Success(res, insights);
-	};
+	const boxes = await Box.find({ adminId: id });
 
 	if (!user.publicInsights)
 		requireApiKey(req, res, async () => {
-			return await getInsights();
+			return handle200Success(res, await getInsights(boxes));
 		});
 	else
-		return await getInsights();
+		return handle200Success(res, await getInsights(boxes));
 });
 
 export default router;

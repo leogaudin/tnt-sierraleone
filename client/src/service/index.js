@@ -39,25 +39,33 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 	return response;
 }
 
-export async function fetchAllBoxes(id, setBoxes) {
+export async function fetchAllBoxes(id, setBoxes, setInsights) {
 	try {
 		setBoxes(null);
 		const limit = 2100;
-		const responses = [];
+		const boxes = [];
 
 		while (true) {
-			const skip = responses.length;
-			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${limit}`);
-			const response = await request.json();
-			if (response?.data?.length)
-				responses.push(...response?.data);
-			if ((response?.data?.length || 0) < limit)
+			const skip = boxes.length;
+			// const getInsights = boxes.length === 0;
+			const getInsights = false;
+
+			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${limit}${getInsights ? '&insights=true' : ''}`);
+
+			if (request.status !== 200 || !request.ok)
 				break;
+
+			const response = await request.json();
+
+			if (response?.data?.boxes)
+				boxes.push(...response?.data?.boxes);
+			if (getInsights && response?.data?.insights)
+				setInsights(response?.data?.insights);
 		}
 
-		responses.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-		setBoxes(responses);
-		return responses;
+		boxes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+		setBoxes(boxes);
+		return boxes;
 	} catch (err) {
 		console.error(err);
 		setBoxes(null);
