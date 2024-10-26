@@ -47,7 +47,6 @@ export default function Login() {
 			return;
 		const user = {
 			username,
-			displayName: username,
 			password: sha512(password),
 		};
 		setLoading(true);
