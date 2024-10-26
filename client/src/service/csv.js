@@ -70,15 +70,17 @@ export async function uploadDistributionList(file, setOutput) {
 				];
 			});
 
-			const BUFFER_LENGTH = 500;
+			const BUFFER_LENGTH = 25000;
 			const numBoxes = boxes.length;
 			let uploaded = 0;
+			let uploadedBytes = 0;
 			const responses = [];
 
 			const processBuffer = (buffer) => {
 				const payload = {
 					data: lzstring.compressToEncodedURIComponent(JSON.stringify(buffer)),
 				};
+				uploadedBytes += payload.data.length;
 				callAPI('POST', 'boxes', payload)
 				// addBoxes(payload)
 					.then((res) => {
@@ -92,7 +94,7 @@ export async function uploadDistributionList(file, setOutput) {
 						uploaded += buffer.length;
 						setOutput(prev => {
 							return [...prev,
-								`${uploaded} items uploaded.`,
+								`${uploaded} items uploaded (${Math.round(uploadedBytes / 1000)} KB).`,
 							];
 						})
 						if (uploaded < numBoxes) {
@@ -186,9 +188,10 @@ export async function updateGPSCoordinates(file, setOutput) {
 				];
 			});
 
-			const BUFFER_LENGTH = 500;
+			const BUFFER_LENGTH = 1000;
 			const numBoxes = boxes.length;
 			let uploaded = 0;
+			let uploadedBytes = 0;
 			let updated = 0;
 			let recalculated = 0;
 			const responses = [];
@@ -204,6 +207,7 @@ export async function updateGPSCoordinates(file, setOutput) {
 					.then((res) => {
 						responses.push(res);
 						uploaded += buffer.length;
+						uploadedBytes += JSON.stringify({boxes: buffer}).length;
 						updated += res.updatedCount;
 						recalculated = res.recalculatedCount;
 						setOutput(prev => {
@@ -220,7 +224,7 @@ export async function updateGPSCoordinates(file, setOutput) {
 							setOutput(prev => {
 								return [...prev,
 									`-------`,
-									`Uploaded ${uploaded} coordinates.`,
+									`Uploaded ${uploaded} coordinates (${Math.round(uploadedBytes / 1000)} KB).`,
 									`Updated coordinates of ${updated} objects.`,
 									`Recalculated scans in ${recalculated} objects.`,
 									`-------`,

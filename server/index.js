@@ -31,8 +31,9 @@ database.once('connected', () => {
 const app = express();
 app.disable('x-powered-by');
 const apiPort = 3000;
+const payloadLimit = '4.5mb';
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true, limit: payloadLimit }));
 app.use(
     cors({
         origin: '*',
@@ -41,8 +42,8 @@ app.use(
         maxAge: 3600,
     })
 );
-app.use(bodyParser.raw({ type: 'application/octet-stream' }));
-app.use(bodyParser.json());
+app.use(bodyParser.raw({ type: 'application/octet-stream', limit: payloadLimit }));
+app.use(bodyParser.json({ limit: payloadLimit }));
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
