@@ -15,9 +15,10 @@ import { excludedKeys } from '../service/specific';
 
 export default function BoxFiltering({
 	boxes,
-	setFilteredBoxes
+	setFilteredBoxes,
+	setFiltersOutside = () => { }, // If you want to use the filters outside of this component
 }) {
-	const [filters, setFilters] = useState([]);
+	const [filters, setLocalFilters] = useState([]);
 	const [progressFilter, setProgressFilter] = useState('any');
 	const { t } = useTranslation();
 	const excludedFields = [
@@ -33,6 +34,11 @@ export default function BoxFiltering({
 				(getProgress(box) === progressFilter || progressFilter === 'any')
 			)
 		})
+	}
+
+	const setFilters = (filters) => {
+		setLocalFilters(filters);
+		setFiltersOutside(filters);
 	}
 
 	useEffect(() => {
