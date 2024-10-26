@@ -1,12 +1,12 @@
 import Box from '../models/boxes.model.js';
 import express from 'express'
-import { isFinalDestination } from '../service/index.js';
+import { generateId, isFinalDestination } from '../service/index.js';
 
 const router = express.Router()
 
 router.post('/scan', async (req, res) => {
 	try {
-		const { boxId, comment, id, operatorId, time, location, markedAsReceived } = req.body;
+		const { boxId, comment, operatorId, time, location, markedAsReceived } = req.body;
 
 		const box = await Box.findOne({ id: boxId });
 
@@ -25,8 +25,8 @@ router.post('/scan', async (req, res) => {
 		};
 
 		const newScan = {
+			id: generateId(),
 			comment,
-			id,
 			operatorId,
 			location,
 			time,

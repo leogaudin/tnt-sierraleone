@@ -1,7 +1,7 @@
 import Admin from '../models/admins.model.js'
 import express from 'express'
 import { generateApiKey } from '../service/apiKey.js';
-import { sha512 } from '../service/index.js';
+import { generateId } from '../service/index.js';
 
 const router = express.Router();
 
@@ -11,8 +11,7 @@ router.post('/login', async (req, res) => {
 		if (!username || !password)
 			return res.status(400).json({ message: 'Missing username or password' });
 
-		const id = await sha512(username);
-		const user = await Admin.findOne({ id });
+		const user = await Admin.findOne({ email: username });
 		if (!user)
 			return res.status(404).json({ message: 'A user with this username does not exist' });
 
@@ -28,22 +27,24 @@ router.post('/login', async (req, res) => {
 
 router.post('/register', async (req, res) => {
 	try {
-		const { username, password, displayName } = req.body;
-		if (!username || !password || !displayName)
+		const { username, password } = req.body;
+
+		if (!username || !password)
 			return res.status(400).json({ message: 'Missing username, password or name' });
-		const createdAt = new Date().getTime();
 
-		const id = await sha512(username);
-
-		const existent = await Admin.findOne({ id });
+		const existent = await Admin.findOne({ email: username });
 		if (existent)
 			return res.status(409).json({
 				success: false,
 				error: `User with ID ${existent.id} already exists`,
 			});
 
+		const createdAt = new Date().getTime();
+
+		const id = generateId();
+
 		const apiKey = generateApiKey();
-		const user = { id, email: username, password, apiKey, displayName, createdAt, publicInsights: false };
+		const user = { id, email: username, password, apiKey, createdAt, publicInsights: false };
 
 		const instance = new Admin(user);
 		await instance.save();

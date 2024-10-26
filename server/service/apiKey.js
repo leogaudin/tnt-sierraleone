@@ -1,12 +1,9 @@
 import Admin from '../models/admins.model.js';
 import { handle401Error } from './errorHandlers.js';
-import crypto from 'crypto';
+import { generateId } from './index.js';
 
 export const generateApiKey = () => {
-  const apiKeyLength = 32;
-  const randomBytes = crypto.randomBytes(apiKeyLength);
-  const apiKey = randomBytes.toString('hex');
-  return apiKey;
+  return generateId();
 }
 
 export const requireApiKey = async (req, res, next) => {

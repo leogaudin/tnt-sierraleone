@@ -1,6 +1,7 @@
 import lzstring from 'lz-string';
 import { handle400Error, handle201Success, handle206Success } from '../errorHandlers.js';
 import { requireApiKey } from '../apiKey.js';
+import { generateId } from '../index.js';
 
 export const createMany = (Model, apiKeyNeeded = true) => async (req, res) => {
 	try {
@@ -22,6 +23,11 @@ export const createMany = (Model, apiKeyNeeded = true) => async (req, res) => {
 
 		if (apiKeyNeeded && !apiKeyChecked)
 			return handle400Error(res, 'API key check failed');
+
+		instances.forEach((instance) => {
+			instance.createdAt = new Date().getTime();
+			instance.id = generateId();
+		});
 
 		const inserted = await Model.insertMany(instances);
 		return handle201Success(res, 'Items created!', { insertedCount: inserted.length });

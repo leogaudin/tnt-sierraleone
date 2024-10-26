@@ -5,6 +5,10 @@ export async function sha512(str) {
 	return Array.prototype.map.call(new Uint8Array(buf), x => (('00' + x.toString(16)).slice(-2))).join('');
 }
 
+export function generateId() {
+	return crypto.randomBytes(8).toString('base64').replace(/[^a-zA-Z0-9]/g, '');
+}
+
 function haversineDistance(coord1, coord2) {
 	const earthRadiusInMeters = 6378137;
 	const { latitude: lat1, longitude: lon1 } = coord1;

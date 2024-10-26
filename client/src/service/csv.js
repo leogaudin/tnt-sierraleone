@@ -47,8 +47,6 @@ export async function uploadDistributionList(file, setOutput) {
 				newBox.schoolLatitude = parseFloat(newBox.schoolLatitude.replace(',', '.'));
 				newBox.schoolLongitude = parseFloat(newBox.schoolLongitude.replace(',', '.'));
 				newBox.adminId = user.id;
-				newBox.createdAt = new Date().getTime();
-				newBox.id = SparkMD5.hash(JSON.stringify(newBox) + Math.random() * 1000);
 
 				boxes.push(newBox);
 			} catch (err) {

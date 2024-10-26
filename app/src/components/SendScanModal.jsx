@@ -9,7 +9,6 @@ import {
 import CheckBox from '@react-native-community/checkbox';
 import Geolocation from '@react-native-community/geolocation';
 import styles from '../theme/styles';
-import SparkMD5 from 'spark-md5';
 import { showToast } from '../service/toast';
 import { Modal, Text, TextInput, Portal, Button } from 'react-native-paper';
 import { sendScan } from '../service/api';
@@ -23,7 +22,6 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 
 	const handleSubmit = () => {
 		const scan = {
-			id: '',
 			boxId: data,
 			operatorId: login,
 			time: Date.now(),
@@ -31,7 +29,6 @@ export default function SendScanModal({ modalVisible, setModalVisible, data }) {
 			markedAsReceived: toggled,
 			comment: comment,
 		};
-		scan.id = SparkMD5.hash(JSON.stringify(scan));
 		setModalVisible(false);
 		resetData();
 		if (hasInternetConnection) {
