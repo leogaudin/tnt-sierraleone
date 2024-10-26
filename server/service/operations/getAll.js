@@ -1,27 +1,17 @@
 import { handle400Error, handle200Success, handle404Error } from '../errorHandlers.js';
 import { requireApiKey } from '../apiKey.js';
 
-export const getAll = (Model, apiKeyNeeded = true) => async (req, res) => {
+export const getAll = (Model) => async (req, res) => {
 	try {
-		if (apiKeyNeeded) {
-			return requireApiKey(req, res, async () => {
-				const instances = await Model.find({});
+		requireApiKey(req, res, async () => {
+			const instances = await Model.find({});
 
-				if (!instances.length) {
-					return handle404Error(res);
-				}
+			if (!instances.length) {
+				return handle404Error(res);
+			}
 
-				return handle200Success(res, instances);
-			});
-		}
-
-		const instances = await Model.find({});
-
-		if (!instances.length) {
-			return handle404Error(res);
-		}
-
-		return handle200Success(res, instances);
+			return handle200Success(res, instances);
+		});
 	} catch (error) {
 		console.error(error);
 		return handle400Error(res, error);
