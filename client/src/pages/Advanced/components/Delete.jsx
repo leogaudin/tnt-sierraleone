@@ -40,6 +40,7 @@ export default function Delete() {
 				boxes={boxes}
 				setFilteredBoxes={setFiltered}
 				setFiltersOutside={setFilters}
+				includeProgress={false}
 			/>
 			<Button
 				colorScheme='red'

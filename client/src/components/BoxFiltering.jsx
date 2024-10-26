@@ -17,6 +17,7 @@ export default function BoxFiltering({
 	boxes,
 	setFilteredBoxes,
 	setFiltersOutside = () => { }, // If you want to use the filters outside of this component
+	includeProgress = true,
 }) {
 	const [filters, setLocalFilters] = useState([]);
 	const [progressFilter, setProgressFilter] = useState('any');
@@ -31,7 +32,7 @@ export default function BoxFiltering({
 			return (
 				(filters.length === 0 || filters.every((filter) => box[filter.field] === filter.value))
 				&&
-				(getProgress(box) === progressFilter || progressFilter === 'any')
+				(!includeProgress || (getProgress(box) === progressFilter || progressFilter === 'any'))
 			)
 		})
 	}
@@ -161,21 +162,25 @@ export default function BoxFiltering({
 					onClick={addFilter}
 				/>
 			</Flex>
-			<Text fontWeight='bold'>{t('progress')}</Text>
-			<Select
-				width='fit-content'
-				defaultValue='any'
-				onChange={handleProgressChange}
-				focusBorderColor={palette.primary.dark}
-				borderColor={palette.primary.light}
-			>
-				<option value='any'>{t('any')}</option>
-				{progresses.map((progress) => (
-					<option key={progress.key} value={progress.key}>
-						{t(progress.key)}
-					</option>
-				))}
-			</Select>
+			{includeProgress &&
+				(<>
+					<Text fontWeight='bold'>{t('progress')}</Text>
+					<Select
+						width='fit-content'
+						defaultValue='any'
+						onChange={handleProgressChange}
+						focusBorderColor={palette.primary.dark}
+						borderColor={palette.primary.light}
+					>
+						<option value='any'>{t('any')}</option>
+						{progresses.map((progress) => (
+							<option key={progress.key} value={progress.key}>
+								{t(progress.key)}
+							</option>
+						))}
+					</Select>
+				</>)
+			}
 			<Text
 				fontSize='small'
 				fontWeight='bold'
