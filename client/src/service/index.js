@@ -39,7 +39,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 	return response;
 }
 
-export async function fetchAllBoxes(id, setBoxes, setInsights) {
+export async function fetchAllBoxes(id, setBoxes, setInsights = null) {
 	try {
 		setBoxes(null);
 		const BUFFER_LENGTH = 2100;
@@ -47,8 +47,7 @@ export async function fetchAllBoxes(id, setBoxes, setInsights) {
 
 		while (true) {
 			const skip = boxes.length;
-			// const getInsights = boxes.length === 0;
-			const getInsights = false;
+			const getInsights = !!!setInsights && boxes.length === 0;
 
 			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${BUFFER_LENGTH}${getInsights ? '&insights=true' : ''}`);
 

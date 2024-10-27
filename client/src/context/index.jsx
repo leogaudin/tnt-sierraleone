@@ -17,11 +17,20 @@ export const AppProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (!user?.id) return;
-		Promise.all([
-			fetchAllBoxes(user.id, setBoxes, () => {}),
-			fetchInsights(user.id, setInsights),
-		])
+		// Promise.all([
+		// 	fetchAllBoxes(user.id, setBoxes, () => {}),
+		// 	fetchInsights(user.id, setInsights),
+		// ])
+		// 	.then(() => {
+		// 		setLoading(false);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.error(error);
+		// 	});
+
+		fetchAllBoxes(user.id, setBoxes)
 			.then(() => {
+				fetchInsights(user.id, setInsights);
 				setLoading(false);
 			})
 			.catch((error) => {
