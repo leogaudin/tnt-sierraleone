@@ -41,8 +41,16 @@ export function getProgress(box) {
 	const lastFinalScan = getLastFinalScan(box);
 	const lastReceivedScan = getLastMarkedAsReceivedScan(box);
 
-	if (lastFinalScan || lastReceivedScan) {
-		return 'reachedOrReceived';
+	if (lastFinalScan && lastReceivedScan) {
+		return 'reachedAndReceived';
+	}
+
+	if (lastFinalScan) {
+		return 'reachedGps';
+	}
+
+	if (lastReceivedScan) {
+		return 'received';
 	}
 
 	return 'inProgress';
@@ -52,7 +60,9 @@ export function sampleToRepartition(sample) {
 	const data = {
 		noScans: 0,
 		inProgress: 0,
-		reachedOrReceived: 0,
+		reachedGps: 0,
+		received: 0,
+		reachedAndReceived: 0,
 		validated: 0,
 	}
 
@@ -66,7 +76,6 @@ export function sampleToRepartition(sample) {
 			data[progress]++;
 		}
 	});
-
 
 	return data;
 }

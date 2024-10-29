@@ -14,6 +14,7 @@ import { FaBoxOpen, FaChevronUp, FaChevronDown, FaMapPin, FaEye, FaClock, FaQrco
 import { IoMdExit, IoMdRefresh, IoMdSettings } from 'react-icons/io';
 import { BiImport, BiExport } from 'react-icons/bi';
 import { MdDelete } from 'react-icons/md';
+import { TbProgressCheck } from "react-icons/tb";
 import { palette } from '../theme';
 import { API_URL } from './specific';
 
@@ -104,6 +105,7 @@ export const icons = {
 	print: IoPrint,
 	settings: IoMdSettings,
 	copy: FaCopy,
+	almost: TbProgressCheck,
 }
 
 export const getRoutes = () => [
@@ -189,11 +191,27 @@ export const progresses = [
 		inTimeline: true,
 	},
 	{
-		key: 'reachedOrReceived',
-		color: palette.info.main,
-		label: i18n.t('reachedOrReceived'),
+		key: 'received',
+		color: palette.blue.main,
+		label: i18n.t('received'),
 		userAvailable: true,
 		icon: icons.eye,
+		inTimeline: true,
+	},
+	{
+		key: 'reachedGps',
+		color: palette.cyan.main,
+		label: i18n.t('reachedGps'),
+		userAvailable: true,
+		icon: icons.pin,
+		inTimeline: true,
+	},
+	{
+		key: 'reachedAndReceived',
+		color: palette.teal.main,
+		label: i18n.t('reachedAndReceived'),
+		userAvailable: true,
+		icon: icons.almost,
 		inTimeline: true,
 	},
 	{

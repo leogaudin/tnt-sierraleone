@@ -10,22 +10,22 @@ export const palette = {
 	primary: colors,
 	success: {
 		light: baseTheme.colors.green[100],
-		main: baseTheme.colors.green[500],
+		main: baseTheme.colors.green[400],
 		dark: baseTheme.colors.green[900],
 	},
 	warning: {
 		light: baseTheme.colors.orange[100],
-		main: baseTheme.colors.orange[500],
+		main: baseTheme.colors.orange[400],
 		dark: baseTheme.colors.orange[900],
 	},
 	error: {
 		light: baseTheme.colors.red[100],
-		main: baseTheme.colors.red[500],
+		main: baseTheme.colors.red[400],
 		dark: baseTheme.colors.red[900],
 	},
 	info: {
 		light: baseTheme.colors.blue[100],
-		main: baseTheme.colors.blue[500],
+		main: baseTheme.colors.blue[400],
 		dark: baseTheme.colors.blue[900],
 	},
 	gray: {
@@ -34,7 +34,22 @@ export const palette = {
 		main: '#929292',
 		dark: '#424242',
 		darkest: '#212121',
-	}
+	},
+	cyan: {
+		light: baseTheme.colors.cyan[100],
+		main: baseTheme.colors.cyan[500],
+		dark: baseTheme.colors.cyan[900],
+	},
+	blue: {
+		light: baseTheme.colors.blue[100],
+		main: baseTheme.colors.blue[400],
+		dark: baseTheme.colors.blue[900],
+	},
+	teal: {
+		light: baseTheme.colors.teal[100],
+		main: baseTheme.colors.teal[400],
+		dark: baseTheme.colors.teal[900],
+	},
 }
 
 export const theme = extendTheme({
