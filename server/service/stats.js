@@ -124,7 +124,7 @@ export function sampleToTimeline(sample) {
 
 	const oneDay = 86400000;
 
-	const initial = timestamps[0];
+	const initial = timestamps[0] - oneDay;
 	const final = timestamps[timestamps.length - 1] + oneDay;
 
 	let i = final;
@@ -144,7 +144,7 @@ export function sampleToTimeline(sample) {
 	}
 
 	// Add every previous day
-	while (i >= initial && i >= final - oneDay * 365) {
+	while (i >= initial && i >= final - oneDay * (365 / 2)) {
 		repartitionAtDate = sampleToRepartition(getSampleAtDate(sample, i));
 
 		data.unshift({
@@ -152,7 +152,7 @@ export function sampleToTimeline(sample) {
 			...repartitionAtDate
 		});
 
-		i -= oneDay;
+		i -= oneDay * 7;
 	}
 
 	return data;

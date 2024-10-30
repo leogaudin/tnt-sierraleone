@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { fetchAllBoxes, fetchInsights, user } from '../service';
+import { callAPI, fetchAllBoxes, fetchInsights, user } from '../service';
 
 const AppContext = createContext({
 	boxes: [],
@@ -17,21 +17,16 @@ export const AppProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (!user?.id) return;
-		// Promise.all([
-		// 	fetchAllBoxes(user.id, setBoxes, () => {}),
-		// 	fetchInsights(user.id, setInsights),
-		// ])
-		// 	.then(() => {
-		// 		setLoading(false);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.error(error);
-		// 	});
 
 		fetchAllBoxes(user.id, setBoxes)
 			.then(() => {
-				fetchInsights(user.id, setInsights);
-				setLoading(false);
+				fetchInsights(user.id, setInsights)
+					.then(() => {
+						setLoading(false);
+					})
+					.catch((error) => {
+						console.error(error);
+					});
 			})
 			.catch((error) => {
 				console.error(error);

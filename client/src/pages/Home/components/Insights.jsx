@@ -14,6 +14,9 @@ export default function Insights({ insights }) {
 	return (
 		<>
 			{Object.keys(insights).map((project, i) => {
+				if (!insights[project])
+					return <Loading />;
+
 				const { timeline, repartition } = insights[project];
 				const progress = (repartition.validated / repartition.total) * 100;
 
@@ -86,6 +89,7 @@ export default function Insights({ insights }) {
 											</Heading>
 											<Heading
 												size='sm'
+												fontWeight='light'
 											>
 												{t(progress.label)}
 											</Heading>

@@ -43,43 +43,75 @@ router.get('/is_public/:id', async (req, res) => {
 	}
 });
 
-export const getInsights = (boxes) => {
-	const insights = {};
+// export const getInsights = (boxes) => {
+// 	const insights = {};
 
-	const samples = boxes.reduce((acc, box) => {
-		if (!acc[box.project])
-			acc[box.project] = [];
-		acc[box.project].push(box);
-		return acc;
-	}, {});
+// 	const samples = boxes.reduce((acc, box) => {
+// 		if (!acc[box.project])
+// 			acc[box.project] = [];
+// 		acc[box.project].push(box);
+// 		return acc;
+// 	}, {});
 
-	Object.keys(samples).forEach(project => {
-		const sample = samples[project];
+// 	Object.keys(samples).forEach(project => {
+// 		const sample = samples[project];
 
-		insights[project] = {
-			timeline: sampleToTimeline(sample),
-			repartition: sampleToRepartition(sample),
-		};
-	});
+// 		insights[project] = {
+// 			timeline: sampleToTimeline(sample),
+// 			repartition: sampleToRepartition(sample),
+// 		};
+// 	});
 
-	return insights;
+// 	return insights;
+// };
+
+export const getInsights = (sample) => {
+	const timeline = sampleToTimeline(sample);
+	const repartition = sampleToRepartition(sample);
+
+	return {
+		timeline,
+		repartition,
+	}
 };
 
-router.get('/get_insights/:id', async (req, res) => {
+router.post('/get_insights/:id', async (req, res) => {
+	const { id } = req.params;
+	const { filters } = req.body;
+	const user = await Admin.findOne({ id });
+
+	if (!user) {
+		return res.status(404).json({ message: 'Admin not found' });
+	}
+
+	const boxes = await Box.find({ adminId: id, ...filters });
+
+	if (!user.publicInsights) {
+		requireApiKey(req, res, async () => {
+			return handle200Success(res, getInsights(boxes));
+		});
+	} else {
+		return handle200Success(res, getInsights(boxes));
+	}
+});
+
+router.get('/projects/:id', async (req, res) => {
 	const { id } = req.params;
 	const user = await Admin.findOne({ id });
 
 	if (!user)
 		return res.status(404).json({ message: 'Admin not found' });
 
-	const boxes = await Box.find({ adminId: id });
-
-	if (!user.publicInsights)
-		requireApiKey(req, res, async () => {
-			return handle200Success(res, await getInsights(boxes));
+	if (!user.publicInsights) {
+		requireApiKey(req, res, async (admin) => {
+			const projects = await Box.find({ adminId: id }).distinct('project');
+			return handle200Success(res, projects);
 		});
-	else
-		return handle200Success(res, await getInsights(boxes));
+	}
+	else {
+		const projects = await Box.find({ adminId: id }).distinct('project');
+		return handle200Success(res, projects);
+	}
 });
 
 export default router;

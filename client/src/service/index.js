@@ -40,7 +40,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 	return response;
 }
 
-export async function fetchAllBoxes(id, setBoxes, setInsights = null) {
+export async function fetchAllBoxes(id, setBoxes) {
 	try {
 		setBoxes(null);
 		const BUFFER_LENGTH = 2100;
@@ -48,9 +48,8 @@ export async function fetchAllBoxes(id, setBoxes, setInsights = null) {
 
 		while (true) {
 			const skip = boxes.length;
-			const getInsights = !!!setInsights && boxes.length === 0;
 
-			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${BUFFER_LENGTH}${getInsights ? '&insights=true' : ''}`);
+			const request = await callAPI('GET', `boxes/${id}?skip=${skip}&limit=${BUFFER_LENGTH}`);
 
 			if (request.status !== 200 || !request.ok)
 				break;
@@ -59,8 +58,6 @@ export async function fetchAllBoxes(id, setBoxes, setInsights = null) {
 
 			if (response?.data?.boxes)
 				boxes.push(...response?.data?.boxes);
-			if (getInsights && response?.data?.insights)
-				setInsights(response?.data?.insights);
 		}
 
 		boxes.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -74,16 +71,30 @@ export async function fetchAllBoxes(id, setBoxes, setInsights = null) {
 
 export async function fetchInsights(id, setInsights) {
 	try {
-		const request = await callAPI('GET', `get_insights/${id}`);
-		const response = await request.json();
-		setInsights(response.data);
-		return response.data;
+		const projects = await callAPI('GET', `projects/${id}`)
+							.then((res) => res.json())
+							.then((json) => json.data);
+
+		setInsights(projects.reduce((acc, project) => ({ ...acc, [project]: null }), {}));
+
+		for (const project of projects) {
+			const res = await callAPI(
+				'POST',
+				`get_insights/${id}`,
+				{ filters: { project } }
+			)
+				.then((res) => res.json())
+				.then((json) => json.data);
+
+			setInsights((prev) => { return { ...prev, [project]: res } });
+		}
+
+		// setInsights(insights);
 	} catch (err) {
 		console.error(err);
 		setInsights(null);
 	}
 }
-
 
 export const icons = {
 	home: IoHome,
