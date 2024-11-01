@@ -26,6 +26,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 	const authorization = user?.apiKey || '';
 	const requestHeaders = {
 		'Content-Type': 'application/json',
+		'Accept-Encoding': 'gzip, deflate',
 		'X-Authorization': authorization,
 		...headers,
 	};
@@ -43,7 +44,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 export async function fetchAllBoxes(id, setBoxes) {
 	try {
 		setBoxes(null);
-		const BUFFER_LENGTH = 2100;
+		const BUFFER_LENGTH = 10000;
 		const boxes = [];
 
 		while (true) {

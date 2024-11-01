@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import compression from 'compression';
 
 import boxesController from './controllers/boxes.ctrl.js';
 import scansController from './controllers/scans.ctrl.js';
@@ -33,6 +34,7 @@ app.disable('x-powered-by');
 const apiPort = 3000;
 const payloadLimit = '4.5mb';
 
+app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true, limit: payloadLimit }));
 app.use(
     cors({
