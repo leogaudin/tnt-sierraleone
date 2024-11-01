@@ -44,7 +44,7 @@ export const callAPI = async (method, endpoint, data = null, headers = {}, signa
 export async function fetchAllBoxes(id, setBoxes) {
 	try {
 		setBoxes(null);
-		const BUFFER_LENGTH = 10000;
+		const BUFFER_LENGTH = 7000;
 		const boxes = [];
 
 		while (true) {
