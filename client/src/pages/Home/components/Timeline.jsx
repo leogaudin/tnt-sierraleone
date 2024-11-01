@@ -69,7 +69,7 @@ export default function Timeline({
 					<XAxis dataKey='name' />
 					<YAxis />
 					<Tooltip content={renderTooltipContent} />
-					{[...progresses].toReversed().map((progress, i) => {
+					{progresses.toReversed().map((progress, i) => {
 						if (progress.inTimeline) {
 							return (
 								<Area

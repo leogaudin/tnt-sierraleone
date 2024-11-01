@@ -22,9 +22,12 @@ export default function BoxCard({
 	const { t } = useTranslation();
 	const { onOpen, onClose, isOpen } = useDisclosure();
 
-	const lastScan = [...box.scans].sort((a, b) => {
-		return new Date(b.time) - new Date(a.time);
-	})[0] || null;
+	const lastScan = box.scans.reduce((acc, curr) => {
+		if (!acc || new Date(curr.time) > new Date(acc.time)) {
+			return curr;
+		}
+		return acc;
+	}, null)
 
 	const progress = getProgress(box);
 
