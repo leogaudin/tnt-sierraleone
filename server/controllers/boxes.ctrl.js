@@ -27,7 +27,7 @@ router.get('/boxes/:adminId', async (req, res) => {
 		if (!found)
 			return res.status(404).json({ success: false, error: `Admin not found` });
 
-		if (found.publicInsights && !!req.headers['x-authorization']) {
+		if (found.publicInsights && !req.headers['x-authorization']) {
 			const boxes = await Box.find({ adminId: req.params.adminId }).skip(parseInt(req.query.skip)).limit(parseInt(req.query.limit));
 
 			indexStatusChanges(boxes);
