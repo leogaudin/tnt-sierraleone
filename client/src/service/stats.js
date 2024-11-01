@@ -122,6 +122,11 @@ export function sampleToTimeline(sample) {
 }
 
 export function computeInsights(boxes, setInsights) {
+	if (!boxes || boxes.length === 0) {
+		setInsights({});
+		return;
+	}
+
 	const projects = [...new Set(boxes.map(box => box.project))];
 
 	const insights = {};
