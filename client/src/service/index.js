@@ -23,7 +23,7 @@ export const user = JSON.parse(localStorage.getItem('user'));
 export const navbarWidth = '250px';
 
 export const callAPI = async (method, endpoint, data = null, headers = {}, signal = null) => {
-	const authorization = user?.apiKey || null;
+	const authorization = user?.apiKey || '';
 	const requestHeaders = {
 		'Content-Type': 'application/json',
 		'X-Authorization': authorization,

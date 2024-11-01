@@ -1,7 +1,8 @@
 import Admin from '../models/admins.model.js'
 import express from 'express'
-import { generateApiKey } from '../service/apiKey.js';
+import { generateApiKey, requireApiKey } from '../service/apiKey.js';
 import { generateId } from '../service/index.js';
+import { handle200Success } from '../service/errorHandlers.js';
 
 const router = express.Router();
 
@@ -55,5 +56,16 @@ router.post('/register', async (req, res) => {
 		return res.status(500).json({ message: 'Internal server error' });
 	}
 });
+
+router.get('/me', async (req, res) => {
+	try {
+		requireApiKey(req, req, (admin) => {
+			return handle200Success(res, admin);
+		})
+	} catch (err) {
+		console.error(err);
+		return res.status(500).json({ message: 'Internal server error' });
+	}
+})
 
 export default router;

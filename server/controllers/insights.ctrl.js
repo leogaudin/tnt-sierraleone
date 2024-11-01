@@ -3,7 +3,6 @@ import Admin from '../models/admins.model.js';
 import Box from '../models/boxes.model.js';
 import { requireApiKey } from '../service/apiKey.js';
 import { handle200Success } from '../service/errorHandlers.js';
-import { sampleToRepartition, sampleToTimeline } from '../service/stats.js';
 
 const router = express.Router();
 
@@ -40,58 +39,6 @@ router.get('/is_public/:id', async (req, res) => {
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({ message: 'Internal server error' });
-	}
-});
-
-// export const getInsights = (boxes) => {
-// 	const insights = {};
-
-// 	const samples = boxes.reduce((acc, box) => {
-// 		if (!acc[box.project])
-// 			acc[box.project] = [];
-// 		acc[box.project].push(box);
-// 		return acc;
-// 	}, {});
-
-// 	Object.keys(samples).forEach(project => {
-// 		const sample = samples[project];
-
-// 		insights[project] = {
-// 			timeline: sampleToTimeline(sample),
-// 			repartition: sampleToRepartition(sample),
-// 		};
-// 	});
-
-// 	return insights;
-// };
-
-export const getInsights = (sample) => {
-	const timeline = sampleToTimeline(sample);
-	const repartition = sampleToRepartition(sample);
-
-	return {
-		timeline,
-		repartition,
-	}
-};
-
-router.post('/get_insights/:id', async (req, res) => {
-	const { id } = req.params;
-	const { filters } = req.body;
-	const user = await Admin.findOne({ id });
-
-	if (!user) {
-		return res.status(404).json({ message: 'Admin not found' });
-	}
-
-	const boxes = await Box.find({ adminId: id, ...filters });
-
-	if (!user.publicInsights) {
-		requireApiKey(req, res, async () => {
-			return handle200Success(res, getInsights(boxes));
-		});
-	} else {
-		return handle200Success(res, getInsights(boxes));
 	}
 });
 

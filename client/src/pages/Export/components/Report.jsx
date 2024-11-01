@@ -35,7 +35,7 @@ export default function Report({ boxes }) {
 		const lastReachedScan = getLastFinalScan(box);
 		const lastMarkedAsReceivedScan = getLastMarkedAsReceivedScan(box);
 		const lastValidatedScan = getLastValidatedScan(box);
-		box.scans.sort((a, b) => new Date(b.location.timestamp) - new Date(a.location.timestamp));
+		box.scans.sort((a, b) => new Date(b.time) - new Date(a.time));
 		const lastScan = box.scans[0] || null;
 
 		const schoolCoords = {

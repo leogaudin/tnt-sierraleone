@@ -28,16 +28,6 @@ export function getLastValidatedScan(box) {
 	});
 }
 
-// export function getLastInProgressScan(box) {
-// 	const scans = box.scans;
-// 	if (!scans || !scans.length) return null;
-// 	const inProgressScans = scans.filter(scan => !scan.finalDestination && !scan.markedAsReceived);
-// 	if (!inProgressScans.length) return null;
-// 	return inProgressScans.reduce((acc, scan) => {
-// 		return acc.time > scan.time ? acc : scan;
-// 	});
-// }
-
 export function getProgress(box) {
 	if (!box?.scans || box?.scans?.length === 0) {
 		return 'noScans';
@@ -74,26 +64,76 @@ export function getStatusPercentage(sample, status = 'validated') {
 	return (deliveredBoxes / sample.length) * 100;
 }
 
-export function sampleToRepartition(sample) {
-	const data = {
+export function sampleToRepartition(sample, notAfterTimestamp = Date.now()) {
+	const repartition = {
 		noScans: 0,
 		inProgress: 0,
 		reachedGps: 0,
 		received: 0,
 		reachedAndReceived: 0,
 		validated: 0,
+		total: sample.length,
+	};
+
+	for (const box of sample) {
+		const changes = box.statusChanges;
+		const statuses = Object.keys(changes).filter(status => changes[status] !== null);
+		const lastStatus = statuses.reduce((acc, curr) => {
+			if (changes[curr] >= (changes[acc] || 0) && changes[curr] <= notAfterTimestamp)
+				return curr;
+
+			return acc;
+		}, 'noScans');
+
+		repartition[lastStatus]++;
 	}
 
-	data.total = sample.length;
+	return repartition;
+}
 
-	sample.forEach(box => {
-		if (!box.scans || box.scans.length === 0) {
-			data.noScans++;
-		} else {
-			const progress = getProgress(box);
-			data[progress]++;
-		}
-	});
+export function sampleToTimeline(sample) {
+	const allTimestamps = sample
+							.map(box => box.statusChanges)
+							.map(statusChanges => Object.values(statusChanges).filter(timestamp => !!timestamp))
+							.flat();
+
+	const oneDay = 86400000;
+
+	const final = Math.max(...allTimestamps) + oneDay;
+	const initial = Math.max(
+		Math.min(...allTimestamps),
+		final - (365 * oneDay / 2)
+	) - oneDay;
+
+	const data = [];
+
+	for (let i = initial; i <= final; i += oneDay) {
+		const day = new Date(i).toISOString().split('T')[0];
+
+		const repartition = sampleToRepartition(sample, i);
+
+		data.push({
+			name: day,
+			...repartition,
+		});
+	}
 
 	return data;
+}
+
+export function computeInsights(boxes, setInsights) {
+	const projects = [...new Set(boxes.map(box => box.project))];
+
+	const insights = {};
+
+	for (const project of projects) {
+		const sample = boxes.filter((box) => box.project === project);
+
+		insights[project] = {
+			timeline: sampleToTimeline(sample),
+			repartition: sampleToRepartition(sample)
+		};
+	}
+
+	setInsights(insights);
 }

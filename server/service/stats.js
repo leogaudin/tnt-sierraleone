@@ -56,104 +56,60 @@ export function getProgress(box) {
 	return 'inProgress';
 }
 
-export function sampleToRepartition(sample) {
-	const data = {
-		noScans: 0,
-		inProgress: 0,
-		reachedGps: 0,
-		received: 0,
-		reachedAndReceived: 0,
-		validated: 0,
-	}
-
-	data.total = sample.length;
-
+/**
+ * Adds to each box an object of statuses as
+ * {
+ * 	inProgress: Date,
+ * 	reachedGps: Date,
+ * 	reachedAndReceived: Date,
+ * 	received: Date,
+ * 	validated: Date
+ * }
+ * For each status, determine when it was reached for the first time
+ * @param {Array} sample
+ */
+export function indexStatusChanges(sample) {
 	sample.forEach(box => {
-		if (!box.scans || box.scans.length === 0) {
-			data.noScans++;
-		} else {
-			const progress = getProgress(box);
-			data[progress]++;
-		}
-	});
+		const scans = box.scans;
+		scans.sort((a, b) => a.time - b.time); // First scan is the oldest
 
-	return data;
-}
-
-const getAllTimestamps = (sample) => {
-	const timestamps = [];
-	[...sample].forEach(box => {
-		box.scans.forEach(scan => {
-			timestamps.push(scan.time);
-		});
-	});
-
-	timestamps.sort((a, b) => a - b);
-
-	return timestamps;
-}
-
-const getSampleAtDate = (sample, date) => {
-	return sample.map(box => {
-		const scans = box.scans.filter(scan => scan.time <= date);
-		return {
-			...box,
-			scans
+		const statusChanges = {
+			inProgress: null,
+			reachedGps: null,
+			reachedAndReceived: null,
+			received: null,
+			validated: null
 		};
+
+		for (const scan of scans) {
+			if (scan.finalDestination && scan.markedAsReceived) {
+				statusChanges.validated ??= scan.time;
+				break;
+			}
+
+			if (scan.finalDestination) {
+				if (statusChanges.received) {
+					statusChanges.reachedAndReceived ??= scan.time;
+				} else {
+					statusChanges.reachedGps ??= scan.time;
+				}
+				continue;
+			}
+
+			if (scan.markedAsReceived) {
+				if (statusChanges.reachedGps) {
+					statusChanges.reachedAndReceived ??= scan.time;
+				} else {
+					statusChanges.received ??= scan.time;
+				}
+				continue;
+			}
+
+			if (Object.values(statusChanges).every(status => !status)) {
+				statusChanges.inProgress = scan.time;
+			}
+		}
+
+		box.statusChanges = statusChanges;
 	});
-}
-
-const getDateString = (date) => {
-	const d = new Date(date);
-	return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
-}
-
-const isSameDay = (date1, date2) => {
-	const d1 = new Date(date1);
-	const d2 = new Date(date2);
-	return d1.getDate() === d2.getDate()
-		&& d1.getMonth() === d2.getMonth()
-		&& d1.getFullYear() === d2.getFullYear();
-}
-
-export function sampleToTimeline(sample) {
-	const timestamps = getAllTimestamps(sample);
-	const data = [];
-
-	if (timestamps.length === 0) return data;
-
-	const oneDay = 86400000;
-
-	const initial = timestamps[0] - oneDay;
-	const final = timestamps[timestamps.length - 1] + oneDay;
-
-	let i = final;
-	let repartitionAtDate;
-	let repartitionAtDayBefore;
-
-	// Find the first day with different repartition
-	while (i >= initial) {
-		repartitionAtDate = repartitionAtDayBefore || sampleToRepartition(getSampleAtDate(sample, i));
-		repartitionAtDayBefore = sampleToRepartition(getSampleAtDate(sample, i - oneDay));
-
-		const isSame = Object.keys(repartitionAtDate).every(key => repartitionAtDate[key] === repartitionAtDayBefore[key]);
-
-		if (!isSame) break;
-
-		i -= oneDay;
-	}
-
-	// Add every previous day
-	while (i >= initial && i >= final - oneDay * (365 / 2)) {
-		repartitionAtDate = sampleToRepartition(getSampleAtDate(sample, i));
-
-		data.unshift({
-			name: getDateString(i),
-			...repartitionAtDate
-		});
-
-		i -= oneDay * 7;
-	}
-
-	return data;
 }

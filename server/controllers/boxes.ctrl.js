@@ -11,7 +11,7 @@ import {
 } from '../service/crud.js';
 import { requireApiKey } from '../service/apiKey.js';
 import { isFinalDestination } from '../service/index.js';
-import { getInsights } from './insights.ctrl.js';
+import { indexStatusChanges } from '../service/stats.js';
 
 const router = express.Router();
 
@@ -27,26 +27,32 @@ router.get('/boxes/:adminId', async (req, res) => {
 		if (!found)
 			return res.status(404).json({ success: false, error: `Admin not found` });
 
+		if (found.publicInsights && !!req.headers['x-authorization']) {
+			const boxes = await Box.find({ adminId: req.params.adminId }).skip(parseInt(req.query.skip)).limit(parseInt(req.query.limit));
+
+			indexStatusChanges(boxes);
+
+			if (!boxes.length)
+				return res.status(404).json({ success: false, error: `No boxes available` });
+
+			return res.status(200).json({
+				success: true,
+				data: {
+					boxes: boxes.map(box => ({
+						statusChanges: box.statusChanges,
+						project: box.project,
+					}))
+				}
+			});
+		}
+
 		requireApiKey(req, res, async (admin) => {
 			if (admin.id !== req.params.adminId)
 				return res.status(401).json({ success: false, error: `Unauthorized` });
 
-			// if (req.query.insights) {
-			// 	const boxes = await Box.find({ adminId: req.params.adminId });
-
-			// 	if (!boxes.length)
-			// 		return res.status(404).json({ success: false, error: `No boxes available` });
-
-			// 	return res.status(200).json({
-			// 		success: true,
-			// 		data: {
-			// 			boxes: boxes.slice(parseInt(req.query.skip), parseInt(req.query.skip) + parseInt(req.query.limit)),
-			// 			insights: getInsights(boxes),
-			// 		}
-			// 	});
-			// }
-
 			const boxes = await Box.find({ adminId: req.params.adminId }).skip(parseInt(req.query.skip)).limit(parseInt(req.query.limit));
+
+			indexStatusChanges(boxes);
 
 			if (!boxes.length)
 				return res.status(404).json({ success: false, error: `No boxes available` });

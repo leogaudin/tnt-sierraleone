@@ -1,11 +1,12 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { callAPI, fetchAllBoxes, fetchInsights, user } from '../service';
+import { computeInsights } from '../service/stats';
 
 const AppContext = createContext({
 	boxes: [],
 	insights: [],
 	language: 'en',
-	setLanguage: () => {},
+	setLanguage: () => { },
 	loading: true,
 });
 
@@ -15,21 +16,25 @@ export const AppProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 	const [insights, setInsights] = useState(null);
 
+	const initTnT = async (setters) => {
+		const { setBoxes, setInsights } = setters;
+		const res = await callAPI('GET', 'me').then(res => res.json())
+		const me = res.data;
+		localStorage.setItem('user', JSON.stringify(me));
+		Object.assign(user, me);
+
+		const boxes = await fetchAllBoxes(user.id, setBoxes);
+
+		computeInsights(boxes, setInsights)
+	}
+
 	useEffect(() => {
 		if (!user?.id) return;
 
-		fetchAllBoxes(user.id, setBoxes)
-			.then(() => {
-				fetchInsights(user.id, setInsights)
-					.then(() => {
-						setLoading(false);
-					})
-					.catch((error) => {
-						console.error(error);
-					});
-			})
-			.catch((error) => {
-				console.error(error);
+		initTnT({ setBoxes, setInsights })
+			.then(() => setLoading(false))
+			.catch((e) => {
+				console.error(e);
 			});
 	}, []);
 

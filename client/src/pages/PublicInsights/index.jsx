@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { callAPI, fetchInsights } from '../../service';
+import { fetchAllBoxes } from '../../service';
 import Insights from '../Home/components/Insights';
 import BoxesLoading from '../../components/BoxesLoading';
 import { Heading } from '@chakra-ui/react';
+import { computeInsights } from '../../service/stats';
 
 export default function PublicInsights() {
 	const { id } = useParams();
@@ -11,19 +12,14 @@ export default function PublicInsights() {
 	const [unauthorized, setUnauthorized] = useState(false);
 
 	useEffect(() => {
-		callAPI('get', `is_public/${id}`)
-			.then((res) => res.json())
-			.then((response) => {
-				if (response.publicInsights) {
-					fetchInsights(id, setInsights);
-				} else {
-					setUnauthorized(true);
-				}
+		fetchAllBoxes(id, () => {})
+			.then((boxes) => {
+				if (!boxes?.length)
+					throw Error('Unauthorized')
+				computeInsights(boxes, setInsights)
 			})
-			.catch((error) => {
-				console.error(error);
-			});
-	}, [id]);
+			.catch(setUnauthorized(true))
+	}, [id])
 
 	if (unauthorized)
 		return (

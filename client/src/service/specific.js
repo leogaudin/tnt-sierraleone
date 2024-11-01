@@ -58,4 +58,5 @@ export const excludedKeys = [
 	'scans',
 	'schoolLatitude',
 	'schoolLongitude',
+	'statusChanges',
 ];

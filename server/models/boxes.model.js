@@ -17,6 +17,7 @@ const Box = new Schema(
 		scans: { type: Array, required: false },
 		schoolLatitude: { type: Number, required: true},
 		schoolLongitude: { type: Number, required: true},
+		statusChanges: { type: Object, required: false },
 	}
 )
 
