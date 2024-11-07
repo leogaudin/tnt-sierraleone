@@ -104,7 +104,8 @@ export default function Report({ boxes }) {
 				as={Button}
 				variant='outline'
 				size='lg'
-				paddingY={10}
+				paddingY='1rem'
+				height='fit-content'
 			>
 				<HStack
 					width='100%'
@@ -117,6 +118,7 @@ export default function Report({ boxes }) {
 					<Stack
 						flexDirection='column'
 						alignItems='start'
+						textAlign='start'
 					>
 						<Text>{t('currentDeliveryReport')}</Text>
 						<Text fontWeight='light' whiteSpace='normal'>{t('currentDeliveryReportDetail')}</Text>
