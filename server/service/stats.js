@@ -33,7 +33,7 @@
  */
 export function getLastFinalScan(box) {
 	return box.scans?.reduce((acc, scan) => {
-		return scan.finalDestination && acc.time < scan.time ? scan : acc;
+		return scan.finalDestination && (acc?.time || 0) < scan.time ? scan : acc;
 	}, null);
 }
 
@@ -46,7 +46,7 @@ export function getLastFinalScan(box) {
  */
 export function getLastMarkedAsReceivedScan(box) {
 	return box.scans?.reduce((acc, scan) => {
-		return scan.markedAsReceived && acc.time < scan.time ? scan : acc;
+		return scan.markedAsReceived && (acc?.time || 0) < scan.time ? scan : acc;
 	}, null);
 }
 
@@ -58,7 +58,7 @@ export function getLastMarkedAsReceivedScan(box) {
  */
 export function getLastValidatedScan(box) {
 	return box.scans?.reduce((acc, scan) => {
-		return scan.finalDestination && scan.markedAsReceived && acc.time < scan.time ? scan : acc;
+		return scan.finalDestination && scan.markedAsReceived && (acc?.time || 0) < scan.time ? scan : acc;
 	}, null);
 }
 
