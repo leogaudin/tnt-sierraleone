@@ -1,5 +1,5 @@
 /**
- *	@typedef {Object} Scans
+ *	@typedef {Object} Scan
  *	@property {Date} time
  *	@property {boolean} finalDestination
  *	@property {boolean} markedAsReceived
@@ -16,7 +16,7 @@
 
 /**
  * @typedef {Object} Box
- * @property {Array<Scans>} scans
+ * @property {Array<Scan>} scans
  * @property {StatusChanges} statusChanges
  */
 
@@ -29,7 +29,7 @@
  * Returns null if none found.
  *
  * @param {Box} box
- * @returns {Scans | null}
+ * @returns {Scan | null}
  */
 export function getLastFinalScan(box) {
 	return box.scans?.reduce((acc, scan) => {
@@ -42,7 +42,7 @@ export function getLastFinalScan(box) {
  * Returns null if none found.
  *
  * @param {Box} box
- * @returns {Scans | null}
+ * @returns {Scan | null}
  */
 export function getLastMarkedAsReceivedScan(box) {
 	return box.scans?.reduce((acc, scan) => {
@@ -54,7 +54,7 @@ export function getLastMarkedAsReceivedScan(box) {
  * Returns the last scan with finalDestination set to true and markedAsReceived set to true.
  * Returns null if none found.
  * @param {Box} box
- * @returns {Scans | null}
+ * @returns {Scan | null}
  */
 export function getLastValidatedScan(box) {
 	return box.scans?.reduce((acc, scan) => {
