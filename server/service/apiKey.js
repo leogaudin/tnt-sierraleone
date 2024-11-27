@@ -1,7 +1,6 @@
 import Admin from '../models/admins.model.js';
 import { handle401Error } from './errorHandlers.js';
 import { generateId } from './index.js';
-import { Request, Response } from 'express';
 
 /**
  *

@@ -1,5 +1,3 @@
-import { Response } from 'express';
-
 /**
  *
  * @param {Response}	res	Express response object
