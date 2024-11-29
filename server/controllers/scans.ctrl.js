@@ -63,10 +63,10 @@ router.post('/scan', async (req, res) => {
 			statusChanges.inProgress = newScan.time;
 		}
 
-		box.statusChanges = statusChanges;
-		box.scans = [...(box.scans || []), newScan];
-
-		await box.save();
+		await Box.updateOne({ id: boxId }, {
+			$push: { scans: newScan },
+			$set: { statusChanges },
+		});
 
 		return res.status(200).json({ message: 'Scan added successfully', box });
 	} catch (error) {
