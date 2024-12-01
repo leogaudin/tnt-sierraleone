@@ -67,7 +67,8 @@ router.post('/scan', async (req, res) => {
 			statusChanges.inProgress = { scan: scan.id, time: scan.time };
 		}
 
-		await Scan.create(scan);
+		const newScan = new Scan(scan);
+		await newScan.save();
 
 		await Box.updateOne({ id: boxId }, {
 			// $push: { scans: scan },
