@@ -38,12 +38,13 @@
  * @returns {Scan | null}
  */
 export function getLastFinalScan(box) {
+	let last = null;
 	for (const scan of box.scans) {
-		if (scan.finalDestination) {
-			return scan;
+		if (scan.finalDestination && scan.time > (last?.time || 0)) {
+			last = scan;
 		}
 	}
-	return null;
+	return last;
 }
 
 /**
@@ -54,12 +55,13 @@ export function getLastFinalScan(box) {
  * @returns {Scan | null}
  */
 export function getLastMarkedAsReceivedScan(box) {
+	let last = null;
 	for (const scan of box.scans) {
-		if (scan.markedAsReceived) {
-			return scan;
+		if (scan.markedAsReceived && scan.time > (last?.time || 0)) {
+			last = scan;
 		}
 	}
-	return null;
+	return last;
 }
 
 /**
@@ -69,12 +71,13 @@ export function getLastMarkedAsReceivedScan(box) {
  * @returns {Scan | null}
  */
 export function getLastValidatedScan(box) {
+	let last = null;
 	for (const scan of box.scans) {
-		if (scan.finalDestination && scan.markedAsReceived) {
-			return scan;
+		if (scan.finalDestination && scan.markedAsReceived && scan.time > (last?.time || 0)) {
+			last = scan;
 		}
 	}
-	return null;
+	return last;
 }
 
 /**
