@@ -6,12 +6,18 @@
  */
 
 /**
+ * @typedef {Object} StatusChange
+ * @property {string} scan
+ * @property {number} time
+ */
+
+/**
  * @typedef {Object} StatusChanges
- * @property {Date | null} inProgress
- * @property {Date | null} reachedGps
- * @property {Date | null} reachedAndReceived
- * @property {Date | null} received
- * @property {Date | null} validated
+ * @property {Object | null} inProgress
+ * @property {Object | null} reachedGps
+ * @property {Object | null} reachedAndReceived
+ * @property {Object | null} received
+ * @property {Object | null} validated
  */
 
 /**
