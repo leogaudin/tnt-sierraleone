@@ -26,6 +26,8 @@ router.post('/scan', async (req, res) => {
 		};
 
 		const scan = {
+			boxId,
+			adminId: box.adminId,
 			id: generateId(),
 			comment,
 			operatorId,
@@ -64,8 +66,10 @@ router.post('/scan', async (req, res) => {
 			statusChanges.inProgress = { scan: scan.id, time: scan.time };
 		}
 
+		await Scan.create(scan);
+
 		await Box.updateOne({ id: boxId }, {
-			$push: { scans: scan },
+			// $push: { scans: scan },
 			$set: { statusChanges, progress: getProgress({ statusChanges }) }
 		});
 
