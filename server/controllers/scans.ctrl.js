@@ -1,4 +1,5 @@
 import Box from '../models/boxes.model.js';
+import Scan from '../models/scans.model.js';
 import express from 'express'
 import { generateId, isFinalDestination } from '../service/index.js';
 import { getProgress } from '../service/stats.js';
