@@ -1,4 +1,4 @@
-package com.tnt.scanner
+package com.tntsierraleone.scanner
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
