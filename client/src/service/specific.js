@@ -33,6 +33,7 @@ export const boxFields = {
 	council: { type: String, required: false },
 	chiefdom: { type: String, required: false },
 	school: { type: String, required: true },
+	schoolCode: { type: String, required: true },
 	htName: { type: String, required: false },
 	htPhone: { type: String, required: false },
 };
@@ -42,8 +43,7 @@ export const boxFields = {
 // - UpdateGPS.jsx
 // - csv.js
 export const gpsUpdateFields = [
-	'school',
-	'province',
+	'schoolCode',
 ]
 
 // Fields that characterize a school in the Delivery report
